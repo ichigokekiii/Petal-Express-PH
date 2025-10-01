@@ -1,0 +1,44 @@
+﻿@*
+    File: ~/Views/Shared/_Layout.cshtml
+    Summary: REVISED - Added a global background color to the body.
+*@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Petal Express</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-[#E0F1FF]">
+
+    @Html.Partial("_Header")
+
+    @RenderBody()
+
+    @Html.Partial("_Footer")
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="~/Scripts/HolyScripts/Module.js"></script>
+    <script src="~/Scripts/HolyScripts/Controller.js"></script>
+    <script src="~/Scripts/HolyScripts/Service.js"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
