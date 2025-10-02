@@ -1,6 +1,6 @@
 ﻿@*
     File: ~/Views/Shared/_Layout.cshtml
-    Summary: REVISED - Added a global background color to the body.
+    Summary: The horizontal scroll script has been moved here to work on all pages.
 *@
 <!DOCTYPE html>
 <html>
@@ -38,6 +38,29 @@
     <script src="~/Scripts/HolyScripts/Module.js"></script>
     <script src="~/Scripts/HolyScripts/Controller.js"></script>
     <script src="~/Scripts/HolyScripts/Service.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function horizontalScroll(event, element) {
+                event.preventDefault();
+                element.scrollLeft += event.deltaY;
+            }
+
+            const productsScrollContainer = document.getElementById('products-scroll');
+            const eventsScrollContainer = document.getElementById('events-scroll');
+            const testimonialsScrollContainer = document.getElementById('testimonials-scroll'); // Added for About page
+
+            if (productsScrollContainer) {
+                productsScrollContainer.addEventListener('wheel', (e) => horizontalScroll(e, productsScrollContainer));
+            }
+            if (eventsScrollContainer) {
+                eventsScrollContainer.addEventListener('wheel', (e) => horizontalScroll(e, eventsScrollContainer));
+            }
+            if (testimonialsScrollContainer) {
+                testimonialsScrollContainer.addEventListener('wheel', (e) => horizontalScroll(e, testimonialsScrollContainer));
+            }
+        });
+    </script>
 
     @RenderSection("scripts", required: false)
 </body>

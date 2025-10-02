@@ -1,9 +1,90 @@
 ﻿@{
-    ViewBag.Title = "About";
+    ViewBag.Title = "About Us";
 }
-<main aria-labelledby="title">
-    <h2 id="title">@ViewBag.Title.</h2>
-    <h3>@ViewBag.Message</h3>
 
-    <p>Use this area to provide additional information.</p>
-</main>
+<div>
+    <section class="bg-[#E0F1FF] pt-8">
+        <div class="container mx-auto px-6 py-16 grid md:grid-cols-2 gap-16 items-center">
+            <div class="max-w-lg">
+                <h1 class="text-5xl md:text-6xl font-black text-[#27334B] leading-tight">Your Flower Journey Starts Here</h1>
+                <p class="mt-4 text-gray-600">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation.</p>
+            </div>
+            <div class="flex justify-center">
+                <img src="@Url.Content("~/Assets/Images/about-hero.png")" alt="Florist arranging flowers for a customer" class="rounded-lg" />
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-[#27334B]">Services made for You</h2>
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-[#DFEDF9] rounded-lg shadow-lg p-8">
+                    <img src="@Url.Content("~/Assets/Images/icon-custom-flowers.png")" alt="Custom Flowers Icon" class="h-24 mx-auto" />
+                    <h3 class="mt-6 font-bold text-2xl text-[#27334B]">Custom Flowers</h3>
+                    <p class="mt-2 text-gray-600">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+                </div>
+                <div class="bg-[#DFEDF9] rounded-lg shadow-lg p-8">
+                    <img src="@Url.Content("~/Assets/Images/icon-pop-up-stores.png")" alt="Pop-up Stores Icon" class="h-24 mx-auto" />
+                    <h3 class="mt-6 font-bold text-2xl text-[#27334B]">Pop-up Stores</h3>
+                    <p class="mt-2 text-gray-600">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+                </div>
+                <div class="bg-[#DFEDF9] rounded-lg shadow-lg p-8">
+                    <img src="@Url.Content("~/Assets/Images/icon-secret-delivery.png")" alt="Secret Delivery Icon" class="h-24 mx-auto" />
+                    <h3 class="mt-6 font-bold text-2xl text-[#27334B]">Secret Delivery</h3>
+                    <p class="mt-2 text-gray-600">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white pt-8 pb-20">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-[#27334B]">You say it, We hear it!</h2>
+            <p class="mt-4 max-w-3xl mx-auto text-gray-500">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+        </div>
+        <div class="mt-12">
+            <div id="testimonials-scroll" class="flex space-x-6 pb-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden px-6">
+                <div class="flex-none w-80 h-48 bg-gray-100 rounded-lg shadow-md p-6"></div>
+                <div class="flex-none w-80 h-48 bg-gray-100 rounded-lg shadow-md p-6"></div>
+                <div class="flex-none w-80 h-48 bg-gray-100 rounded-lg shadow-md p-6"></div>
+                <div class="flex-none w-80 h-48 bg-gray-100 rounded-lg shadow-md p-6"></div>
+                <div class="flex-none w-80 h-48 bg-gray-100 rounded-lg shadow-md p-6"></div>
+                <div class="flex-none w-80 h-48 bg-gray-100 rounded-lg shadow-md p-6"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-[#E0F1FF] py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-[#27334B]">Customize your Bouquet</h2>
+            <p class="mt-4 max-w-2xl mx-auto text-gray-500">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet.</p>
+            <div class="mt-8 space-y-4">
+                <div class="flex justify-center items-center gap-4">
+                    <button class="px-8 py-3 bg-[#5977AF] text-white font-semibold rounded-full">Boxes</button>
+                    <button class="px-8 py-3 bg-[#5977AF] text-white font-semibold rounded-full">Tulips</button>
+                    <button class="px-8 py-3 bg-[#5977AF] text-white font-semibold rounded-full">Lilies</button>
+                    <button class="px-8 py-3 bg-[#5977AF] text-white font-semibold rounded-full">Peonies</button>
+                </div>
+                <div class="flex justify-center items-center gap-4">
+                    <button class="px-8 py-3 bg-[#5977AF] text-white font-semibold rounded-full">Tulips</button>
+                    <button class="px-8 py-3 bg-[#5977AF] text-white font-semibold rounded-full">Lilies</button>
+                    <button class="px-8 py-3 bg-[#5977AF] text-white font-semibold rounded-full">Peonies</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold text-[#27334B]">Contact Us</h2>
+            <div class="w-24 h-px bg-gray-300 mx-auto mt-4"></div>
+            <div class="mt-12 flex justify-center space-x-8">
+                <a href="#" class="h-16 w-16 bg-[#5977AF] rounded-full flex items-center justify-center text-white"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"></svg></a>
+                <a href="#" class="h-16 w-16 bg-[#5977AF] rounded-full flex items-center justify-center text-white"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"></svg></a>
+                <a href="#" class="h-16 w-16 bg-[#5977AF] rounded-full flex items-center justify-center text-white"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"></svg></a>
+                <a href="#" class="h-16 w-16 bg-[#5977AF] rounded-full flex items-center justify-center text-white"><svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"></svg></a>
+            </div>
+        </div>
+    </section>
+</div>
