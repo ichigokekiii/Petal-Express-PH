@@ -127,6 +127,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Images\flower icon.png" />
     <Content Include="Assets\Images\kai-1.png" />
     <Content Include="Assets\Images\kai-2.png" />
     <Content Include="Assets\Images\kai-3.png" />
@@ -161,6 +162,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
+    <Content Include="Views\Shared\_FlowerDivider.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

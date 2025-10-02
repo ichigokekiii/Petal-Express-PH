@@ -2,121 +2,129 @@
     ViewBag.Title = "Landing Page";
 }
 
-<section class="bg-[#E0F1FF] pt-8">
-    <div class="container mx-auto px-6 py-16 grid md:grid-cols-2 gap-12 items-center">
-        <div class="max-w-lg">
-            <h1 class="text-5xl md:text-6xl font-black text-[#27334B] leading-tight">The Flower Shop that will never fail to provide you the bouquet that you need for the perfect time</h1>
-            <button class="mt-8 px-8 py-3 bg-[#5977AF] text-white font-semibold rounded-full shadow-lg">SHOP NOW</button>
+<div>
+    <section class="bg-[#E0F1FF] pt-8">
+        <div class="container mx-auto px-6 py-16 grid md:grid-cols-2 gap-12 items-center">
+            <div class="max-w-lg">
+                <h1 class="text-5xl md:text-6xl font-black text-[#27334B] leading-tight">The Flower Shop that will never fail to provide you the bouquet that you need for the perfect time</h1>
+                <button class="mt-8 px-8 py-3 bg-[#5977AF] text-white font-semibold rounded-full shadow-lg">SHOP NOW</button>
+            </div>
+            <div class="flex justify-center">
+                <img src="@Url.Content("~/Assets/Images/kai-1.png")" alt="Man in suit holding flowers" class="max-h-[700px]" />
+            </div>
         </div>
-        <div class="flex justify-center">
-            <img src="@Url.Content("~/Assets/Images/kai-1.png")" alt="Man in suit holding flowers" class="max-h-[700px]" />
-        </div>
-    </div>
-</section>
+    </section>
 
-<section class="bg-white py-16 text-center -mt-20 z-10 relative">
-    <div class="container mx-auto px-6">
-        <h2 class="text-4xl font-bold text-[#27334B]">The Flower Shop that will never fail you</h2>
-        <p class="mt-4 max-w-3xl mx-auto text-gray-500">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-    </div>
-</section>
+    <section class="bg-white py-16 text-center -mt-20 z-10 relative">
+        <div class="container mx-auto px-6">
+            <div>
+                <h2 class="text-4xl font-bold text-[#27334B]">The Flower Shop that will never fail you</h2>
 
-<section class="bg-white pt-8 pb-16">
-    <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center text-[#27334B] mb-8">Featured Products</h2>
-        <div id="products-scroll" class="flex space-x-6 pb-4 overflow-x-auto">
-            <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md relative overflow-hidden group">
-                <img src="@Url.Content("~/Assets/Images/product1.png")" class="w-full h-full object-cover" />
-                <button class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] py-2 bg-[#5977AF] text-white text-base font-semibold rounded-full">BUY NOW</button>
-            </div>
-            <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md relative overflow-hidden group">
-                <img src="@Url.Content("~/Assets/Images/product2.png")" class="w-full h-full object-cover" />
-                <button class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] py-2 bg-[#5977AF] text-white text-base font-semibold rounded-full">BUY NOW</button>
-            </div>
-            <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md relative overflow-hidden group">
-                <img src="@Url.Content("~/Assets/Images/product3.png")" class="w-full h-full object-cover" />
-                <button class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] py-2 bg-[#5977AF] text-white text-base font-semibold rounded-full">BUY NOW</button>
-            </div>
-            <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md relative overflow-hidden group">
-                <img src="@Url.Content("~/Assets/Images/product4.png")" class="w-full h-full object-cover" />
-                <button class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] py-2 bg-[#5977AF] text-white text-base font-semibold rounded-full">BUY NOW</button>
-            </div>
-            <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md relative overflow-hidden group">
-                <img src="@Url.Content("~/Assets/Images/product1.png")" class="w-full h-full object-cover" />
-                <button class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] py-2 bg-[#5977AF] text-white text-base font-semibold rounded-full">BUY NOW</button>
-            </div>
-            <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md relative overflow-hidden group">
-                <img src="@Url.Content("~/Assets/Images/product2.png")" class="w-full h-full object-cover" />
-                <button class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] py-2 bg-[#5977AF] text-white text-base font-semibold rounded-full">BUY NOW</button>
-            </div>
-        </div>
-    </div>
-</section>
+                @Html.Partial("_FlowerDivider")
 
-<section class="bg-[#E0F1FF] py-16 -mt-48 pt-56">
-    <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-        <div class="flex justify-center">
-            <img src="@Url.Content("~/Assets/Images/kai-2.png")" alt="Man in plaid shirt" class="max-h-[700px]" />
-        </div>
-        <div class="text-left">
-            <h2 class="text-4xl font-bold text-[#27334B]">Fresh Flowers made specially for you</h2>
-            <p class="mt-4 text-gray-500">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-        </div>
-    </div>
-</section>
+                <p class="mt-4 max-w-3xl mx-auto text-gray-500">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+            </div>
 
-<section class="bg-white py-16 -mt-20 z-10 relative">
-    <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-        <div class="flex flex-col items-center"><div class="h-20 w-20 flex items-center justify-center border-2 border-[#5977AF] rounded-full mb-4"><svg class="h-10 w-10 text-[#5977AF]"></svg></div><h3 class="font-bold text-lg text-[#27334B]">Free Shipping</h3><p class="text-sm text-gray-500">For min. of $20</p></div>
-        <div class="flex flex-col items-center"><div class="h-20 w-20 flex items-center justify-center border-2 border-[#5977AF] rounded-full mb-4"><svg class="h-10 w-10 text-[#5977AF]"></svg></div><h3 class="font-bold text-lg text-[#27334B]">Free Shipping</h3><p class="text-sm text-gray-500">For min. of $20</p></div>
-        <div class="flex flex-col items-center"><div class="h-20 w-20 flex items-center justify-center border-2 border-[#5977AF] rounded-full mb-4"><svg class="h-10 w-10 text-[#5977AF]"></svg></div><h3 class="font-bold text-lg text-[#27334B]">Free Shipping</h3><p class="text-sm text-gray-500">For min. of $20</p></div>
-        <div class="flex flex-col items-center"><div class="h-20 w-20 flex items-center justify-center border-2 border-[#5977AF] rounded-full mb-4"><svg class="h-10 w-10 text-[#5977AF]"></svg></div><h3 class="font-bold text-lg text-[#27334B]">Free Shipping</h3><p class="text-sm text-gray-500">For min. of $20</p></div>
-    </div>
-</section>
+            <div class="pt-16">
+                <h2 class="text-3xl font-bold text-center text-[#27334B] mb-8">Featured Products</h2>
+                <div id="products-scroll" class="relative z-10 flex space-x-6 pb-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div class="flex-none w-72 h-48 rounded-lg relative overflow-hidden group">
+                        <img src="@Url.Content("~/Assets/Images/product1.png")" class="w-full h-full object-cover rounded-lg" />
+                        <button class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] py-2 bg-[#5977AF] text-white text-base font-semibold rounded-full">BUY NOW</button>
+                    </div>
+                    <div class="flex-none w-72 h-48 rounded-lg relative overflow-hidden group">
+                        <img src="@Url.Content("~/Assets/Images/product2.png")" class="w-full h-full object-cover rounded-lg" />
+                        <button class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] py-2 bg-[#5977AF] text-white text-base font-semibold rounded-full">BUY NOW</button>
+                    </div>
+                    <div class="flex-none w-72 h-48 rounded-lg relative overflow-hidden group">
+                        <img src="@Url.Content("~/Assets/Images/product3.png")" class="w-full h-full object-cover rounded-lg" />
+                        <button class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] py-2 bg-[#5977AF] text-white text-base font-semibold rounded-full">BUY NOW</button>
+                    </div>
+                    <div class="flex-none w-72 h-48 rounded-lg relative overflow-hidden group">
+                        <img src="@Url.Content("~/Assets/Images/product4.png")" class="w-full h-full object-cover rounded-lg" />
+                        <button class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] py-2 bg-[#5977AF] text-white text-base font-semibold rounded-full">BUY NOW</button>
+                    </div>
+                    <div class="flex-none w-72 h-48 rounded-lg relative overflow-hidden group">
+                        <img src="@Url.Content("~/Assets/Images/product1.png")" class="w-full h-full object-cover rounded-lg" />
+                        <button class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] py-2 bg-[#5977AF] text-white text-base font-semibold rounded-full">BUY NOW</button>
+                    </div>
+                    <div class="flex-none w-72 h-48 rounded-lg relative overflow-hidden group">
+                        <img src="@Url.Content("~/Assets/Images/product2.png")" class="w-full h-full object-cover rounded-lg" />
+                        <button class="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] py-2 bg-[#5977AF] text-white text-base font-semibold rounded-full">BUY NOW</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section class="bg-white py-16">
-    <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center text-[#27334B] mb-8">Upcoming Events</h2>
-        <div id="events-scroll" class="relative z-10 flex space-x-6 pb-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                <div class="text-left"><span class="font-bold text-sm text-[#27334B]">OCT</span><p class="font-black text-4xl text-[#27334B]">10</p></div>
-                <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BOOK NOW</button>
+    <section class="bg-[#E0F1FF] py-16 -mt-48 pt-56">
+        <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div class="flex justify-center">
+                <img src="@Url.Content("~/Assets/Images/kai-2.png")" alt="Man in plaid shirt" class="max-h-[700px]" />
             </div>
-            <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                <div class="text-left"><span class="font-bold text-sm text-[#27334B]">OCT</span><p class="font-black text-4xl text-[#27334B]">11</p></div>
-                <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BOOK NOW</button>
-            </div>
-            <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                <div class="text-left"><span class="font-bold text-sm text-[#27334B]">OCT</span><p class="font-black text-4xl text-[#27334B]">12</p></div>
-                <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BOOK NOW</button>
-            </div>
-            <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                <div class="text-left"><span class="font-bold text-sm text-[#27334B]">OCT</span><p class="font-black text-4xl text-[#27334B]">13</p></div>
-                <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BOOK NOW</button>
-            </div>
-            <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                <div class="text-left"><span class="font-bold text-sm text-[#27334B]">OCT</span><p class="font-black text-4xl text-[#27334B]">14</p></div>
-                <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BOOK NOW</button>
-            </div>
-            <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                <div class="text-left"><span class="font-bold text-sm text-[#27334B]">OCT</span><p class="font-black text-4xl text-[#27334B]">15</p></div>
-                <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BOOK NOW</button>
+            <div class="text-left">
+                <h2 class="text-4xl font-bold text-[#27334B]">Fresh Flowers made specially for you</h2>
+                <p class="mt-4 text-gray-500">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section class="bg-[#E0F1FF] py-16">
-    <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-        <div>
-            <h2 class="text-4xl font-bold text-[#27334B]">Creating futures One bouquet at a time</h2>
-            <p class="mt-4 text-gray-500">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+    <section class="bg-white py-16 -mt-20 z-10 relative">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="flex flex-col items-center"><div class="h-20 w-20 flex items-center justify-center border-2 border-[#5977AF] rounded-full mb-4"><svg class="h-10 w-10 text-[#5977AF]"></svg></div><h3 class="font-bold text-lg text-[#27334B]">Free Shipping</h3><p class="text-sm text-gray-500">For min. of $20</p></div>
+                <div class="flex flex-col items-center"><div class="h-20 w-20 flex items-center justify-center border-2 border-[#5977AF] rounded-full mb-4"><svg class="h-10 w-10 text-[#5977AF]"></svg></div><h3 class="font-bold text-lg text-[#27334B]">Free Shipping</h3><p class="text-sm text-gray-500">For min. of $20</p></div>
+                <div class="flex flex-col items-center"><div class="h-20 w-20 flex items-center justify-center border-2 border-[#5977AF] rounded-full mb-4"><svg class="h-10 w-10 text-[#5977AF]"></svg></div><h3 class="font-bold text-lg text-[#27334B]">Free Shipping</h3><p class="text-sm text-gray-500">For min. of $20</p></div>
+                <div class="flex flex-col items-center"><div class="h-20 w-20 flex items-center justify-center border-2 border-[#5977AF] rounded-full mb-4"><svg class="h-10 w-10 text-[#5977AF]"></svg></div><h3 class="font-bold text-lg text-[#27334B]">Free Shipping</h3><p class="text-sm text-gray-500">For min. of $20</p></div>
+            </div>
+            <div class="border-b border-gray-300 mt-16"></div>
         </div>
-        <div class="flex justify-center">
-            <img src="@Url.Content("~/Assets/Images/kai-3.png")" alt="Man making heart with hands" class="max-h-[700px]" />
+    </section>
+
+    <section class="bg-white py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-[#27334B] mb-8">Upcoming Events</h2>
+            <div id="events-scroll" class="relative z-10 flex space-x-6 pb-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
+                    <div class="text-left"><span class="font-bold text-sm text-[#27334B]">OCT</span><p class="font-black text-4xl text-[#27334B]">10</p></div>
+                    <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BOOK NOW</button>
+                </div>
+                <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
+                    <div class="text-left"><span class="font-bold text-sm text-[#27334B]">OCT</span><p class="font-black text-4xl text-[#27334B]">11</p></div>
+                    <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BOOK NOW</button>
+                </div>
+                <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
+                    <div class="text-left"><span class="font-bold text-sm text-[#27334B]">OCT</span><p class="font-black text-4xl text-[#27334B]">12</p></div>
+                    <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BOOK NOW</button>
+                </div>
+                <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
+                    <div class="text-left"><span class="font-bold text-sm text-[#27334B]">OCT</span><p class="font-black text-4xl text-[#27334B]">13</p></div>
+                    <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BOOK NOW</button>
+                </div>
+                <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
+                    <div class="text-left"><span class="font-bold text-sm text-[#27334B]">OCT</span><p class="font-black text-4xl text-[#27334B]">14</p></div>
+                    <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BOOK NOW</button>
+                </div>
+                <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
+                    <div class="text-left"><span class="font-bold text-sm text-[#27334B]">OCT</span><p class="font-black text-4xl text-[#27334B]">15</p></div>
+                    <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BOOK NOW</button>
+                </div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <section class="bg-[#E0F1FF] py-16">
+        <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-4xl font-bold text-[#27334B]">Creating futures One bouquet at a time</h2>
+                <p class="mt-4 text-gray-500">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+            </div>
+            <div class="flex justify-center">
+                <img src="@Url.Content("~/Assets/Images/kai-3.png")" alt="Man making heart with hands" class="max-h-[700px]" />
+            </div>
+        </div>
+    </section>
+</div>
 
 @section scripts {
     <script>
