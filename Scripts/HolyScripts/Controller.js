@@ -39,35 +39,29 @@
     };
 });
 
-// ADD THIS NEW CONTROLLER AT THE END OF YOUR FILE
-// This controller will manage the shared login state for the whole site.
+
 app.controller("mainController", function ($scope, authService) {
-    // This makes the authService data (like isLoggedIn) available to the header
     $scope.auth = authService;
 });
 
-// ADD THIS NEW CONTROLLER AS WELL
-// This controller is specifically for the Login and Register pages.
 app.controller("authController", function ($scope, authService) {
-    // Make the service's user array available to the Register page table
     $scope.users = authService.users;
 
-    $scope.newUser = {}; // Holds data from the register form
-    $scope.credentials = {}; // Holds data from the login form
+    $scope.newUser = {}; 
+    $scope.credentials = {}; 
 
     $scope.register = function () {
         authService.registerUser($scope.newUser);
-        $scope.newUser = {}; // Clear the form
+        $scope.newUser = {}; 
     };
 
     $scope.login = function () {
         if (authService.login($scope.credentials)) {
             alert('Login successful! The header will now change.');
-            // Redirect to the home page after successful login
             window.location.href = '/Home/Index';
         } else {
             alert('Invalid credentials. Please register or try again.');
         }
-        $scope.credentials = {}; // Clear the form
+        $scope.credentials = {}; 
     };
 });
