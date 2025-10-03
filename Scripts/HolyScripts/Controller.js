@@ -1,4 +1,4 @@
-﻿angular.module("myApp").controller("shopController", function ($scope) {
+﻿app.controller("shopController", function ($scope) {
 
     var allProducts = [];
     for (var i = 1; i <= 32; i++) {
