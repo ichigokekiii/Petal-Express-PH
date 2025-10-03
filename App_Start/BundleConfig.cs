@@ -1,14 +1,16 @@
-﻿using System.Web;
+﻿// File: ~/App_Start/BundleConfig.cs
 using System.Web.Optimization;
 
-namespace Petal_Express_PH
+public class BundleConfig
 {
-    public class BundleConfig
+    public static void RegisterBundles(BundleCollection bundles)
     {
-        // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
-        public static void RegisterBundles(BundleCollection bundles)
-        {
-            
-        }
+        // This is the bundle for our AngularJS application.
+        // The order of the files here is CRITICAL.
+        bundles.Add(new ScriptBundle("~/bundles/angularApp").Include(
+                    "~/Scripts/angular.min.js",
+                    "~/Scripts/HolyScripts/Module.js",
+                    "~/Scripts/HolyScripts/Service.js",
+                    "~/Scripts/HolyScripts/Controller.js"));
     }
 }

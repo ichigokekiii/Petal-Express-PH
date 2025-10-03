@@ -1,6 +1,6 @@
 ﻿@*
     File: ~/Views/Shared/_Layout.cshtml
-    Summary: The horizontal scroll script has been moved here to work on all pages.
+    Summary: Added AOS library and a custom CSS animation for the marquee effect.
 *@
 <!DOCTYPE html>
 <html>
@@ -8,10 +8,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Petal Express</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -21,12 +22,22 @@
                     fontFamily: {
                         sans: ['Montserrat', 'sans-serif'],
                     },
+                    // ADDED: Custom animation for continuous scroll
+                    animation: {
+                        marquee: 'marquee 40s linear infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' },
+                        },
+                    },
                 }
             }
         }
     </script>
 </head>
-<body class="font-sans bg-[#E0F1FF]">
+<body class="font-sans bg-[#E0F1FF]" ng-app="myApp">
 
     @Html.Partial("_Header")
 
@@ -34,31 +45,20 @@
 
     @Html.Partial("_Footer")
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <script src="~/Scripts/HolyScripts/Module.js"></script>
-    <script src="~/Scripts/HolyScripts/Controller.js"></script>
-    <script src="~/Scripts/HolyScripts/Service.js"></script>
+    
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+        <script src="@Url.Content("~/Scripts/HolyScripts/Module.js")"></script>
+        <script src="@Url.Content("~/Scripts/HolyScripts/Controller.js")"></script>
+        <script src="@Url.Content("~/Scripts/HolyScripts/Service.js")"></script>
 
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            function horizontalScroll(event, element) {
-                event.preventDefault();
-                element.scrollLeft += event.deltaY;
-            }
-
-            const productsScrollContainer = document.getElementById('products-scroll');
-            const eventsScrollContainer = document.getElementById('events-scroll');
-            const testimonialsScrollContainer = document.getElementById('testimonials-scroll'); // Added for About page
-
-            if (productsScrollContainer) {
-                productsScrollContainer.addEventListener('wheel', (e) => horizontalScroll(e, productsScrollContainer));
-            }
-            if (eventsScrollContainer) {
-                eventsScrollContainer.addEventListener('wheel', (e) => horizontalScroll(e, eventsScrollContainer));
-            }
-            if (testimonialsScrollContainer) {
-                testimonialsScrollContainer.addEventListener('wheel', (e) => horizontalScroll(e, testimonialsScrollContainer));
-            }
+        // Initialize AOS
+        AOS.init({
+            duration: 800, // Animation duration
+            once: true,    // Animation happens only once
+            offset: 100,   // Trigger animation a little early
         });
     </script>
 

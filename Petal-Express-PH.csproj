@@ -127,6 +127,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Images\flower cart icon.svg" />
     <Content Include="Assets\Images\flower icon.png" />
     <Content Include="Assets\Images\kai-1.png" />
     <Content Include="Assets\Images\kai-2.png" />
@@ -134,6 +135,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\HolyScripts\Controller.js" />
     <Content Include="Scripts\HolyScripts\Module.js" />
     <Content Include="Scripts\HolyScripts\Service.js" />
@@ -163,6 +165,12 @@
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_FlowerDivider.cshtml" />
+    <Content Include="Views\Home\Shop.cshtml" />
+    <Content Include="Views\Home\Schedule.cshtml" />
+    <Content Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Home\ProductDetail.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

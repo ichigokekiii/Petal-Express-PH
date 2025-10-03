@@ -15,16 +15,38 @@ namespace Petal_Express_PH.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Shop()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
+
+        public ActionResult ProductDetail()
+        {
+            return View();
+        }
+
+        public ActionResult Schedule()
+        {
+            return View();
+        }
+
+        public ActionResult Test()
+        {
+            return View();
+        }
+
+        public ActionResult Login() 
+        { 
+            return View(); 
+        }
+
+        public ActionResult Register() 
+        { 
+            return View(); 
+        }
+
     }
 }
