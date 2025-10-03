@@ -40,23 +40,23 @@
 });
 
 
-app.controller("mainController", function ($scope, authService) {
-    $scope.auth = authService;
+app.controller("mainController", function ($scope, PetalExpressApplicationService) {
+    $scope.auth = PetalExpressApplicationService;
 });
 
-app.controller("authController", function ($scope, authService) {
-    $scope.users = authService.users;
+app.controller("authController", function ($scope, PetalExpressApplicationService) {
+    $scope.users = PetalExpressApplicationService.users;
 
     $scope.newUser = {}; 
     $scope.credentials = {}; 
 
     $scope.register = function () {
-        authService.registerUser($scope.newUser);
+        PetalExpressApplicationService.registerUser($scope.newUser);
         $scope.newUser = {}; 
     };
 
     $scope.login = function () {
-        if (authService.login($scope.credentials)) {
+        if (PetalExpressApplicationService.login($scope.credentials)) {
             alert('Login successful! The header will now change.');
             window.location.href = '/Home/Index';
         } else {
