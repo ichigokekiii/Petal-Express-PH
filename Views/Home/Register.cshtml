@@ -6,7 +6,9 @@
             @Html.Partial("_FlowerDivider")
             <form class="mt-8 text-left space-y-6" ng-submit="register()" name="registerForm" novalidate>
                 <div>
-                    <label class="font-semibold text-gray-700">Full Name</label>
+                    <label class="font-semibold text-gray-700">
+                        Full Name <span class="text-red-500">*</span>
+                    </label>
                     <input type="text"
                            class="mt-2 w-full px-0 py-2 border-0 border-b-2 border-gray-300 focus:border-[#5977AF] focus:ring-0 bg-transparent"
                            placeholder="Juan dela Cruz"
@@ -14,44 +16,75 @@
                            name="name"
                            required
                            ng-minlength="2"
-                           ng-maxlength="100"
+                           maxlength="60"
                            ng-pattern="/^[a-zA-Z\s]+$/" />
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-xs text-gray-500">{{(newUser.name || '').length}}/60 characters</span>
+                    </div>
                     <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.name.$touched && registerForm.name.$error.required">Full Name is required</span>
                     <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.name.$touched && registerForm.name.$error.minlength">Full Name must be at least 2 characters</span>
                     <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.name.$touched && registerForm.name.$error.pattern">Full Name can only contain letters and spaces</span>
                 </div>
                 <div>
-                    <label class="font-semibold text-gray-700">Email Address</label>
-                    <input type="email"
+                    <label class="font-semibold text-gray-700">
+                        Email Address <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text"
                            class="mt-2 w-full px-0 py-2 border-0 border-b-2 border-gray-300 focus:border-[#5977AF] focus:ring-0 bg-transparent"
                            placeholder="you@example.com"
                            ng-model="newUser.email"
                            name="email"
-                           required />
+                           required
+                           maxlength="45" />
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-xs text-gray-500">{{newUser.email ? newUser.email.length : 0}}/45 characters</span>
+                    </div>
                     <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.email.$touched && registerForm.email.$error.required">Email Address is required</span>
-                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.email.$touched && registerForm.email.$error.email">Please enter a valid email address</span>
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.email.$touched && newUser.email && !isValidEmail(newUser.email)">Please enter a valid email address</span>
                 </div>
                 <div>
-                    <label class="font-semibold text-gray-700">Password</label>
+                    <label class="font-semibold text-gray-700">
+                        Password <span class="text-red-500">*</span>
+                    </label>
                     <input type="password"
                            class="mt-2 w-full px-0 py-2 border-0 border-b-2 border-gray-300 focus:border-[#5977AF] focus:ring-0 bg-transparent"
                            placeholder="Enter your password"
                            ng-model="newUser.password"
                            name="password"
                            required
-                           ng-minlength="6" />
+                           ng-minlength="6"
+                           maxlength="20"
+                           ng-pattern="/^(?=.*[A-Z])(?=.*[0-9]).+$/" />
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-xs text-gray-500">{{newUser.password ? newUser.password.length : 0}}/20 characters</span>
+                    </div>
+                    <div class="mt-4 text-xs text-gray-600">
+                        <p class="mb-2">Password must contain:</p>
+                        <ul class="list-disc list-inside pl-2 space-y-1">
+                            <li>6-20 characters</li>
+                            <li>At least one uppercase letter</li>
+                            <li>At least one number</li>
+                        </ul>
+                    </div>
                     <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.password.$touched && registerForm.password.$error.required">Password is required</span>
                     <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.password.$touched && registerForm.password.$error.minlength">Password must be at least 6 characters</span>
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.password.$touched && registerForm.password.$error.pattern">Password must contain at least one uppercase letter and one number</span>
                 </div>
                 <div>
-                    <label class="font-semibold text-gray-700">Confirm Password</label>
+                    <label class="font-semibold text-gray-700">
+                        Confirm Password <span class="text-red-500">*</span>
+                    </label>
                     <input type="password"
                            class="mt-2 w-full px-0 py-2 border-0 border-b-2 border-gray-300 focus:border-[#5977AF] focus:ring-0 bg-transparent"
                            placeholder="Re-enter your password"
                            ng-model="newUser.confirmPassword"
                            name="confirmPassword"
                            required
-                           ng-minlength="6" />
+                           ng-minlength="6"
+                           maxlength="20" />
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-xs text-gray-500">{{(newUser.confirmPassword || '').length}}/20 characters</span>
+                    </div>
                     <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.confirmPassword.$touched && registerForm.confirmPassword.$error.required">Confirm Password is required</span>
                     <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.confirmPassword.$touched && newUser.password != newUser.confirmPassword">Passwords do not match</span>
                 </div>

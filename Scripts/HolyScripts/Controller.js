@@ -87,4 +87,10 @@ app.controller("authController", function ($scope, PetalExpressApplicationServic
         }
         $scope.credentials = {};
     };
+
+    $scope.isValidEmail = function (email) {
+        if (!email) return true;
+        var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailPattern.test(email);
+    };
 });
