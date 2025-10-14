@@ -5,9 +5,11 @@
 <div>
     <section class="bg-[#E0F1FF] py-20 text-center">
         <div class="container mx-auto px-6">
-            <h1 class="text-5xl font-black text-[#27334B]">Upcoming Events</h1>
-            @Html.Partial("_FlowerDivider")
-            <p class="mt-4 max-w-2xl mx-auto text-gray-600">
+            <h1 class="text-5xl font-black text-[#27334B]" data-aos="fade-up" data-aos-duration="600">Upcoming Events</h1>
+            <div data-aos="fade-up" data-aos-delay="100" data-aos-duration="600">
+                @Html.Partial("_FlowerDivider")
+            </div>
+            <p class="mt-4 max-w-2xl mx-auto text-gray-600" data-aos="fade-up" data-aos-delay="200" data-aos-duration="600">
                 Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
             </p>
         </div>
@@ -15,18 +17,18 @@
 
     <section class="bg-white py-16 -mt-16 z-10 relative rounded-t-2xl">
         <div class="container mx-auto px-6">
-            <div class="flex flex-wrap justify-center items-center gap-4">
-                <button class="px-8 py-3 bg-[#5977AF] text-white font-semibold rounded-full">All</button>
-                <button class="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-full">Stocks</button>
-                <button class="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-full">Popup</button>
-                <button class="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-full">Flowers</button>
-                <button class="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-full">Convention</button>
+            <div class="flex flex-wrap justify-center items-center gap-4" data-aos="fade" data-aos-duration="600">
+                <button class="px-8 py-3 bg-[#5977AF] text-white font-semibold rounded-full hover:bg-[#4a6199] transition">All</button>
+                <button class="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-full hover:bg-gray-300 transition">Stocks</button>
+                <button class="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-full hover:bg-gray-300 transition">Popup</button>
+                <button class="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-full hover:bg-gray-300 transition">Flowers</button>
+                <button class="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-full hover:bg-gray-300 transition">Convention</button>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
 
-                <div>
-                    <div class="bg-[#DFEDF9] h-56 rounded-lg"></div>
+                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="0" data-aos-easing="ease-out">
+                    <div class="bg-[#DFEDF9] h-56 rounded-lg overflow-hidden"></div>
                     <div class="mt-4">
                         <div class="flex justify-between items-start">
                             <h3 class="font-bold text-2xl text-[#27334B]">Katipunan, Q.C.</h3>
@@ -38,12 +40,12 @@
                             </div>
                         </div>
                         <p class="mt-2 text-gray-500 text-sm">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed do</p>
-                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm">Notify me</button>
+                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm hover:bg-[#4a6199] transition transform hover:scale-105">Notify me</button>
                     </div>
                 </div>
 
-                <div>
-                    <div class="bg-[#DFEDF9] h-56 rounded-lg"></div>
+                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="50" data-aos-easing="ease-out">
+                    <div class="bg-[#DFEDF9] h-56 rounded-lg overflow-hidden"></div>
                     <div class="mt-4">
                         <div class="flex justify-between items-start">
                             <h3 class="font-bold text-2xl text-[#27334B]">Summer Sale</h3>
@@ -55,12 +57,12 @@
                             </div>
                         </div>
                         <p class="mt-2 text-gray-500 text-sm">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed do</p>
-                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm">Notify me</button>
+                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm hover:bg-[#4a6199] transition transform hover:scale-105">Notify me</button>
                     </div>
                 </div>
 
-                <div>
-                    <div class="bg-[#DFEDF9] h-56 rounded-lg"></div>
+                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-easing="ease-out">
+                    <div class="bg-[#DFEDF9] h-56 rounded-lg overflow-hidden"></div>
                     <div class="mt-4">
                         <div class="flex justify-between items-start">
                             <h3 class="font-bold text-2xl text-[#27334B]">UST Plaza Mayor</h3>
@@ -72,12 +74,12 @@
                             </div>
                         </div>
                         <p class="mt-2 text-gray-500 text-sm">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed do</p>
-                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm">Notify me</button>
+                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm hover:bg-[#4a6199] transition transform hover:scale-105">Notify me</button>
                     </div>
                 </div>
 
-                <div>
-                    <div class="bg-[#DFEDF9] h-56 rounded-lg"></div>
+                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="150" data-aos-easing="ease-out">
+                    <div class="bg-[#DFEDF9] h-56 rounded-lg overflow-hidden"></div>
                     <div class="mt-4">
                         <div class="flex justify-between items-start">
                             <h3 class="font-bold text-2xl text-[#27334B]">Event Four</h3>
@@ -89,12 +91,12 @@
                             </div>
                         </div>
                         <p class="mt-2 text-gray-500 text-sm">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed do</p>
-                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm">Notify me</button>
+                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm hover:bg-[#4a6199] transition transform hover:scale-105">Notify me</button>
                     </div>
                 </div>
 
-                <div>
-                    <div class="bg-[#DFEDF9] h-56 rounded-lg"></div>
+                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="200" data-aos-easing="ease-out">
+                    <div class="bg-[#DFEDF9] h-56 rounded-lg overflow-hidden"></div>
                     <div class="mt-4">
                         <div class="flex justify-between items-start">
                             <h3 class="font-bold text-2xl text-[#27334B]">Event Five</h3>
@@ -106,12 +108,12 @@
                             </div>
                         </div>
                         <p class="mt-2 text-gray-500 text-sm">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed do</p>
-                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm">Notify me</button>
+                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm hover:bg-[#4a6199] transition transform hover:scale-105">Notify me</button>
                     </div>
                 </div>
 
-                <div>
-                    <div class="bg-[#DFEDF9] h-56 rounded-lg"></div>
+                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="250" data-aos-easing="ease-out">
+                    <div class="bg-[#DFEDF9] h-56 rounded-lg overflow-hidden"></div>
                     <div class="mt-4">
                         <div class="flex justify-between items-start">
                             <h3 class="font-bold text-2xl text-[#27334B]">Event Six</h3>
@@ -123,12 +125,12 @@
                             </div>
                         </div>
                         <p class="mt-2 text-gray-500 text-sm">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed do</p>
-                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm">Notify me</button>
+                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm hover:bg-[#4a6199] transition transform hover:scale-105">Notify me</button>
                     </div>
                 </div>
 
-                <div>
-                    <div class="bg-[#DFEDF9] h-56 rounded-lg"></div>
+                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="300" data-aos-easing="ease-out">
+                    <div class="bg-[#DFEDF9] h-56 rounded-lg overflow-hidden"></div>
                     <div class="mt-4">
                         <div class="flex justify-between items-start">
                             <h3 class="font-bold text-2xl text-[#27334B]">Event Seven</h3>
@@ -140,12 +142,12 @@
                             </div>
                         </div>
                         <p class="mt-2 text-gray-500 text-sm">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed do</p>
-                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm">Notify me</button>
+                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm hover:bg-[#4a6199] transition transform hover:scale-105">Notify me</button>
                     </div>
                 </div>
 
-                <div>
-                    <div class="bg-[#DFEDF9] h-56 rounded-lg"></div>
+                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="350" data-aos-easing="ease-out">
+                    <div class="bg-[#DFEDF9] h-56 rounded-lg overflow-hidden"></div>
                     <div class="mt-4">
                         <div class="flex justify-between items-start">
                             <h3 class="font-bold text-2xl text-[#27334B]">Event Eight</h3>
@@ -157,7 +159,7 @@
                             </div>
                         </div>
                         <p class="mt-2 text-gray-500 text-sm">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed do</p>
-                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm">Notify me</button>
+                        <button class="mt-4 px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-sm hover:bg-[#4a6199] transition transform hover:scale-105">Notify me</button>
                     </div>
                 </div>
 

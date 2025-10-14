@@ -1,42 +1,95 @@
 ﻿@{ ViewBag.Title = "Register"; }
-
 <div ng-controller="authController">
     <section class="bg-white py-20">
         <div class="container mx-auto px-6 max-w-lg text-center">
             <h1 class="text-4xl font-black text-[#27334B]">Create an Account</h1>
             @Html.Partial("_FlowerDivider")
-
-            <form class="mt-8 text-left space-y-6" ng-submit="registerUser()" name="registerForm">
+            <form class="mt-8 text-left space-y-6" ng-submit="register()" name="registerForm" novalidate>
                 <div>
                     <label class="font-semibold text-gray-700">Full Name</label>
-                    <input type="text" class="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="Juan dela Cruz" ng-model="newUser.name" required />
+                    <input type="text"
+                           class="mt-2 w-full px-0 py-2 border-0 border-b-2 border-gray-300 focus:border-[#5977AF] focus:ring-0 bg-transparent"
+                           placeholder="Juan dela Cruz"
+                           ng-model="newUser.name"
+                           name="name"
+                           required
+                           ng-minlength="2"
+                           ng-maxlength="100"
+                           ng-pattern="/^[a-zA-Z\s]+$/" />
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.name.$touched && registerForm.name.$error.required">Full Name is required</span>
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.name.$touched && registerForm.name.$error.minlength">Full Name must be at least 2 characters</span>
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.name.$touched && registerForm.name.$error.pattern">Full Name can only contain letters and spaces</span>
                 </div>
                 <div>
                     <label class="font-semibold text-gray-700">Email Address</label>
-                    <input type="email" class="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg" placeholder="you@example.com" ng-model="newUser.email" required />
+                    <input type="email"
+                           class="mt-2 w-full px-0 py-2 border-0 border-b-2 border-gray-300 focus:border-[#5977AF] focus:ring-0 bg-transparent"
+                           placeholder="you@example.com"
+                           ng-model="newUser.email"
+                           name="email"
+                           required />
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.email.$touched && registerForm.email.$error.required">Email Address is required</span>
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.email.$touched && registerForm.email.$error.email">Please enter a valid email address</span>
                 </div>
-                <button type="submit" class="w-full py-3 bg-[#5977AF] text-white font-bold rounded-full" ng-disabled="registerForm.$invalid">Register</button>
+                <div>
+                    <label class="font-semibold text-gray-700">Password</label>
+                    <input type="password"
+                           class="mt-2 w-full px-0 py-2 border-0 border-b-2 border-gray-300 focus:border-[#5977AF] focus:ring-0 bg-transparent"
+                           placeholder="Enter your password"
+                           ng-model="newUser.password"
+                           name="password"
+                           required
+                           ng-minlength="6" />
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.password.$touched && registerForm.password.$error.required">Password is required</span>
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.password.$touched && registerForm.password.$error.minlength">Password must be at least 6 characters</span>
+                </div>
+                <div>
+                    <label class="font-semibold text-gray-700">Confirm Password</label>
+                    <input type="password"
+                           class="mt-2 w-full px-0 py-2 border-0 border-b-2 border-gray-300 focus:border-[#5977AF] focus:ring-0 bg-transparent"
+                           placeholder="Re-enter your password"
+                           ng-model="newUser.confirmPassword"
+                           name="confirmPassword"
+                           required
+                           ng-minlength="6" />
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.confirmPassword.$touched && registerForm.confirmPassword.$error.required">Confirm Password is required</span>
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="registerForm.confirmPassword.$touched && newUser.password != newUser.confirmPassword">Passwords do not match</span>
+                </div>
+                <button type="submit"
+                        class="w-full py-3 bg-[#5977AF] text-white font-bold rounded-full transition-opacity"
+                        ng-class="{'opacity-50': registerForm.$invalid || newUser.password != newUser.confirmPassword}"
+                        ng-disabled="registerForm.$invalid || newUser.password != newUser.confirmPassword">
+                    Register
+                </button>
+                <div class="text-center">
+                    <p class="text-gray-600">Already have an account? <a href="@Url.Action("Login", "Home")" class="font-bold text-[#5977AF]">Login here</a></p>
+                </div>
             </form>
         </div>
     </section>
-
     <section class="bg-gray-50 py-12" ng-show="users.length > 0">
         <div class="container mx-auto px-6">
             <h2 class="text-2xl font-bold text-center text-[#27334B] mb-8">Registered Users</h2>
-            <table class="min-w-full bg-white shadow-md rounded-lg">
-                <thead>
-                    <tr>
-                        <th class="py-3 px-4 border-b text-left">Name</th>
-                        <th class="py-3 px-4 border-b text-left">Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="user in users" class="border-b">
-                        <td class="py-3 px-4">{{user.name}}</td>
-                        <td class="py-3 px-4">{{user.email}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white shadow-md rounded-lg">
+                    <thead class="bg-[#5977AF] text-white">
+                        <tr>
+                            <th class="py-3 px-4 text-left">#</th>
+                            <th class="py-3 px-4 text-left">Name</th>
+                            <th class="py-3 px-4 text-left">Email</th>
+                            <th class="py-3 px-4 text-left">Password</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="user in users" class="border-b hover:bg-gray-50">
+                            <td class="py-3 px-4">{{$index + 1}}</td>
+                            <td class="py-3 px-4">{{user.name}}</td>
+                            <td class="py-3 px-4">{{user.email}}</td>
+                            <td class="py-3 px-4">{{user.password}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 </div>

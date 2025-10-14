@@ -127,6 +127,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Images\about-hero.png" />
     <Content Include="Assets\Images\flower cart icon.svg" />
     <Content Include="Assets\Images\flower icon.png" />
     <Content Include="Assets\Images\kai-1.png" />

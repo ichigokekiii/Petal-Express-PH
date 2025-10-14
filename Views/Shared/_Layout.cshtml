@@ -49,16 +49,17 @@
         <script src="@Url.Content("~/Scripts/HolyScripts/Module.js")"></script>
         <script src="@Url.Content("~/Scripts/HolyScripts/Controller.js")"></script>
         <script src="@Url.Content("~/Scripts/HolyScripts/Service.js")"></script>
+        
 
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({
-            duration: 800, // Animation duration
-            once: true,    // Animation happens only once
-            offset: 100,   // Trigger animation a little early
-        });
-    </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            AOS.init({
+                duration: 800, 
+                once: true,    
+                offset: 100,   
+            });
+        </script>
 
     @RenderSection("scripts", required: false)
 </body>

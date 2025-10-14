@@ -1,5 +1,4 @@
 ﻿app.controller("shopController", function ($scope) {
-
     var allProducts = [];
     for (var i = 1; i <= 32; i++) {
         allProducts.push({
@@ -12,11 +11,9 @@
         });
     }
     $scope.products = allProducts;
-
     $scope.currentPage = 0;
     $scope.pageSize = 12;
     $scope.totalPages = Math.ceil($scope.products.length / $scope.pageSize);
-
     $scope.setCurrentPage = function (page) {
         $scope.currentPage = page;
     };
@@ -26,10 +23,8 @@
     $scope.nextPage = function () {
         if ($scope.currentPage < $scope.totalPages - 1) { $scope.currentPage++; }
     };
-
     $scope.flowerTypes = ["Roses", "Tulips", "Lilies", "Peonies", "Sunflowers"];
     $scope.showDropdown = false;
-
     $scope.toggleDropdown = function (event) {
         event.stopPropagation();
         $scope.showDropdown = !$scope.showDropdown;
@@ -39,29 +34,57 @@
     };
 });
 
-
 app.controller("mainController", function ($scope, PetalExpressApplicationService) {
     $scope.auth = PetalExpressApplicationService;
 });
 
 app.controller("authController", function ($scope, PetalExpressApplicationService) {
     $scope.users = PetalExpressApplicationService.users;
-
-    $scope.newUser = {}; 
-    $scope.credentials = {}; 
+    $scope.newUser = {};
+    $scope.credentials = {};
 
     $scope.register = function () {
-        PetalExpressApplicationService.registerUser($scope.newUser);
-        $scope.newUser = {}; 
+        var result = PetalExpressApplicationService.registerUser($scope.newUser);
+        if (result.success) {
+            Swal.fire({
+                title: 'Success!',
+                text: 'Your account has been created successfully!',
+                icon: 'success',
+                confirmButtonColor: '#5977AF',
+                confirmButtonText: 'Continue'
+            });
+            $scope.newUser = {};
+        } else {
+            Swal.fire({
+                title: 'Oops!',
+                text: result.message,
+                icon: 'error',
+                confirmButtonColor: '#5977AF',
+                confirmButtonText: 'Try Again'
+            });
+        }
     };
 
     $scope.login = function () {
         if (PetalExpressApplicationService.login($scope.credentials)) {
-            alert('Login successful! The header will now change.');
-            window.location.href = '/Home/Index';
+            Swal.fire({
+                title: 'Welcome Back!',
+                text: 'Login successful!',
+                icon: 'success',
+                confirmButtonColor: '#5977AF',
+                confirmButtonText: 'Continue'
+            }).then(function () {
+                window.location.href = '/Home/Index';
+            });
         } else {
-            alert('Invalid credentials. Please register or try again.');
+            Swal.fire({
+                title: 'Oops!',
+                text: 'Invalid credentials. Please try again or register a new account.',
+                icon: 'error',
+                confirmButtonColor: '#5977AF',
+                confirmButtonText: 'Try Again'
+            });
         }
-        $scope.credentials = {}; 
+        $scope.credentials = {};
     };
 });

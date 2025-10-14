@@ -4,17 +4,39 @@
         <div class="container mx-auto px-6 max-w-lg text-center">
             <h1 class="text-4xl font-black text-[#27334B]">Login</h1>
             @Html.Partial("_FlowerDivider")
-            <form class="mt-8 text-left space-y-6" ng-submit="login()">
+            <form class="mt-8 text-left space-y-6" ng-submit="login()" name="loginForm" novalidate>
                 <div>
                     <label class="font-semibold text-gray-700">Email Address</label>
-                    <input type="email" class="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg" ng-model="credentials.email" required />
+                    <input type="email"
+                           class="mt-2 w-full px-0 py-2 border-0 border-b-2 border-gray-300 focus:border-[#5977AF] focus:ring-0 bg-transparent"
+                           placeholder="you@example.com"
+                           ng-model="credentials.email"
+                           name="email"
+                           required />
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="loginForm.email.$touched && loginForm.email.$error.required">Email Address is required</span>
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="loginForm.email.$touched && loginForm.email.$error.email">Please enter a valid email address</span>
                 </div>
                 <div>
                     <label class="font-semibold text-gray-700">Password</label>
-                    <input type="password" class="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg" ng-model="credentials.password" required />
+                    <input type="password"
+                           class="mt-2 w-full px-0 py-2 border-0 border-b-2 border-gray-300 focus:border-[#5977AF] focus:ring-0 bg-transparent"
+                           placeholder="Enter your password"
+                           ng-model="credentials.password"
+                           name="password"
+                           required
+                           ng-minlength="6" />
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="loginForm.password.$touched && loginForm.password.$error.required">Password is required</span>
+                    <span class="text-red-500 text-sm mt-1 block min-h-5" ng-show="loginForm.password.$touched && loginForm.password.$error.minlength">Password must be at least 6 characters</span>
                 </div>
-                <button type="submit" class="w-full py-3 bg-[#5977AF] text-white font-bold rounded-full">Login</button>
-                <div class="text-center"><p class="text-gray-600">No account? <a href="@Url.Action("Register", "Home")" class="font-bold text-[#5977AF]">Register here</a></p></div>
+                <button type="submit"
+                        class="w-full py-3 bg-[#5977AF] text-white font-bold rounded-full transition-opacity"
+                        ng-class="{'opacity-50': loginForm.$invalid}"
+                        ng-disabled="loginForm.$invalid">
+                    Login
+                </button>
+                <div class="text-center">
+                    <p class="text-gray-600">No account? <a href="@Url.Action("Register", "Home")" class="font-bold text-[#5977AF]">Register here</a></p>
+                </div>
             </form>
         </div>
     </section>
