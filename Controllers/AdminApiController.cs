@@ -3,6 +3,7 @@ using System.Web;
 using System.Web.Mvc;
 using Petal_Express_PH.Models.Context;
 using System;
+using System.Collections.Generic;
 
 namespace Petal_Express_PH.Controllers
 {
@@ -10,12 +11,31 @@ namespace Petal_Express_PH.Controllers
     {
         private readonly PetalExpressContext _db = new PetalExpressContext();
 
+        private class StatDto
+        {
+            public string title { get; set; }
+            public string value { get; set; }
+            public string delta { get; set; }
+        }
+
         [HttpGet]
         public ActionResult RecentOrders()
         {
-            var data = _db.Orders.OrderByDescending(o => o.CreatedAt).Take(10)
-                .Select(o => new { Id = o.OrderId, Customer = o.UserId, Items = o.ItemCount, Total = o.OrderAmount, Status = o.OrderStatus })
-                .ToList();
+            var data = (from o in _db.Orders
+                        join u in _db.Users on o.UserId equals u.UserId
+                        orderby o.CreatedAt descending
+                        select new
+                        {
+                            Id = o.OrderId,
+                            UserId = o.UserId,
+                            Customer = (u.FirstName + " " + u.LastName).Trim(),
+                            Items = o.ItemCount,
+                            Total = o.OrderAmount,
+                            Status = o.OrderStatus,
+                            CreatedAt = o.CreatedAt
+                        })
+                        .Take(10)
+                        .ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
@@ -46,6 +66,77 @@ namespace Petal_Express_PH.Controllers
         {
             var data = _db.Users.OrderByDescending(u => u.CreatedAt).ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult DashboardCharts()
+        {
+            // Aggregate quantities by product id server-side
+            var itemAgg = _db.OrderItems
+                .GroupBy(oi => oi.ProductId)
+                .Select(g => new { ProductId = g.Key, Qty = g.Sum(x => x.Quantity) })
+                .ToList();
+
+            var productIds = itemAgg.Select(x => x.ProductId).Distinct().ToList();
+            var productMap = _db.Products
+                .Where(p => productIds.Contains(p.ProductId))
+                .Select(p => new { p.ProductId, p.Name, p.CategoryId })
+                .ToList()
+                .ToDictionary(p => p.ProductId, p => new { p.Name, p.CategoryId });
+
+            // Group by category in-memory to avoid MySQL GroupBy alias issues
+            var categoryAgg = itemAgg
+                .GroupBy(x => productMap.ContainsKey(x.ProductId) ? productMap[x.ProductId].CategoryId : (int?)null)
+                .Select(g => new {
+                    CategoryId = g.Key,
+                    Qty = g.Sum(z => z.Qty),
+                    ProductCount = g.Select(z => z.ProductId).Distinct().Count()
+                })
+                .OrderByDescending(x => x.Qty)
+                .Take(6)
+                .ToList();
+
+            var totalQty = categoryAgg.Sum(cs => cs.Qty);
+            var categoryLabels = categoryAgg.Select(cs => {
+                var name = cs.CategoryId.HasValue ? ("Category " + cs.CategoryId.Value) : "Uncategorized";
+                var pct = totalQty > 0 ? Math.Round((cs.Qty * 100.0) / totalQty, 1) : 0.0;
+                return string.Format("{0} — {1} units across {2} products ({3}%)", name, cs.Qty, cs.ProductCount, pct);
+            }).ToArray();
+            var categoryCounts = categoryAgg.Select(cs => cs.Qty).ToArray();
+
+            // Top products by total quantity sold (server-side agg already done)
+            var topProducts = itemAgg
+                .OrderByDescending(x => x.Qty)
+                .Take(5)
+                .ToList();
+            var topProductLabels = topProducts.Select(tp => {
+                var name = productMap.ContainsKey(tp.ProductId) ? productMap[tp.ProductId].Name : ("#" + tp.ProductId);
+                return name + " — " + tp.Qty + " sold";
+            }).ToArray();
+            var topProductSales = topProducts.Select(tp => tp.Qty).ToArray();
+
+            return Json(new {
+                categoryLabels = categoryLabels,
+                categoryCounts = categoryCounts,
+                topProductLabels = topProductLabels,
+                topProductSales = topProductSales
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult GetStats()
+        {
+            var ordersCount = _db.Orders.Count();
+            var totalRevenue = _db.Orders.Sum(o => (decimal?)o.OrderAmount) ?? 0m;
+            var customersCount = _db.Users.Count();
+            var productsCount = _db.Products.Count();
+            var stats = new List<StatDto>{
+                new StatDto { title = "Orders", value = ordersCount.ToString(), delta = string.Empty },
+                new StatDto { title = "Revenue", value = "$" + totalRevenue.ToString("N0"), delta = string.Empty },
+                new StatDto { title = "Customers", value = customersCount.ToString(), delta = string.Empty },
+                new StatDto { title = "Products", value = productsCount.ToString(), delta = string.Empty }
+            };
+            return Json(stats, JsonRequestBehavior.AllowGet);
         }
 
         // Upload image, save file and DB record in tbl_images, return new image_id

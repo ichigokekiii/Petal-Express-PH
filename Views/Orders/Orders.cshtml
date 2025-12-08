@@ -3,16 +3,21 @@
     ViewBag.Title = "My Orders";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<section class="bg-white py-12" ng-controller="ordersController">
+<section class="bg-white py-12">
   <div class="container mx-auto px-6 max-w-5xl">
     <h1 class="text-2xl md:text-3xl font-black text-[#27334B] mb-6">My Orders</h1>
 
     <div class="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-8">
       <aside>
         <div class="space-y-3">
-          <a href="@Url.Action("Profile","Home")" class="flex items-center gap-3 px-4 py-3 bg-[#DFEDF9] rounded-lg text-[#27334B] font-bold">My Profile</a>
-          <a href="@Url.Action("Orders","Orders")" class="flex items-center gap-3 px-4 py-3 bg-[#DFEDF9] rounded-lg text-[#27334B] font-bold">My Orders</a>
-          <a href="#" class="flex items-center gap-3 px-4 py-3 bg-[#DFEDF9] rounded-lg text-[#27334B] font-bold">Settings</a>
+          <a href="@Url.Action("Profile","Home")" class="flex items-center gap-3 px-4 py-3 bg-[#DFEDF9] hover:bg-[#cfe3f5] rounded-lg text-[#27334B] font-bold">
+            <svg class="w-6 h-6 text-[#27334B]" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <span>My Profile</span>
+          </a>
+          <a href="@Url.Action("Orders","Orders")" class="flex items-center gap-3 px-4 py-3 bg-[#DFEDF9] hover:bg-[#cfe3f5] rounded-lg text-[#27334B] font-bold">
+            <svg class="w-6 h-6 text-[#27334B]" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h13v6M9 7V4h13v3M4 4h3v17H4z"/></svg>
+            <span>My Orders</span>
+          </a>
         </div>
       </aside>
 
@@ -28,111 +33,30 @@
           </div>
           <div class="flex gap-2 items-center">
             <input type="text" class="border rounded px-3 py-2" placeholder="Search..." />
-            <button class="px-4 py-2 rounded bg-[#DFEDF9] text-[#27334B]">Search</button>
-            <button type="button" class="px-4 py-2 rounded bg-[#5977AF] text-white font-bold" ng-click="generatePdfReport()">Generate PDF Report</button>
           </div>
         </div>
 
-        <div class="divide-y">
-          @foreach (var o in Model)
-          {
-            <div class="py-4 flex items-center justify-between">
-              <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded bg-white border"></div>
-                <div>
-                  <div class="font-bold text-[#27334B]">Order #@o.OrderId</div>
-                  <div class="text-xs text-[#536FA3]">Items: @((o.ItemCount ?? 0).ToString()) • Placed @o.CreatedAt?.ToString("MMM dd, yyyy")</div>
-                </div>
-              </div>
-              <div class="text-right">
-                <div class="font-bold text-[#27334B]">?@((o.OrderAmount ?? 0).ToString("N0"))</div>
-                <div class="text-sm text-[#536FA3]">@o.OrderStatus</div>
-              </div>
-            </div>
-          }
+        <div class="overflow-x-auto">
+          <table class="min-w-full text-sm">
+            <thead>
+              <tr class="text-[#536FA3]"><th class="py-2 px-3 text-left">Order ID</th><th class="py-2 px-3 text-left">Items</th><th class="py-2 px-3 text-left">Amount</th><th class="py-2 px-3 text-left">Status</th><th class="py-2 px-3 text-left">Placed</th></tr>
+            </thead>
+            <tbody>
+              @foreach (var o in Model)
+              {
+                <tr class="border-t">
+                  <td class="py-2 px-3">@o.OrderId</td>
+                  <td class="py-2 px-3">@((o.ItemCount ?? 0).ToString())</td>
+                  <td class="py-2 px-3">$@((o.OrderAmount ?? 0m).ToString("N2"))</td>
+                  <td class="py-2 px-3">@o.OrderStatus</td>
+                  <td class="py-2 px-3">@((o.CreatedAt.HasValue ? o.CreatedAt.Value.ToString("MMM dd, yyyy h:mm tt") : ""))</td>
+                </tr>
+              }
+              @if (!Model.Any()) { <tr><td colspan="5" class="py-4 text-center text-[#536FA3]">No orders found.</td></tr>; }
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-@section scripts {
-<script>
-app.controller('ordersController', function($scope, PetalExpressApplicationService){
-  $scope.generatePdfReport = function(){
-    PetalExpressApplicationService.getMyOrdersReportData().then(function(data){
-      var user = data.user || {};
-      var orders = data.orders || [];
-      var totalAll = data.totalAllOrders || 0;
-
-      var content = [];
-
-      content.push({ text: 'My Orders Report', style: 'header' });
-      content.push({ text: new Date().toLocaleString(), style: 'subheader' });
-      content.push({ text: '\nUser Details', style: 'sectionHeader' });
-      content.push({
-        columns: [
-          [
-            { text: 'Name: ' + ((user.FirstName||'') + ' ' + (user.LastName||'')), style: 'text' },
-            { text: 'Email: ' + (user.Email||''), style: 'text' },
-          ],
-          [
-            { text: 'Phone: ' + (user.PhoneNumber||''), style: 'text' },
-            { text: 'User ID: ' + (user.UserId||''), style: 'text' }
-          ]
-        ]
-      });
-
-      content.push({ text: '\nOrders Summary', style: 'sectionHeader' });
-      content.push({ text: 'Total across all orders: ?' + (Number(totalAll).toLocaleString()), style: 'textBold' });
-
-      orders.forEach(function(o){
-        content.push({ text: '\nOrder #' + o.OrderId + ' • ' + (o.OrderStatus||'') + ' • ' + (o.CreatedAt ? new Date(o.CreatedAt).toLocaleDateString() : ''), style: 'orderHeader' });
-
-        var tableBody = [
-          [ { text:'Product', style:'tableHeader' }, { text:'Qty', style:'tableHeader' }, { text:'Unit Price', style:'tableHeader' }, { text:'Line Total', style:'tableHeader' } ]
-        ];
-        (o.Items||[]).forEach(function(it){
-          tableBody.push([
-            { text: it.ProductName || ('#'+it.ProductId), style: 'tableCell' },
-            { text: String(it.Quantity||0), style: 'tableCell' },
-            { text: '?' + Number(it.UnitPrice||0).toLocaleString(), style: 'tableCell' },
-            { text: '?' + Number(it.LineTotal||0).toLocaleString(), style: 'tableCell' }
-          ]);
-        });
-
-        content.push({
-          table: {
-            headerRows: 1,
-            widths: ['*', 60, 80, 100],
-            body: tableBody
-          },
-          layout: 'lightHorizontalLines'
-        });
-
-        content.push({ text: 'Order Total: ?' + Number(o.OrderAmount||0).toLocaleString(), style: 'textBold', margin: [0, 5, 0, 10] });
-      });
-
-      var dd = {
-        content: content,
-        styles: {
-          header: { fontSize: 18, bold: true, color: '#27334B' },
-          subheader: { fontSize: 10, color: '#536FA3' },
-          sectionHeader: { fontSize: 12, bold: true, margin: [0, 10, 0, 5], color: '#27334B' },
-          orderHeader: { fontSize: 11, bold: true, margin: [0, 10, 0, 5], color: '#536FA3' },
-          text: { fontSize: 10 },
-          textBold: { fontSize: 10, bold: true },
-          tableHeader: { bold: true, fillColor: '#DFEDF9' },
-          tableCell: { fontSize: 10 }
-        },
-        defaultStyle: { fontSize: 10 }
-      };
-
-      pdfMake.createPdf(dd).download('MyOrdersReport.pdf');
-    }, function(err){
-      Swal.fire({ title:'Error', text:(err && err.error)||'Unable to generate report. Please login.', icon:'error', confirmButtonColor:'#5977AF' });
-    });
-  };
-});
-</script>
-}

@@ -105,11 +105,15 @@ namespace Petal_Express_PH.Controllers
         { 
             var isAdmin = Session["is_admin"] as bool?;
             if (isAdmin == true) return RedirectToAction("Index", "Admin");
+            if (IsLoggedIn()) return RedirectToAction("Index", "Home");
             return View(); 
         }
 
         public ActionResult Register() 
         { 
+            var isAdmin = Session["is_admin"] as bool?;
+            if (isAdmin == true) return RedirectToAction("Index", "Admin");
+            if (IsLoggedIn()) return RedirectToAction("Index", "Home");
             return View(); 
         }
 

@@ -2,7 +2,7 @@
     ViewBag.Title = "Landing Page";
 }
 
-<div>
+<div ng-controller="featuredController">
     <section class="bg-[#E0F1FF] pt-8 pb-0">
         <div class="container mx-auto px-6 py-16 grid md:grid-cols-2 gap-12 items-center">
             <div class="max-w-lg">
@@ -30,54 +30,12 @@
                 <h2 class="text-3xl font-bold text-center text-[#27334B] mb-8">Featured Products</h2>
                 <div class="relative overflow-hidden">
                     <div id="products-scroll" class="flex space-x-6 animate-marquee">
-                        <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                            <div class="flex-1"></div>
-                            <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BUY NOW</button>
-                        </div>
-                        <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                            <div class="flex-1"></div>
-                            <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BUY NOW</button>
-                        </div>
-                        <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                            <div class="flex-1"></div>
-                            <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BUY NOW</button>
-                        </div>
-                        <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                            <div class="flex-1"></div>
-                            <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BUY NOW</button>
-                        </div>
-                        <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                            <div class="flex-1"></div>
-                            <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BUY NOW</button>
-                        </div>
-                        <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                            <div class="flex-1"></div>
-                            <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BUY NOW</button>
-                        </div>
-
-                        <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                            <div class="flex-1"></div>
-                            <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BUY NOW</button>
-                        </div>
-                        <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                            <div class="flex-1"></div>
-                            <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BUY NOW</button>
-                        </div>
-                        <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                            <div class="flex-1"></div>
-                            <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BUY NOW</button>
-                        </div>
-                        <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                            <div class="flex-1"></div>
-                            <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BUY NOW</button>
-                        </div>
-                        <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                            <div class="flex-1"></div>
-                            <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BUY NOW</button>
-                        </div>
-                        <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between">
-                            <div class="flex-1"></div>
-                            <button class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">BUY NOW</button>
+                        <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md p-4 flex flex-col justify-between" ng-repeat="p in featured">
+                            <div>
+                                <div class="font-bold text-[#27334B]">{{p.Name}}</div>
+                                <div class="text-[#27334B]">$ {{p.Price | number:2}}</div>
+                            </div>
+                            <a class="w-full px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full text-center" href="/Home/ProductDetail/{{p.ProductId}}">BUY NOW</a>
                         </div>
                     </div>
                 </div>
@@ -98,7 +56,7 @@
     </section>
 
     <section class="bg-white py-16 -mt-20 z-10 relative">
-        <div class="container mx-auto px-6">
+        <div class="container mx auto px-6">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <div class="flex flex-col items-center"><div class="h-20 w-20 flex items-center justify-center border-2 border-[#5977AF] rounded-full mb-4"><svg class="h-10 w-10 text-[#5977AF]"></svg></div><h3 class="font-bold text-lg text-[#27334B]">Free Shipping</h3><p class="text-sm text-gray-500">For min. of $20</p></div>
                 <div class="flex flex-col items-center"><div class="h-20 w-20 flex items-center justify-center border-2 border-[#5977AF] rounded-full mb-4"><svg class="h-10 w-10 text-[#5977AF]"></svg></div><h3 class="font-bold text-lg text-[#27334B]">Free Shipping</h3><p class="text-sm text-gray-500">For min. of $20</p></div>
@@ -242,24 +200,12 @@
 </div>
 
 @section scripts {
-    <style>
-        @@keyframes marquee {
-            0% {
-                transform: translateX(0);
-            }
-
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        .animate-marquee {
-            animation: marquee 30s linear infinite;
-        }
-
-        #products-scroll:hover,
-        #events-scroll:hover {
-            animation-play-state: paused;
-        }
-    </style>
+<script>
+app.controller('featuredController', function($scope, PetalExpressApplicationService){
+    $scope.featured = [];
+    PetalExpressApplicationService.getProducts().then(function(list){
+        $scope.featured = (list || []).slice(0, 12);
+    });
+});
+</script>
 }

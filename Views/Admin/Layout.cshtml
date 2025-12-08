@@ -35,18 +35,10 @@
             </div>
             <nav class="p-4 space-y-1">
                 <a class="block px-4 py-2 rounded-full text-sm font-bold text-[#536FA3] hover:text-white hover:bg-[#5977AF] side-link" ng-class="{active:isActive('/dashboard')}" href="#/dashboard">Dashboard</a>
-                <a class="block px-4 py-2 rounded-full text-sm font-bold text-[#536FA3] hover:text-white hover:bg-[#5977AF] side-link" ng-class="{active:isActive('/analytics')}" href="#/analytics">Analytics</a>
                 <a class="block px-4 py-2 rounded-full text-sm font-bold text-[#536FA3] hover:text-white hover:bg-[#5977AF] side-link" ng-class="{active:isActive('/products')}" href="#/products">Products</a>
-                <a class="block px-4 py-2 rounded-full text-sm font-bold text-[#536FA3] hover:text-white hover:bg-[#5977AF] side-link" ng-class="{active:isActive('/inventory')}" href="#/inventory">Inventory</a>
                 <a class="block px-4 py-2 rounded-full text-sm font-bold text-[#536FA3] hover:text-white hover:bg-[#5977AF] side-link" ng-class="{active:isActive('/orders')}" href="#/orders">Orders</a>
-                <a class="block px-4 py-2 rounded-full text-sm font-bold text-[#536FA3] hover:text-white hover:bg-[#5977AF] side-link" ng-class="{active:isActive('/schedules')}" href="#/schedules">Schedules</a>
                 <a class="block px-4 py-2 rounded-full text-sm font-bold text-[#536FA3] hover:text-white hover:bg-[#5977AF] side-link" ng-class="{active:isActive('/profiles')}" href="#/profiles">Profiles</a>
-                <a class="block px-4 py-2 rounded-full text-sm font-bold text-[#536FA3] hover:text-white hover:bg-[#5977AF] side-link" ng-class="{active:isActive('/logs')}" href="#/logs">Logs</a>
-                <a class="block px-4 py-2 rounded-full text-sm font-bold text-[#536FA3] hover:text-white hover:bg-[#5977AF] side-link" ng-class="{active:isActive('/settings')}" href="#/settings">Settings</a>
             </nav>
-            <div class="p-4">
-                <button class="w-full px-4 py-2 rounded-full bg-[#5977AF] text-white text-sm font-bold">Create Now +</button>
-            </div>
         </aside>
 
         <!-- Main -->
@@ -80,12 +72,17 @@
     <script src="~/Scripts/admin/app.js"></script>
     <script src="~/Scripts/admin/controllers.js"></script>
     <script src="~/Scripts/admin/services.js"></script>
+
+    <!-- Charts and PDF libraries -->
+    <script src="~/Scripts/chart.min.js"></script>
+    <script src="@Url.Content("~/Scripts/pdfmake/pdfmake.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/pdfmake/vfs_fonts.js")"></script>
+
     <script>
-        // Helper to reflect active state on sidebar and header title
         angular.module('petalAdminApp').run(['$rootScope', '$location', function ($rootScope, $location) {
             $rootScope.isActive = function (path) { return $location.path() === path; };
             var titles = {
-                '/dashboard': 'Dashboard', '/analytics': 'Analytics', '/products': 'Products', '/inventory': 'Inventory', '/orders': 'Orders', '/schedules': 'Schedules', '/profiles': 'Profiles', '/logs': 'Logs', '/settings': 'Settings'
+                '/dashboard': 'Dashboard', '/products': 'Products', '/orders': 'Orders', '/profiles': 'Profiles'
             };
             $rootScope.activeTitle = titles[$location.path()] || 'Dashboard';
             $rootScope.$on('$routeChangeSuccess', function () { $rootScope.activeTitle = titles[$location.path()] || 'Dashboard'; });

@@ -15,26 +15,25 @@
       <table class="min-w-full text-sm">
         <thead>
           <tr class="text-[#536FA3]">
-            <th class="py-2 px-3 text-left">ID</th>
+            <th class="py-2 px-3 text-left">Order ID</th>
+            <th class="py-2 px-3 text-left">User</th>
             <th class="py-2 px-3 text-left">Items</th>
             <th class="py-2 px-3 text-left">Amount</th>
-            <th class="py-2 px-3 text-left">Order Status</th>
-            <th class="py-2 px-3 text-left">Shipping Status</th>
-            <th class="py-2 px-3 text-left">Created At</th>
-            <th class="py-2 px-3 text-left">Updated At</th>
-            <th class="py-2 px-3 text-left">User</th>
+            <th class="py-2 px-3 text-left">Status</th>
+            <th class="py-2 px-3 text-left">Placed</th>
           </tr>
         </thead>
         <tbody>
           <tr ng-repeat="o in orders" class="border-t">
             <td class="py-2 px-3">{{o.OrderId}}</td>
-            <td class="py-2 px-3">{{o.ItemCount || 0}}</td>
-            <td class="py-2 px-3">{{o.OrderAmount || 0 | currency:'?'}}</td>
-            <td class="py-2 px-3">{{o.OrderStatus}}</td>
-            <td class="py-2 px-3">{{o.ShippingStatus}}</td>
-            <td class="py-2 px-3">{{o.CreatedAt | date:'MM-dd-yyyy HH:mm'}}</td>
-            <td class="py-2 px-3">{{o.UpdatedAt | date:'MM-dd-yyyy HH:mm'}}</td>
             <td class="py-2 px-3">{{o.UserId}}</td>
+            <td class="py-2 px-3">{{o.ItemCount}}</td>
+            <td class="py-2 px-3">${{o.OrderAmount | number:2}}</td>
+            <td class="py-2 px-3">{{o.OrderStatus}}</td>
+            <td class="py-2 px-3">{{formatDate(o.CreatedAt)}}</td>
+          </tr>
+          <tr ng-if="!orders || orders.length===0">
+            <td colspan="6" class="py-4 text-center text-[#536FA3]">No orders found.</td>
           </tr>
         </tbody>
       </table>

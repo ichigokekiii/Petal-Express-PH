@@ -225,11 +225,15 @@
     <Content Include="Scripts\admin\views\products.html" />
     <Content Include="Scripts\admin\views\settings.html" />
     <Content Include="Scripts\admin\views\users.html" />
+    <Content Include="Scripts\angular-chat.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="libman.json" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\chart.js" />
+    <Content Include="Scripts\chart.min.js" />
     <Content Include="Scripts\HolyScripts\Controller.js" />
     <Content Include="Scripts\HolyScripts\Module.js" />
     <Content Include="Scripts\HolyScripts\Service.js" />

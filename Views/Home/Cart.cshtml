@@ -28,15 +28,15 @@
           <input type="number" min="1" class="w-14 text-center border rounded px-2 py-1" ng-model="item.Quantity" ng-change="update(item)" />
           <button class="px-3 py-1 rounded-full border" ng-click="increase(item)">+</button>
         </div>
-        <div class="col-span-2 text-center">? {{item.Price | number:2}}</div>
-        <div class="col-span-3 text-right font-semibold">? {{(item.LineTotal || (item.Price * item.Quantity)) | number:2}}</div>
+        <div class="col-span-2 text-center">$ {{item.Price | number:2}}</div>
+        <div class="col-span-3 text-right font-semibold">$ {{(item.LineTotal || (item.Price * item.Quantity)) | number:2}}</div>
       </div>
     </div>
 
     <div class="border-t mt-6 pt-6 flex items-center justify-between">
-      <a href="@Url.Action("Shop","Home")" class="text-[#5977AF]">? Continue Shopping</a>
+      <a href="@Url.Action("Shop","Home")" class="text-[#5977AF]">< Continue Shopping</a>
       <div class="flex items-center gap-6">
-        <div class="text-[#27334B]">Total ({{items.length}} items): <span class="font-black">? {{ total | number:2 }}</span></div>
+        <div class="text-[#27334B]">Total ({{items.length}} items): <span class="font-black">$ {{ total | number:2 }}</span></div>
         <button class="px-6 py-2 rounded-full bg-[#5977AF] text-white font-semibold" ng-click="gotoPayment()">Check Out</button>
       </div>
     </div>

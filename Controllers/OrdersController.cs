@@ -63,21 +63,29 @@ namespace Petal_Express_PH.Controllers
 
             var productMap = products.ToDictionary(p => p.ProductId, p => new { Name = p.Name, Price = p.Price ?? 0m });
 
-            var orderDtos = orders.Select(o => new
-            {
-                OrderId = o.OrderId,
-                CreatedAt = o.CreatedAt,
-                OrderStatus = o.OrderStatus,
-                OrderAmount = o.OrderAmount ?? 0m,
-                ItemCount = o.ItemCount ?? 0,
-                Items = items.Where(i => i.OrderId == o.OrderId).Select(i => new
-                {
-                    ProductId = i.ProductId,
-                    ProductName = productMap.ContainsKey(i.ProductId) ? productMap[i.ProductId].Name : "",
-                    Quantity = i.Quantity,
-                    UnitPrice = productMap.ContainsKey(i.ProductId) ? productMap[i.ProductId].Price : (i.CostPrice ?? 0m),
-                    LineTotal = (productMap.ContainsKey(i.ProductId) ? productMap[i.ProductId].Price : (i.CostPrice ?? 0m)) * (i.Quantity)
-                }).ToList()
+            var orderDtos = orders.Select(o => {
+                var orderItems = items.Where(i => i.OrderId == o.OrderId).Select(i => {
+                    var unit = productMap.ContainsKey(i.ProductId) ? productMap[i.ProductId].Price : (i.CostPrice ?? 0m);
+                    var name = productMap.ContainsKey(i.ProductId) ? productMap[i.ProductId].Name : "";
+                    var qty = i.Quantity;
+                    var line = unit * qty;
+                    return new {
+                        ProductId = i.ProductId,
+                        ProductName = name,
+                        Quantity = qty,
+                        UnitPrice = unit,
+                        LineTotal = line
+                    };
+                }).ToList();
+                var computedTotal = orderItems.Sum(x => x.LineTotal);
+                return new {
+                    OrderId = o.OrderId,
+                    CreatedAt = o.CreatedAt,
+                    OrderStatus = o.OrderStatus,
+                    OrderAmount = computedTotal,
+                    ItemCount = orderItems.Sum(x => x.Quantity),
+                    Items = orderItems
+                };
             }).ToList();
 
             var totalAllOrders = orderDtos.Sum(x => x.OrderAmount);

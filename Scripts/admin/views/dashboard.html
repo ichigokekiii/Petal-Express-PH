@@ -1,4 +1,4 @@
-<div class="px-4">
+<div class="px-4" ng-controller="DashboardCtrl">
   <!-- Stats Grid -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
     <div class="rounded-2xl bg-white border shadow-sm p-4" ng-repeat="s in stats">
@@ -6,6 +6,11 @@
       <div class="text-2xl font-bold text-[#27334B] mt-1">{{s.value}}</div>
       <div class="text-xs text-green-600">{{s.delta}}</div>
     </div>
+  </div>
+
+  <div class="flex items-center justify-between mb-4">
+    <h3 class="font-bold text-[#27334B]">Dashboard</h3>
+    <button class="px-3 py-1 rounded-full bg-[#5977AF] text-white text-sm font-bold" ng-click="generateDashboardPdf()">Generate PDF Report</button>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -27,7 +32,7 @@
               <td class="py-2 px-3">{{o.Id}}</td>
               <td class="py-2 px-3">{{o.Customer}}</td>
               <td class="py-2 px-3">{{o.Items}}</td>
-              <td class="py-2 px-3">?{{o.Total}}</td>
+              <td class="py-2 px-3">${{o.Total | number:2}}</td>
               <td class="py-2 px-3">{{o.Status}}</td>
             </tr>
           </tbody>
@@ -36,12 +41,13 @@
     </div>
 
     <div class="rounded-2xl bg-white border shadow-sm p-4">
-      <h3 class="font-bold text-[#27334B] mb-2">Top Products</h3>
-      <ul class="space-y-2 text-sm">
-        <li>?? Rose Bouquet — 120 sold</li>
-        <li>?? Sunflower Mix — 80 sold</li>
-        <li>?? Orchid Box — 60 sold</li>
-      </ul>
+      <h3 class="font-bold text-[#27334B] mb-2">Charts</h3>
+      <div class="mt-4">
+        <canvas id="ordersByStatusChart" width="400" height="300"></canvas>
+      </div>
+      <div class="mt-4">
+        <canvas id="salesByProductChart" width="400" height="300"></canvas>
+      </div>
     </div>
   </div>
 </div>
