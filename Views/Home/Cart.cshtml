@@ -1,0 +1,81 @@
+@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto max-w-6xl px-6 py-10" ng-controller="cartController">
+  <h1 class="text-3xl font-black text-[#27334B] mb-8">Shopping Cart</h1>
+
+  <div class="bg-white rounded-2xl shadow p-6" ng-if="items.length">
+    <div class="grid grid-cols-12 text-sm font-semibold text-[#536FA3] border-b pb-3">
+      <div class="col-span-5">Product Details</div>
+      <div class="col-span-2 text-center">Quantity</div>
+      <div class="col-span-2 text-center">Price</div>
+      <div class="col-span-3 text-right">Total</div>
+    </div>
+
+    <div class="divide-y" ng-repeat="item in items">
+      <div class="grid grid-cols-12 items-center py-5">
+        <div class="col-span-5 flex items-center gap-4">
+          <div class="w-16 h-16 rounded-lg bg-[#E0F1FF]" ng-style="{'background-image': item.ImagePath ? 'url('+item.ImagePath+')' : 'none', 'background-size':'cover'}"></div>
+          <div>
+            <div class="font-semibold text-[#27334B]">{{item.Name}}</div>
+            <button class="text-xs text-[#5977AF] mt-1" ng-click="remove(item)">Remove</button>
+          </div>
+        </div>
+        <div class="col-span-2 flex items-center justify-center gap-2">
+          <button class="px-3 py-1 rounded-full border" ng-click="decrease(item)">-</button>
+          <input type="number" min="1" class="w-14 text-center border rounded px-2 py-1" ng-model="item.Quantity" ng-change="update(item)" />
+          <button class="px-3 py-1 rounded-full border" ng-click="increase(item)">+</button>
+        </div>
+        <div class="col-span-2 text-center">? {{item.Price | number:2}}</div>
+        <div class="col-span-3 text-right font-semibold">? {{(item.LineTotal || (item.Price * item.Quantity)) | number:2}}</div>
+      </div>
+    </div>
+
+    <div class="border-t mt-6 pt-6 flex items-center justify-between">
+      <a href="@Url.Action("Shop","Home")" class="text-[#5977AF]">? Continue Shopping</a>
+      <div class="flex items-center gap-6">
+        <div class="text-[#27334B]">Total ({{items.length}} items): <span class="font-black">? {{ total | number:2 }}</span></div>
+        <button class="px-6 py-2 rounded-full bg-[#5977AF] text-white font-semibold" ng-click="gotoPayment()">Check Out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow p-12 text-center text-gray-500" ng-if="!items.length && !error">
+    <div class="text-5xl mb-4">??</div>
+    <div>Your cart is empty.</div>
+    <a href="@Url.Action("Shop","Home")" class="inline-block mt-4 px-6 py-2 rounded-full bg-[#5977AF] text-white">Browse Products</a>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow p-12 text-center text-gray-500" ng-if="error">
+    <div class="text-5xl mb-4">??</div>
+    <div>{{error}}</div>
+    <a href="@Url.Action("Login","Home")" class="inline-block mt-4 px-6 py-2 rounded-full bg-[#5977AF] text-white">Login</a>
+  </div>
+</div>
+
+<script>
+  app.controller('cartController', function($scope, PetalExpressApplicationService){
+    $scope.items = [];
+    $scope.total = 0;
+    $scope.error = null;
+    function refresh(){
+      PetalExpressApplicationService.getCart().then(function(items){
+        $scope.items = items || [];
+        $scope.total = ($scope.items||[]).reduce(function(s,i){ return s + ((i.Price||0)*(i.Quantity||1)); }, 0);
+        $scope.error = null;
+      }, function(err){
+        $scope.items = [];
+        $scope.total = 0;
+        $scope.error = (err && err.error) ? err.error : 'Please login to view your cart.';
+      });
+    }
+    refresh();
+    $scope.increase = function(it){ PetalExpressApplicationService.updateQty(it.ProductId, it.Quantity+1).then(refresh); };
+    $scope.decrease = function(it){ PetalExpressApplicationService.updateQty(it.ProductId, Math.max(1, it.Quantity-1)).then(refresh); };
+    $scope.update = function(it){ var q = parseInt(it.Quantity)||1; PetalExpressApplicationService.updateQty(it.ProductId, q).then(refresh); };
+    $scope.remove = function(it){ PetalExpressApplicationService.removeFromCart(it.ProductId).then(refresh); };
+    $scope.gotoPayment = function(){ window.location.href = '/Home/Payment'; };
+  });
+</script>

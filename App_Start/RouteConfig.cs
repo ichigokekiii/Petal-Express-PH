@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace Petal_Express_PH
@@ -17,6 +13,13 @@ namespace Petal_Express_PH
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
+
+            // Custom route for OrdersController
+            routes.MapRoute(
+                name: "Orders",
+                url: "Orders/{action}/{id}",
+                defaults: new { controller = "Orders", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

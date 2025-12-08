@@ -1,0 +1,129 @@
+@{
+    ViewBag.Title = "Payment Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mx-auto max-w-6xl px-6 py-10" ng-controller="paymentController">
+  <a href="@Url.Action("Cart","Home")" class="text-[#5977AF] text-sm">? Back to Checkout</a>
+  <h1 class="text-3xl font-black text-[#27334B] mb-6">Payment Details</h1>
+
+  <div class="grid grid-cols-12 gap-8" ng-if="!error">
+    <div class="col-span-8 bg-white rounded-2xl shadow p-6">
+      <div>
+        <h2 class="text-[#27334B] font-semibold">Select Payment</h2>
+        <div class="mt-3 flex gap-3">
+          <button ng-class="{'bg-[#5977AF] text-white': model.method==='GCASH', 'bg-gray-100 text-[#27334B]': model.method!=='GCASH'}" class="px-4 py-2 rounded-full" ng-click="model.method='GCASH'">GCash</button>
+          <button ng-class="{'bg-[#5977AF] text-white': model.method==='OTHER', 'bg-gray-100 text-[#27334B]': model.method!=='OTHER'}" class="px-4 py-2 rounded-full" ng-click="model.method='OTHER'">Others</button>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <h2 class="text-[#27334B] font-semibold">GCash Information</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-3">
+          <div>
+            <label class="block text-sm text-gray-500">First Name</label>
+            <input class="w-full mt-1 border rounded px-3 py-2" ng-model="model.firstName" />
+          </div>
+          <div>
+            <label class="block text-sm text-gray-500">Last Name</label>
+            <input class="w-full mt-1 border rounded px-3 py-2" ng-model="model.lastName" />
+          </div>
+          <div>
+            <label class="block text-sm text-gray-500">Email</label>
+            <input class="w-full mt-1 border rounded px-3 py-2" ng-model="model.email" />
+          </div>
+          <div>
+            <label class="block text-sm text-gray-500">Phone Number</label>
+            <input class="w-full mt-1 border rounded px-3 py-2" ng-model="model.phone" />
+          </div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          <div>
+            <label class="block text-sm text-gray-500 mb-2">QR Code</label>
+            <img src="@Url.Content("~/Assets/Images/sample-qr.png")" class="w-64 h-64 border rounded" />
+          </div>
+          <div>
+            <label class="block text-sm text-gray-500 mb-2">Screenshot</label>
+            <div class="border rounded-xl p-6 h-40 flex items-center justify-center text-gray-500">
+              <div class="text-center">
+                <div class="text-2xl mb-2">??</div>
+                <label class="cursor-pointer text-[#5977AF] font-medium">
+                  Add Image Here
+                  <input type="file" class="hidden" />
+                </label>
+              </div>
+            </div>
+            <div class="mt-4">
+              <label class="block text-sm text-gray-500">Reference Number</label>
+              <input class="w-full mt-1 border rounded px-3 py-2" ng-model="model.reference" />
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 text-center">
+          <button class="px-6 py-2 rounded-full bg-[#5977AF] text-white font-semibold" ng-click="confirm()">Confirm Order</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-span-4 bg-white rounded-2xl shadow p-6">
+      <h2 class="text-[#27334B] font-semibold">Order Summary</h2>
+      <div class="mt-4 space-y-4">
+        <div class="flex items-center justify-between" ng-repeat="i in items">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded bg-[#DFEDF9]" ng-style="{'background-image': i.ImagePath ? 'url('+i.ImagePath+')' : 'none', 'background-size':'cover'}"></div>
+            <div>
+              <div class="text-sm font-semibold text-[#27334B]">{{i.Name}}</div>
+              <div class="text-xs text-gray-500">x{{i.Quantity}}</div>
+            </div>
+          </div>
+          <div class="text-sm">? {{(i.Price * i.Quantity) | number:2}}</div>
+        </div>
+      </div>
+      <div class="mt-4 text-sm">
+        <div class="flex justify-between"><span>Subtotal</span><span>? {{subtotal | number:2}}</span></div>
+        <div class="flex justify-between"><span>Shipping</span><span>FREE</span></div>
+        <div class="flex justify-between font-semibold mt-2"><span>Total</span><span>? {{subtotal | number:2}}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow p-12 text-center text-gray-500" ng-if="error">
+    <div class="text-5xl mb-4">??</div>
+    <div>{{error}}</div>
+    <a href="@Url.Action("Login","Home")" class="inline-block mt-4 px-6 py-2 rounded-full bg-[#5977AF] text-white">Login</a>
+  </div>
+</div>
+
+<script>
+app.controller('paymentController', function($scope, PetalExpressApplicationService){
+  $scope.items = [];
+  $scope.subtotal = 0;
+  $scope.error = null;
+  $scope.model = { method:'GCASH' };
+
+  function load(){
+    PetalExpressApplicationService.getCart().then(function(items){
+      $scope.items = items || [];
+      $scope.subtotal = ($scope.items||[]).reduce(function(s,i){ return s + ((i.Price||0)*(i.Quantity||1)); }, 0);
+      $scope.error = null;
+    }, function(err){
+      $scope.items = [];
+      $scope.subtotal = 0;
+      $scope.error = (err && err.error) ? err.error : 'Please login to proceed to payment.';
+    });
+  }
+  load();
+
+  $scope.confirm = function(){
+    PetalExpressApplicationService.createOrderFromCart().then(function(res){
+      Swal.fire({ title:'Order created', text:'ID: '+res.order_id+' Amount: ?'+res.amount, icon:'success', confirmButtonColor:'#5977AF' }).then(function(){
+        window.location.href = '/Home/Shop';
+      });
+    }, function(err){
+      Swal.fire({ title:'Error', text:(err && err.error)||'Unable to create order', icon:'error', confirmButtonColor:'#5977AF' });
+    });
+  };
+});
+</script>

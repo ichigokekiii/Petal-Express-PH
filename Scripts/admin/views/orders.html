@@ -1,0 +1,43 @@
+<div class="px-4">
+  <!-- Page Title and Actions -->
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl font-bold text-[#27334B]">Orders list</h2>
+    <div class="flex items-center gap-2">
+      <button class="px-4 py-2 rounded-full bg-white text-[#536FA3] border hover:bg-[#F4FAFF]">Sort By</button>
+      <button class="px-4 py-2 rounded-full bg-white text-[#536FA3] border hover:bg-[#F4FAFF]">Filter By</button>
+      <button class="px-4 py-2 rounded-full bg-[#5977AF] text-white">Add Orders +</button>
+    </div>
+  </div>
+
+  <!-- Content Card -->
+  <div class="rounded-2xl bg-white shadow-sm border p-4">
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm">
+        <thead>
+          <tr class="text-[#536FA3]">
+            <th class="py-2 px-3 text-left">ID</th>
+            <th class="py-2 px-3 text-left">Items</th>
+            <th class="py-2 px-3 text-left">Amount</th>
+            <th class="py-2 px-3 text-left">Order Status</th>
+            <th class="py-2 px-3 text-left">Shipping Status</th>
+            <th class="py-2 px-3 text-left">Created At</th>
+            <th class="py-2 px-3 text-left">Updated At</th>
+            <th class="py-2 px-3 text-left">User</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="o in orders" class="border-t">
+            <td class="py-2 px-3">{{o.OrderId}}</td>
+            <td class="py-2 px-3">{{o.ItemCount || 0}}</td>
+            <td class="py-2 px-3">{{o.OrderAmount || 0 | currency:'?'}}</td>
+            <td class="py-2 px-3">{{o.OrderStatus}}</td>
+            <td class="py-2 px-3">{{o.ShippingStatus}}</td>
+            <td class="py-2 px-3">{{o.CreatedAt | date:'MM-dd-yyyy HH:mm'}}</td>
+            <td class="py-2 px-3">{{o.UpdatedAt | date:'MM-dd-yyyy HH:mm'}}</td>
+            <td class="py-2 px-3">{{o.UserId}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

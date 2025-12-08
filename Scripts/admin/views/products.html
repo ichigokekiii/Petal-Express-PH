@@ -1,0 +1,73 @@
+<div class="bg-white p-6 rounded-xl shadow">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl font-semibold text-[#27334B]">Products</h2>
+    <button class="px-4 py-2 bg-[#5977AF] text-white rounded-full" ng-click="showModal=true">+ Add Product</button>
+  </div>
+
+  <table class="w-full text-left border-collapse">
+    <thead class="bg-gray-100">
+      <tr>
+        <th class="p-3">Product ID</th>
+        <th class="p-3">Name</th>
+        <th class="p-3">Category</th>
+        <th class="p-3">Price</th>
+        <th class="p-3">Created</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="border-b" ng-repeat="p in products">
+        <td class="p-3">{{p.productId || p.ProductId}}</td>
+        <td class="p-3">{{p.name || p.Name}}</td>
+        <td class="p-3">{{p.categoryId || p.CategoryId}}</td>
+        <td class="p-3">?{{(p.price || p.Price || 0) | number:0}}</td>
+        <td class="p-3">{{(p.createdAt || p.CreatedAt) | date:'medium'}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Add Product Modal -->
+<div class="fixed inset-0 flex items-center justify-center" ng-show="showModal" style="z-index:1000;">
+  <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-2xl border">
+    <div class="flex justify-between items-start">
+      <h2 class="text-xl font-semibold mb-2 text-[#27334B]">Add New Product</h2>
+      <button class="text-gray-500" ng-click="cancelAdd()">?</button>
+    </div>
+
+    <p class="text-sm text-gray-500 mb-4">Product Information</p>
+
+    <form ng-submit="addProduct()" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="md:col-span-2">
+        <label class="block text-sm text-gray-600 mb-1">Name</label>
+        <input class="w-full p-2 border-b border-gray-300 focus:border-[#5977AF] outline-none" ng-model="form.Name" required />
+      </div>
+      <div class="md:col-span-2">
+        <label class="block text-sm text-gray-600 mb-1">Description</label>
+        <textarea class="w-full p-2 border-b border-gray-300 focus:border-[#5977AF] outline-none" ng-model="form.Description"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm text-gray-600 mb-1">Category</label>
+        <select class="w-full p-2 border-b border-gray-300 focus:border-[#5977AF] outline-none" ng-model="form.CategoryId">
+          <option value="">Select category</option>
+          <option value="1">Bouquets</option>
+          <option value="2">Arrangements</option>
+          <option value="3">Boxes</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm text-gray-600 mb-1">Price</label>
+        <input type="number" min="0" step="0.01" class="w-full p-2 border-b border-gray-300 focus:border-[#5977AF] outline-none" ng-model="form.Price" required />
+      </div>
+      <div class="md:col-span-2">
+        <label class="block text-sm text-gray-600 mb-1">Upload Image</label>
+        <input type="file" class="w-full" onchange="angular.element(this).scope().onImageSelected(this)" />
+        <p class="text-xs text-gray-500 mt-1" ng-if="form.ImageId">Uploaded (Image Id: {{form.ImageId}})</p>
+      </div>
+
+      <div class="md:col-span-2 flex justify-end mt-2 gap-2">
+        <button type="button" class="px-6 py-2 rounded-full bg-gray-200 text-[#27334B] font-bold" ng-click="cancelAdd()">Cancel</button>
+        <button type="submit" class="px-6 py-2 rounded-full bg-[#5977AF] text-white font-bold">Create Product</button>
+      </div>
+    </form>
+  </div>
+</div>

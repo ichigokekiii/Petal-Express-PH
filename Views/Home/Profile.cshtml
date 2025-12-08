@@ -1,0 +1,105 @@
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="bg-white py-12" ng-controller="profileController">
+    <div class="container mx-auto px-6 max-w-5xl">
+        <h1 class="text-2xl md:text-3xl font-black text-[#27334B] mb-6">Your Profile</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-8">
+            <aside>
+                <div class="space-y-3">
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 bg-[#DFEDF9] hover:bg-[#cfe3f5] rounded-lg text-[#27334B] font-bold">
+                        <svg class="w-6 h-6 text-[#27334B]" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        <span>My Profile</span>
+                    </a>
+                    <a href="@Url.Action("Orders","Orders")" class="flex items-center gap-3 px-4 py-3 bg-[#DFEDF9] hover:bg-[#cfe3f5] rounded-lg text-[#27334B] font-bold">
+                        <svg class="w-6 h-6 text-[#27334B]" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h13v6M9 7V4h13v3M4 4h3v17H4z"/></svg>
+                        <span>My Orders</span>
+                    </a>
+                    <a href="#" class="flex items-center gap-3 px-4 py-3 bg-[#DFEDF9] hover:bg-[#cfe3f5] rounded-lg text-[#27334B] font-bold">
+                        <svg class="w-6 h-6 text-[#27334B]" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v8m-4-4h8"/></svg>
+                        <span>Settings</span>
+                    </a>
+                    <form ng-controller="mainController" class="pt-2">
+                        <button type="button" class="w-full px-4 py-3 bg-[#5977AF] text-white font-bold rounded-lg" ng-click="logout()">Logout</button>
+                    </form>
+                </div>
+            </aside>
+
+            <div class="bg-[#F4FAFF] rounded-xl p-6 shadow">
+                <div class="flex items-center justify-center">
+                    <div class="w-40 h-40 rounded-full border-8 border-[#DFEDF9] flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-[#536FA3]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                    </div>
+                </div>
+
+                <h2 class="mt-6 font-bold text-[#27334B]">Profile Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-3">
+                    <div>
+                        <label class="block text-sm text-gray-500">First Name</label>
+                        <input class="w-full mt-1 border rounded px-3 py-2" ng-model="model.FirstName" />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500">Last Name</label>
+                        <input class="w-full mt-1 border rounded px-3 py-2" ng-model="model.LastName" />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500">Email</label>
+                        <input class="w-full mt-1 border rounded px-3 py-2" ng-model="model.Email" disabled />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500">Phone Number</label>
+                        <input class="w-full mt-1 border rounded px-3 py-2" ng-model="model.PhoneNumber" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm text-gray-500">New Password (optional)</label>
+                        <input type="password" class="w-full mt-1 border rounded px-3 py-2" ng-model="model.Password" />
+                    </div>
+                </div>
+
+                <h2 class="mt-8 font-bold text-[#27334B]">Delivery Information</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-3">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm text-gray-500">Address Line 1</label>
+                        <input class="w-full mt-1 border rounded px-3 py-2" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-sm text-gray-500">Address Line 2 (optional)</label>
+                        <input class="w-full mt-1 border rounded px-3 py-2" />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500">Street Name</label>
+                        <input class="w-full mt-1 border rounded px-3 py-2" />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500">Subdivision/Village</label>
+                        <input class="w-full mt-1 border rounded px-3 py-2" />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500">Province/Municipality</label>
+                        <input class="w-full mt-1 border rounded px-3 py-2" />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500">Region</label>
+                        <input class="w-full mt-1 border rounded px-3 py-2" />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500">District/Barangay</label>
+                        <input class="w-full mt-1 border rounded px-3 py-2" />
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-500">City</label>
+                        <input class="w-full mt-1 border rounded px-3 py-2" />
+                    </div>
+                </div>
+
+                <div class="mt-8 flex gap-4">
+                    <button class="px-6 py-3 bg-[#5977AF] text-white font-bold rounded-full" ng-click="save()">Update Profile</button>
+                    <button class="px-6 py-3 bg-white text-[#5977AF] font-bold rounded-full border">Delete Profile</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

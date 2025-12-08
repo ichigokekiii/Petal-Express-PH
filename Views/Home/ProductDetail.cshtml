@@ -2,90 +2,90 @@
     ViewBag.Title = "Product Detail";
 }
 
-<div class="bg-white">
-    <div class="container mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+<div class="bg-white" ng-controller="productDetailController" ng-init="init('@ViewBag.ProductId')">
+    <div class="container mx-auto px-6 py-12" ng-if="product">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
             <div>
-                <div class="relative bg-[#DFEDF9] h-[500px] rounded-lg" data-aos="fade-up" data-aos-duration="600">
-                    <div class="absolute bottom-4 left-4 right-4 flex justify-center space-x-4">
-                        <div class="w-20 h-20 bg-white/50 rounded-lg border-2 border-blue-500"></div>
-                        <div class="w-20 h-20 bg-white/50 rounded-lg"></div>
-                        <div class="w-20 h-20 bg-white/50 rounded-lg"></div>
-                        <div class="w-20 h-20 bg-white/50 rounded-lg"></div>
-                    </div>
+                <div class="bg-[#DFEDF9] rounded-2xl p-4 h-[420px] flex items-center justify-center overflow-hidden" data-aos="fade-up" data-aos-duration="600">
+                    <img ng-if="product.ImagePath" ng-src="{{product.ImagePath}}" class="w-full h-full object-cover rounded-xl" />
+                </div>
+                <div class="flex gap-3 mt-3">
+                    <div class="w-14 h-14 bg-[#DFEDF9] rounded-xl"></div>
+                    <div class="w-14 h-14 bg-[#DFEDF9] rounded-xl"></div>
                 </div>
 
-                <div class="mt-12" data-aos="fade-up" data-aos-delay="100" data-aos-duration="600">
-                    <h2 class="text-2xl font-bold text-[#27334B]">Product Description</h2>
-                    <p class="mt-4 text-gray-600">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-                        <br /><br />
-                        Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-                        <br /><br />
-                        Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-                    </p>
+                <div class="mt-8" data-aos="fade-up" data-aos-delay="100" data-aos-duration="600">
+                    <h2 class="text-lg font-bold text-[#27334B]">Product Description</h2>
+                    <p class="mt-3 text-gray-600">{{product.Description}}</p>
+
+                    <p class="mt-6 text-gray-600">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                    <p class="mt-4 text-gray-600">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.</p>
+                    <p class="mt-4 text-gray-600">Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
                 </div>
             </div>
 
             <div>
-                <div class="sticky top-40">
-                    <div class="flex justify-between items-center" data-aos="fade-up" data-aos-duration="600">
-                        <h1 class="text-4xl font-black text-[#27334B]">Product Name</h1>
-                        <button class="text-gray-400 hover:text-red-500">
-                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                <div class="sticky top-36">
+                    <h1 class="text-2xl md:text-3xl font-black text-[#27334B]">{{product.Name}}</h1>
+                    <div class="flex items-center mt-2 text-sm">
+                        <span class="text-yellow-400">★★★★☆</span>
+                        <span class="ml-2 text-gray-500">(22)</span>
+                        <button class="ml-auto text-gray-400 hover:text-red-500">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
                         </button>
                     </div>
-                    <div class="flex items-center mt-2" data-aos="fade-up" data-aos-delay="50" data-aos-duration="600">
-                        <span class="text-yellow-400">★★★★☆</span>
-                        <span class="ml-2 text-gray-500 text-sm">(22)</span>
-                    </div>
-                    <p class="mt-4 font-black text-3xl text-[#27334B]" data-aos="fade-up" data-aos-delay="100" data-aos-duration="600">₱ 1,100</p>
 
-                    <div class="mt-6" data-aos="fade-up" data-aos-delay="150" data-aos-duration="600">
-                        <p class="font-semibold text-gray-700">Select Type:</p>
-                        <div class="flex gap-4 mt-2">
-                            <button class="px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">Pre-made</button>
-                            <button class="px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">Custom</button>
+                    <div class="mt-6">
+                        <p class="text-sm font-semibold text-gray-700">Select type</p>
+                        <div class="mt-2 flex gap-3">
+                            <button class="px-4 py-2 bg-[#5977AF] text-white rounded-full text-sm">Pre-made</button>
+                            <button class="px-4 py-2 bg-[#5977AF] text-white rounded-full text-sm">Custom</button>
                         </div>
                     </div>
 
-                    <div class="mt-6" data-aos="fade-up" data-aos-delay="200" data-aos-duration="600">
-                        <p class="font-semibold text-gray-700">Quantity:</p>
+                    <div class="mt-6">
+                        <p class="text-sm font-semibold text-gray-700">Quantity</p>
                         <div class="flex items-center gap-4 mt-2">
-                            <button class="h-10 w-10 border rounded-full font-bold text-lg">-</button>
-                            <span class="font-bold text-lg">1</span>
-                            <button class="h-10 w-10 border rounded-full font-bold text-lg">+</button>
+                            <button class="h-8 w-8 border rounded-full font-bold" ng-click="qty = Math.max(1, qty-1)">-</button>
+                            <input type="number" min="1" class="w-16 text-center border rounded-full px-3 py-1" ng-model="qty" />
+                            <button class="h-8 w-8 border rounded-full font-bold" ng-click="qty = qty+1">+</button>
                         </div>
                     </div>
 
-                    <div class="mt-6" data-aos="fade-up" data-aos-delay="250" data-aos-duration="600">
-                        <p class="font-semibold text-gray-700">Add-ons:</p>
-                        <div class="flex gap-4 mt-2">
-                            <button class="px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">Card</button>
-                            <button class="px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">Vase</button>
-                            <button class="px-6 py-2 bg-[#5977AF] text-white font-semibold rounded-full">Treats</button>
+                    <div class="mt-6">
+                        <p class="text-sm font-semibold text-gray-700">Add-ons</p>
+                        <div class="flex gap-3 mt-2">
+                            <button class="px-4 py-2 bg-[#5977AF] text-white rounded-full text-sm">Card</button>
+                            <button class="px-4 py-2 bg-[#5977AF] text-white rounded-full text-sm">Vase</button>
+                            <button class="px-4 py-2 bg-[#5977AF] text-white rounded-full text-sm">Treats</button>
                         </div>
                     </div>
 
-                    <div class="mt-8 grid grid-cols-2 gap-4" data-aos="fade-up" data-aos-delay="300" data-aos-duration="600">
-                        <button class="w-full py-3 bg-[#5977AF] text-white font-bold rounded-full">Add To Cart</button>
-                        <button class="w-full py-3 bg-[#5977AF] text-white font-bold rounded-full">Buy Now</button>
+                    <div class="mt-6 grid grid-cols-2 gap-4">
+                        <button class="w-full py-3 bg-[#5977AF] text-white font-bold rounded-full" ng-click="addToCart()">Add To Cart</button>
+                        <button class="w-full py-3 bg-[#5977AF] text-white font-bold rounded-full" ng-click="buyNow()">Buy Now</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <section class="bg-[#E0F1FF] py-16">
+    <!-- lightweight loading state to avoid empty page while fetching -->
+    <div class="container mx-auto px-6 py-12" ng-if="!product">
+        <div class="animate-pulse">
+            <div class="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
+            <div class="h-64 bg-gray-200 rounded mb-6"></div>
+            <div class="h-4 bg-gray-200 rounded w-2/3 mb-2"></div>
+            <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+        </div>
+    </div>
+
+    <section class="bg-[#E0F1FF] py-12" ng-if="product">
         <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center text-[#27334B] mb-8" data-aos="fade-up" data-aos-duration="600">Related Products</h2>
-            <div id="related-products-scroll" class="flex space-x-6 pb-4 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md relative overflow-hidden group" data-aos="fade-up" data-aos-delay="0" data-aos-duration="500" data-aos-easing="ease-out"></div>
-                <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md relative overflow-hidden group" data-aos="fade-up" data-aos-delay="50" data-aos-duration="500" data-aos-easing="ease-out"></div>
-                <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md relative overflow-hidden group" data-aos="fade-up" data-aos-delay="100" data-aos-duration="500" data-aos-easing="ease-out"></div>
-                <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md relative overflow-hidden group" data-aos="fade-up" data-aos-delay="150" data-aos-duration="500" data-aos-easing="ease-out"></div>
-                <div class="flex-none w-72 h-48 bg-[#DFEDF9] rounded-lg shadow-md relative overflow-hidden group" data-aos="fade-up" data-aos-delay="200" data-aos-duration="500" data-aos-easing="ease-out"></div>
+            <h2 class="text-lg font-bold text-[#27334B] mb-4">Related Products</h2>
+            <div class="flex space-x-4 pb-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div class="flex-none w-60 h-40 bg-[#DFEDF9] rounded-xl shadow-md" ng-repeat="n in [1,2,3,4,5,6,7,8]"></div>
             </div>
         </div>
     </section>
