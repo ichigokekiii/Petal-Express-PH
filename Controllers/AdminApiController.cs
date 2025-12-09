@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Petal_Express_PH.Models.Context;
 using System;
 using System.Collections.Generic;
+using Petal_Express_PH.Models;
 
 namespace Petal_Express_PH.Controllers
 {
@@ -56,6 +57,9 @@ namespace Petal_Express_PH.Controllers
                 p.CategoryId,
                 p.ImageId,
                 Price = p.Price,
+                p.CheckQuantity,
+                p.IsArchive,
+                p.BidId,
                 p.CreatedAt
             }).ToList();
             return Json(data, JsonRequestBehavior.AllowGet);
@@ -168,6 +172,77 @@ namespace Petal_Express_PH.Controllers
             );
             var newId = _db.Database.SqlQuery<int>("SELECT LAST_INSERT_ID()").FirstOrDefault();
             return Json(new { image_id = newId, image_path = relPath });
+        }
+
+        [HttpPost]
+        public ActionResult CreateProduct(tblProducts dto)
+        {
+            if (dto == null) { Response.StatusCode = 400; return Json(new { error = "Invalid payload." }); }
+
+            var entity = new tblProducts
+            {
+                Name = dto.Name,
+                Description = dto.Description,
+                CategoryId = dto.CategoryId,
+                ImageId = dto.ImageId,
+                BidId = dto.BidId,
+                CheckQuantity = dto.CheckQuantity,
+                Price = dto.Price,
+                IsArchive = dto.IsArchive ?? false,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+            _db.Products.Add(entity);
+            _db.SaveChanges();
+
+            var result = new
+            {
+                entity.ProductId,
+                entity.Name,
+                entity.Description,
+                entity.CategoryId,
+                entity.ImageId,
+                Price = entity.Price,
+                entity.CheckQuantity,
+                entity.IsArchive,
+                entity.CreatedAt
+            };
+            return Json(result);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateProduct(tblProducts dto)
+        {
+            if (dto == null || dto.ProductId <= 0) { Response.StatusCode = 400; return Json(new { error = "Invalid product id." }); }
+
+            var entity = _db.Products.FirstOrDefault(p => p.ProductId == dto.ProductId);
+            if (entity == null) { Response.StatusCode = 404; return Json(new { error = "Product not found." }); }
+
+            entity.Name = dto.Name;
+            entity.Description = dto.Description;
+            entity.CategoryId = dto.CategoryId;
+            entity.Price = dto.Price;
+            entity.ImageId = dto.ImageId;
+            entity.CheckQuantity = dto.CheckQuantity;
+            entity.IsArchive = dto.IsArchive;
+            entity.BidId = dto.BidId;
+            entity.UpdatedAt = DateTime.UtcNow;
+
+            _db.SaveChanges();
+
+            var result = new
+            {
+                entity.ProductId,
+                entity.Name,
+                entity.Description,
+                entity.CategoryId,
+                entity.ImageId,
+                Price = entity.Price,
+                entity.CheckQuantity,
+                entity.IsArchive,
+                entity.CreatedAt
+            };
+            return Json(result);
         }
     }
 }

@@ -108,7 +108,8 @@
         .controller('ProductsCtrl', ['$scope', 'AdminService', function ($scope, AdminService) {
             $scope.products = [];
             $scope.showModal = false;
-            $scope.form = { Name: '', Description: '', CategoryId: null, ImageId: null, BidId: null, CheckQuantity: 0, Price: 0, IsArchive: false };
+            $scope.isEdit = false;
+            $scope.form = { ProductId: null, Name: '', Description: '', CategoryId: null, ImageId: null, BidId: null, CheckQuantity: 0, Price: 0, IsArchive: false };
             AdminService.getProducts().then(function (products) { $scope.products = products; });
 
             $scope.onImageSelected = function (input) {
@@ -118,19 +119,51 @@
                     $scope.form.ImageId = res.image_id;
                 });
             };
-            $scope.cancelAdd = function () {
-                $scope.showModal = false;
-                $scope.form = { Name: '', Description: '', CategoryId: null, ImageId: null, BidId: null, CheckQuantity: 0, Price: 0, IsArchive: false };
+            $scope.openCreate = function () {
+                $scope.isEdit = false;
+                $scope.showModal = true;
+                $scope.form = { ProductId: null, Name: '', Description: '', CategoryId: null, ImageId: null, BidId: null, CheckQuantity: 0, Price: 0, IsArchive: false };
             };
-            $scope.addProduct = function () {
+            $scope.openEdit = function (p) {
+                $scope.isEdit = true;
+                $scope.showModal = true;
+                $scope.form = {
+                    ProductId: p.ProductId,
+                    Name: p.Name,
+                    Description: p.Description,
+                    CategoryId: p.CategoryId,
+                    ImageId: p.ImageId,
+                    BidId: p.BidId || null,
+                    CheckQuantity: p.CheckQuantity || 0,
+                    Price: p.Price,
+                    IsArchive: !!p.IsArchive
+                };
+            };
+            $scope.cancel = function () {
+                $scope.showModal = false;
+                $scope.isEdit = false;
+                $scope.form = { ProductId: null, Name: '', Description: '', CategoryId: null, ImageId: null, BidId: null, CheckQuantity: 0, Price: 0, IsArchive: false };
+            };
+            $scope.submit = function () {
                 var payload = angular.copy($scope.form);
-                AdminService.createProduct(payload).then(function (p) {
-                    $scope.products.push(p);
-                    $scope.cancelAdd();
-                }, function (err) {
-                    var msg = (err && err.message) || 'Failed to create product. Please verify related ids exist.';
-                    alert(msg);
-                });
+                if ($scope.isEdit) {
+                    AdminService.updateProduct(payload).then(function (updated) {
+                        for (var i = 0; i < $scope.products.length; i++) {
+                            if ($scope.products[i].ProductId === updated.ProductId) { $scope.products[i] = updated; break; }
+                        }
+                        $scope.cancel();
+                    }, function (err) {
+                        alert((err && err.message) || 'Failed to update product.');
+                    });
+                } else {
+                    AdminService.createProduct(payload).then(function (p) {
+                        $scope.products.push(p);
+                        $scope.cancel();
+                    }, function (err) {
+                        var msg = (err && err.message) || 'Failed to create product. Please verify related ids exist.';
+                        alert(msg);
+                    });
+                }
             };
         }])
         .controller('UsersCtrl', ['$scope', 'AdminService', function ($scope, AdminService) {

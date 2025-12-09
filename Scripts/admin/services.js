@@ -17,6 +17,9 @@
       api.createProduct = function(p){
         return $http.post('/AdminApi/CreateProduct', p).then(function(res){ return res.data; });
       };
+      api.updateProduct = function(p){
+        return $http.post('/AdminApi/UpdateProduct', p).then(function(res){ return res.data; });
+      };
       api.uploadImage = function(file){
         var form = new FormData();
         form.append('file', file);
