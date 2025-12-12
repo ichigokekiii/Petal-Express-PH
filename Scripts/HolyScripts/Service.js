@@ -1,4 +1,8 @@
-﻿
+﻿// ============================================================================
+// SERVICES
+// ============================================================================
+
+// ===== PUBLIC APP SERVICE =====
 app.service('PetalExpressApplicationService', function ($http) {
     var api = {};
 
@@ -19,8 +23,13 @@ app.service('PetalExpressApplicationService', function ($http) {
             }
             return res.data;
         }, function () {
-            api.isLoggedIn = false;
-       
+            // If server error, assume logged out
+            api.isLoggedIn = false;// ============================================================================
+            // SERVICES
+            // ============================================================================
+
+            // ===== PUBLIC APP SERVICE =====
+            // FIX: Use getter syntax
             angular.module('PetalExpressApplication').service('PetalExpressApplicationService', function ($http) {
                 var api = {};
                 api.isLoggedIn = false;

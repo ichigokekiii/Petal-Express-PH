@@ -187,24 +187,30 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\AdminApiController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Context\PetalExpressContext.cs" />
-    <Compile Include="Models\Maps\tblRegistrationsMap.cs" />
+    <Compile Include="Models\Maps\tblCartItemsMap.cs" />
+    <Compile Include="Models\Maps\tblCartMap.cs" />
+    <Compile Include="Models\Maps\tblImagesMap.cs" />
+    <Compile Include="Models\Maps\tblOrderItemsMap.cs" />
+    <Compile Include="Models\Maps\tblOrdersMap.cs" />
+    <Compile Include="Models\Maps\tblProductCategoryMap.cs" />
+    <Compile Include="Models\Maps\tblProductsMap.cs" />
+    <Compile Include="Models\Maps\tblSessionsMap.cs" />
+    <Compile Include="Models\Maps\tblUsersMap.cs" />
+    <Compile Include="Models\tblCart.cs" />
+    <Compile Include="Models\tblCartItems.cs" />
+    <Compile Include="Models\tblImages.cs" />
     <Compile Include="Models\tblOrderItems.cs" />
     <Compile Include="Models\tblOrders.cs" />
-    <Compile Include="Models\tblPayments.cs" />
+    <Compile Include="Models\tblProductCategory.cs" />
     <Compile Include="Models\tblProducts.cs" />
-    <Compile Include="Models\tblRecipient.cs" />
-    <Compile Include="Models\tblRegistrationsModel.cs" />
-    <Compile Include="Models\tblSystem.cs" />
+    <Compile Include="Models\tblSessions.cs" />
     <Compile Include="Models\tblUsers.cs" />
-    <Compile Include="Models\tblUserSeems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -216,15 +222,6 @@
     <Content Include="Assets\Images\kai-3.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\admin\app.js" />
-    <Content Include="Scripts\admin\controllers.js" />
-    <Content Include="Scripts\admin\services.js" />
-    <Content Include="Scripts\admin\views\analytics.html" />
-    <Content Include="Scripts\admin\views\dashboard.html" />
-    <Content Include="Scripts\admin\views\orders.html" />
-    <Content Include="Scripts\admin\views\products.html" />
-    <Content Include="Scripts\admin\views\settings.html" />
-    <Content Include="Scripts\admin\views\users.html" />
     <Content Include="Scripts\angular-chat.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular.js" />
@@ -271,13 +268,10 @@
     <Content Include="Views\Home\ProductDetail.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Home\Cart.cshtml" />
     <Content Include="Views\Home\Profile.cshtml" />
-    <Content Include="Views\Admin\Layout.cshtml" />
     <Content Include="Views\Home\Payment.cshtml" />
     <Content Include="Views\Orders\Orders.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Admin\Dashboard.cshtml" />
     <Content Include="Views\Admin\Layout.cshtml" />
@@ -286,9 +280,6 @@
     <Content Include="Views\Admin\Settings.cshtml" />
     <Content Include="Views\Admin\Users.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Admin\ImageGallery.cshtml" />
-=======
->>>>>>> parent of 3c5a50b (Sessions working)
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

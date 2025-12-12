@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="p-4" ng-controller="OrdersCtrl">
+    <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-bold text-[#27334B]">Orders List</h2>
+        <div class="flex gap-2">
+            <button class="px-4 py-2 rounded-full bg-white text-[#536FA3] border hover:bg-gray-50 text-sm font-bold">Sort By</button>
+        </div>
+    </div>
+
+    <div class="rounded-2xl bg-white shadow-sm border p-4">
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-sm">
+                <thead>
+                    <tr class="text-[#536FA3] border-b">
+                        <th class="py-3 px-3 text-left">Order ID</th>
+                        <th class="py-3 px-3 text-left">Customer</th>
+                        <th class="py-3 px-3 text-left">Total</th>
+                        <th class="py-3 px-3 text-left">Status</th>
+                        <th class="py-3 px-3 text-left">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="o in orders" class="border-b hover:bg-gray-50">
+                        <td class="py-3 px-3 font-mono text-gray-500">#{{o.orderID}}</td>
+                        <td class="py-3 px-3 font-semibold text-gray-700">{{o.recipientName || 'Guest'}}</td>
+                        <td class="py-3 px-3 font-bold text-[#27334B]">₱{{o.totalAmount | number:2}}</td>
+                        <td class="py-3 px-3">
+                            <span class="px-2 py-1 rounded-full text-xs font-bold"
+                                  ng-class="{
+                        'bg-yellow-100 text-yellow-700': o.orderStatus === 'Pending',
+                        'bg-blue-100 text-blue-700': o.orderStatus === 'Processing',
+                        'bg-green-100 text-green-700': o.orderStatus === 'Completed',
+                        'bg-red-100 text-red-700': o.orderStatus === 'Cancelled'
+                      }">
+                                {{o.orderStatus}}
+                            </span>
+                        </td>
+                        <td class="py-3 px-3 text-gray-500">{{o.createdAt | date:'mediumDate'}}</td>
+                    </tr>
+                    <tr ng-if="!orders || orders.length === 0">
+                        <td colspan="5" class="py-8 text-center text-gray-400">No orders found.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
