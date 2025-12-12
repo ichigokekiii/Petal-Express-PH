@@ -1,30 +1,47 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Petal_Express_PH.Models
 {
+    [Table("tbl_products")]
     public class tblProducts
     {
-        public int productID { get; set; }
+        [Key]
+        [Column("product_id")]
+        public int ProductId { get; set; }
 
-        public int? categoryID { get; set; }
+        [Column("bid_id")]
+        public int? BidId { get; set; }
 
-        public int? imageID { get; set; }
+        [Column("category_id")]
+        public int? CategoryId { get; set; }
 
-        public string name { get; set; }
+        [Column("colleague_id")]
+        public int? ColleagueId { get; set; }
 
-        public string description { get; set; }
+        [Column("image_id")]
+        public int? ImageId { get; set; }
 
-        public decimal price { get; set; }
+        [Column("name")]
+        public string Name { get; set; }
 
-        public int stockQuantity { get; set; }
+        [Column("description")]
+        public string Description { get; set; }
 
-        public bool isActive { get; set; }
+        [Column("price")]
+        public decimal? Price { get; set; }
 
-        public DateTime createdAt { get; set; }
+        [Column("is_archive")]
+        public bool? IsArchive { get; set; }
 
-        public DateTime updatedAt { get; set; }
+        [Column("check_quantity")]
+        public int? CheckQuantity { get; set; }
+
+        [Column("updated_at")]
+        public DateTime? UpdatedAt { get; set; }
+
+        [Column("created_at")]
+        public DateTime? CreatedAt { get; set; }
     }
 }

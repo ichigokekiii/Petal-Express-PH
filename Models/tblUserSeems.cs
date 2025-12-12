@@ -4,31 +4,30 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Petal_Express_PH.Models
 {
-    [Table("tbl_users")]
-    public class tblUsers
+    [Table("tbl_user_seems")]
+    public class tblUserSeems
     {
         [Key]
         [Column("user_id")]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
 
-        [Column("profile_id")]
-        public int? ProfileId { get; set; }
+        [Column("bid_id")]
+        public int? BidId { get; set; }
 
-        [Required]
-        [Column("email")]
-        public string Email { get; set; }
+        [Column("password_hash")]
+        public string PasswordHash { get; set; }
 
-        [Column("phone_number")]
-        public string PhoneNumber { get; set; }
+        [Column("token")]
+        public string Token { get; set; }
 
-        [Required]
         [Column("last_name")]
         public string LastName { get; set; }
 
-        [Required]
         [Column("first_name")]
         public string FirstName { get; set; }
+
+        [Column("is_active")]
+        public bool? IsActive { get; set; }
 
         [Column("updated_at")]
         public DateTime? UpdatedAt { get; set; }

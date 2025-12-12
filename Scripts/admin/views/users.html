@@ -1,0 +1,18 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Users</h5>
+    <table class="table table-sm">
+      <thead><tr><th>ID</th><th>Email</th><th>Name</th><th>Phone</th><th>Joined</th></tr></thead>
+      <tbody>
+        <tr ng-repeat="u in users">
+          <td>{{u.UserId}}</td>
+          <td>{{u.Email}}</td>
+          <td>{{(u.FirstName || '') + ' ' + (u.LastName || '')}}</td>
+          <td>{{u.PhoneNumber}}</td>
+          <td>{{formatDate(u.CreatedAt)}}</td>
+        </tr>
+        <tr ng-if="!users || users.length===0"><td colspan="5">No users found.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
