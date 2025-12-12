@@ -1,0 +1,112 @@
+﻿<div class="p-6" ng-controller="ProductsCtrl">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-[#27334B]">Product Management</h2>
+        <button class="bg-[#5977AF] text-white px-4 py-2 rounded-full font-bold shadow hover:bg-[#4a6393]"
+                ng-click="openCreate()">
+            + Add New Product
+        </button>
+    </div>
+
+    <div class="bg-white rounded-2xl shadow-sm border overflow-hidden">
+        <table class="w-full text-sm text-left">
+            <thead class="bg-gray-50 text-gray-500 uppercase border-b">
+                <tr>
+                    <th class="px-6 py-3">Image</th>
+                    <th class="px-6 py-3">Name</th>
+                    <th class="px-6 py-3">Price</th>
+                    <th class="px-6 py-3">Stock</th>
+                    <th class="px-6 py-3">Category</th>
+                    <th class="px-6 py-3">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="p in products" class="border-b hover:bg-gray-50">
+                    <td class="px-6 py-3">
+                        <img ng-if="p.imagePath" ng-src="{{p.imagePath}}" class="h-12 w-12 rounded object-cover border">
+                        <span ng-if="!p.imagePath" class="text-gray-400 text-xs">No Img</span>
+                    </td>
+                    <td class="px-6 py-3 font-bold text-gray-700">{{p.name}}</td>
+                    <td class="px-6 py-3 text-green-600 font-bold">₱{{p.price | number:2}}</td>
+                    <td class="px-6 py-3">
+                        <span ng-class="{'text-red-500 font-bold': p.stockQuantity < 5}">
+                            {{p.stockQuantity}}
+                        </span>
+                    </td>
+                    <td class="px-6 py-3">
+                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">
+                            {{p.categoryName}}
+                        </span>
+                    </td>
+                    <td class="px-6 py-3 flex gap-2">
+                        <button class="text-blue-600 hover:underline" ng-click="openEdit(p)">Edit</button>
+                        <button class="text-red-600 hover:underline" ng-click="deleteProduct(p.productID)">Delete</button>
+                    </td>
+                </tr>
+                <tr ng-if="products.length === 0">
+                    <td colspan="6" class="px-6 py-8 text-center text-gray-400">No products found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" ng-show="showModal">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden">
+            <div class="bg-gray-50 px-6 py-4 border-b flex justify-between items-center">
+                <h3 class="text-lg font-bold text-gray-800">{{isEdit ? 'Edit Product' : 'Create Product'}}</h3>
+                <button class="text-gray-400 hover:text-gray-600" ng-click="closeModal()">X</button>
+            </div>
+
+            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col items-center">
+                    <div class="w-full h-48 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center mb-3 overflow-hidden">
+                        <img ng-if="previewImage" ng-src="{{previewImage}}" class="w-full h-full object-contain">
+                        <div ng-if="!previewImage" class="text-gray-400 text-sm">No Image Selected</div>
+                    </div>
+
+                    <input type="file" id="fileUpload" class="hidden"
+                           onchange="angular.element(this).scope().uploadImage(this)" accept="image/*">
+                    <label for="fileUpload" class="cursor-pointer bg-[#5977AF] text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-[#4a6393]">
+                        {{uploading ? 'Uploading...' : 'Choose Image'}}
+                    </label>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Name</label>
+                        <input type="text" class="w-full p-2 border rounded" ng-model="form.name">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Price</label>
+                            <input type="number" class="w-full p-2 border rounded" ng-model="form.price">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Stock</label>
+                            <input type="number" class="w-full p-2 border rounded" ng-model="form.stockQuantity">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Category</label>
+                        <select class="w-full p-2 border rounded" ng-model="form.categoryID">
+                            <option ng-value="1">Flowers</option>
+                            <option ng-value="2">Bouquets</option>
+                            <option ng-value="3">Specials</option>
+                            <option ng-value="4">Services</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Description</label>
+                        <textarea class="w-full p-2 border rounded" rows="3" ng-model="form.description"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 px-6 py-4 border-t flex justify-end gap-3">
+                <button class="px-4 py-2 text-gray-600 font-bold" ng-click="closeModal()">Cancel</button>
+                <button class="px-6 py-2 bg-[#5977AF] text-white font-bold rounded-full" ng-click="submit()">
+                    {{isEdit ? 'Save Changes' : 'Create Product'}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

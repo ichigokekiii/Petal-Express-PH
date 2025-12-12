@@ -1,44 +1,36 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
 namespace Petal_Express_PH.Models
 {
-    [Table("tbl_orders")]
     public class tblOrders
     {
-        [Key]
-        [Column("order_id")]
-        public int OrderId { get; set; }
+        public int orderID { get; set; }
 
-        [Column("user_id")]
-        public int UserId { get; set; }
+        public int userID { get; set; }
 
-        [Column("recipient_id")]
-        public int? RecipientId { get; set; }
+        public string orderStatus { get; set; }
 
-        [Column("payment_id")]
-        public int? PaymentId { get; set; }
+        public string shippingStatus { get; set; }
 
-        [Column("order_status")]
-        public string OrderStatus { get; set; }
+        public decimal totalAmount { get; set; }
 
-        [Column("shipping_status")]
-        public string ShippingStatus { get; set; }
+        public string shippingAddress { get; set; }
 
-        [Column("order_amount")]
-        public decimal? OrderAmount { get; set; }
+        public string recipientName { get; set; }
 
-        [Column("item_count")]
-        public int? ItemCount { get; set; }
+        public string recipientPhone { get; set; }
 
-        [Column("estimated_delivery")]
-        public DateTime? EstimatedDelivery { get; set; }
+        public string paymentMethod { get; set; }
 
-        [Column("updated_at")]
-        public DateTime? UpdatedAt { get; set; }
+        public string paymentStatus { get; set; }
 
-        [Column("created_at")]
-        public DateTime? CreatedAt { get; set; }
+        public DateTime? estimatedDelivery { get; set; }
+
+        public DateTime createdAt { get; set; }
+
+        public DateTime updatedAt { get; set; }
     }
 }

@@ -1,182 +1,258 @@
-﻿app.controller("shopController", function ($scope, PetalExpressApplicationService) {
-    $scope.products = [];
-    $scope.currentPage = 0;
-    $scope.pageSize = 12;
-    $scope.totalPages = 0;
+// ============================================================================
+// CONTROLLER.JS
+// ============================================================================
+console.log("Loading Controller.js...");
 
-    PetalExpressApplicationService.getProducts().then(function (products) {
-        $scope.products = products || [];
-        $scope.totalPages = Math.ceil($scope.products.length / $scope.pageSize);
-    });
-
-    $scope.setCurrentPage = function (page) { $scope.currentPage = page; };
-    $scope.prevPage = function () { if ($scope.currentPage > 0) { $scope.currentPage--; } };
-    $scope.nextPage = function () { if ($scope.currentPage < $scope.totalPages - 1) { $scope.currentPage++; } };
-
-    $scope.flowerTypes = ["Roses", "Tulips", "Lilies", "Peonies", "Sunflowers"];
-    $scope.showDropdown = false;
-    $scope.toggleDropdown = function (event) { event.stopPropagation(); $scope.showDropdown = !$scope.showDropdown; };
-    $scope.hideDropdown = function () { $scope.showDropdown = false; };
-});
-
-app.controller("mainController", function ($scope, PetalExpressApplicationService) {
-    $scope.api = PetalExpressApplicationService;
-    PetalExpressApplicationService.setSessionFromServer();
-    $scope.logout = function(){
-        PetalExpressApplicationService.logout().then(function(){
-            window.location.href = '/Home/Login';
-        });
-    };
-});
-
-app.controller("authController", function ($scope, PetalExpressApplicationService) {
-    $scope.newUser = {};
+// ===== PUBLIC APP CONTROLLERS =====
+// FIX: Use getter 'PetalExpressApplication'
+angular.module('PetalExpressApplication').controller("authController", function ($scope, PetalExpressApplicationService) {
     $scope.credentials = {};
-
-    $scope.register = function () {
-        var name = $scope.newUser.name || "";
-        var parts = name.trim().split(/\s+/);
-        var first = parts.shift() || "";
-        var last = parts.join(" ") || "";
-        var payload = {
-            FirstName: first,
-            LastName: last,
-            Email: $scope.newUser.email,
-            PhoneNumber: $scope.newUser.phoneNumber || null,
-            Password: $scope.newUser.password
-        };
-        PetalExpressApplicationService.registerUser(payload).then(function () {
-            Swal.fire({ title: 'Success!', text: 'Your account has been created successfully!', icon: 'success', confirmButtonColor: '#5977AF', confirmButtonText: 'Continue' });
-            $scope.newUser = {};
-        }, function (err) {
-            Swal.fire({ title: 'Oops!', text: (err && err.data && err.data.error) || 'Registration failed.', icon: 'error', confirmButtonColor: '#5977AF', confirmButtonText: 'Try Again' });
-        });
-    };
+    $scope.newUser = {};
 
     $scope.login = function () {
         PetalExpressApplicationService.login($scope.credentials).then(function (data) {
-            var redirect = (data && data.redirect) ? data.redirect : '/Home/Index';
-            Swal.fire({
-                title: 'Welcome Back!',
-                text: 'Login successful!',
-                icon: 'success',
-                confirmButtonColor: '#5977AF',
-                confirmButtonText: 'Continue'
-            }).then(function () { window.location.href = redirect; });
-            $scope.credentials = {};
+            var redirectUrl = (data && data.redirect) ? data.redirect : '/Home/Index';
+            Swal.fire({ title: 'Welcome!', icon: 'success', confirmButtonColor: '#5977AF' })
+                .then(function () { window.location.href = redirectUrl; });
         }, function (err) {
-            Swal.fire({
-                title: 'Oops!',
-                text: (err && err.error) || 'Invalid credentials. Please try again or register a new account.',
-                icon: 'error',
-                confirmButtonColor: '#5977AF',
-                confirmButtonText: 'Try Again'
-            });
-            $scope.credentials = {};
+            Swal.fire({ title: 'Error', text: (err && err.error) ? err.error : 'Login failed', icon: 'error' });
         });
     };
 
-    $scope.isValidEmail = function (email) {
-        if (!email) return true;
-        var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return emailPattern.test(email);
+    $scope.register = function () {
+        PetalExpressApplicationService.registerUser($scope.newUser).then(function () {
+            Swal.fire('Success', 'Account created!', 'success').then(function () { window.location.href = '/Home/Login'; });
+        }, function () { Swal.fire('Error', 'Registration failed', 'error'); });
     };
 });
 
-// Profile page controller
-app.controller('profileController', function($scope, PetalExpressApplicationService){
-    $scope.model = { FirstName:'', LastName:'', Email:'', PhoneNumber:'', Password:'' };
-    PetalExpressApplicationService.getCurrentUser().then(function(u){
-        $scope.model.FirstName = u.FirstName || '';
-        $scope.model.LastName = u.LastName || '';
-        $scope.model.Email = u.Email || '';
-        $scope.model.PhoneNumber = u.PhoneNumber || '';
+angular.module('PetalExpressApplication').controller("mainController", function ($scope, PetalExpressApplicationService) {
+    $scope.api = PetalExpressApplicationService;
+    PetalExpressApplicationService.setSessionFromServer();
+    $scope.logout = function () {
+        PetalExpressApplicationService.logout().then(function () { window.location.href = '/Home/Login'; });
+    };
+});
+
+angular.module('PetalExpressApplication').controller("shopController", function ($scope, PetalExpressApplicationService) {
+    $scope.products = [];
+    PetalExpressApplicationService.getProducts().then(function (data) { $scope.products = data; });
+});
+
+// ===== ADMIN APP CONTROLLERS =====
+// FIX: Use getter 'petalAdminApp'
+
+angular.module('petalAdminApp').controller('AdminShellCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
+    $scope.logout = function () {
+        if (confirm('Log out of Admin?')) {
+            $http.post('/Home/Logout').finally(function () { $window.location.href = '/Home/Login'; });
+        }
+    };
+}]);
+
+angular.module('petalAdminApp').controller('DashboardCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+    $scope.data = {};
+
+    // 1. Fetch Data
+    $http.get('/Admin/GetDashboardData').then(function (res) {
+        $scope.data = res.data;
+        // Wait for HTML to render before drawing charts
+        $timeout(function () { initCharts(); }, 500);
     });
-    $scope.save = function(){
-        var payload = {
-            FirstName: $scope.model.FirstName,
-            LastName: $scope.model.LastName,
-            PhoneNumber: $scope.model.PhoneNumber,
-            Password: $scope.model.Password || null
-        };
-        PetalExpressApplicationService.updateProfile(payload).then(function(){
-            Swal.fire({ title: 'Saved', text: 'Profile updated successfully.', icon: 'success', confirmButtonColor: '#5977AF' });
-            $scope.model.Password = '';
-        }, function(err){
-            Swal.fire({ title: 'Oops!', text: (err && err.error) || 'Update failed.', icon: 'error', confirmButtonColor: '#5977AF' });
-        });
-    };
-});
 
-// Product detail controller moved from inline script to avoid load-order issues
-app.controller('productDetailController', function($scope, PetalExpressApplicationService){
-    $scope.product = null;
-    $scope.qty = 1;
-    $scope.init = function(id){
-        fetch('/Home/GetProduct/'+id).then(function(r){ return r.json(); }).then(function(p){
-            $scope.$apply(function(){ $scope.product = p; });
+    // 2. Initialize Charts
+    function initCharts() {
+        // Chart 1: Overview (Bar)
+        new Chart(document.getElementById('overviewChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Total Products', 'Total Orders', 'Total Users'],
+                datasets: [{
+                    label: 'Count',
+                    data: [$scope.data.overview.Products, $scope.data.overview.Orders, $scope.data.overview.Users],
+                    backgroundColor: ['#5977AF', '#F59E0B', '#10B981']
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
         });
-    };
-    $scope.addToCart = function(){
-        if(!$scope.product) return;
-        PetalExpressApplicationService.addToCart($scope.product.ProductId, $scope.qty).then(function(){
-            Swal.fire({ title: 'Added', text: 'Item added to cart.', icon: 'success', confirmButtonColor: '#5977AF' });
-        });
-    };
-    $scope.buyNow = function(){ $scope.addToCart(); window.location.href = '/Home/Cart'; };
-});
 
-// Cart page controller moved here to avoid inline timing issues
-app.controller('cartController', function($scope, PetalExpressApplicationService){
-    $scope.items = [];
-    $scope.total = 0;
-    $scope.error = null;
-    function refresh(){
-        PetalExpressApplicationService.getCart().then(function(items){
-            $scope.items = items || [];
-            $scope.total = ($scope.items||[]).reduce(function(s,i){ var lt = (i.LineTotal !== undefined) ? i.LineTotal : ((i.Price||0)*(i.Quantity||1)); return s + lt; }, 0);
-            $scope.error = null;
-        }, function(err){
-            $scope.items = [];
-            $scope.total = 0;
-            $scope.error = (err && err.error) ? err.error : 'Please login to view your cart.';
+        // Chart 2: Orders (Pie)
+        var orderLabels = $scope.data.orderStats.map(function (x) { return x.Status; });
+        var orderCounts = $scope.data.orderStats.map(function (x) { return x.Count; });
+
+        new Chart(document.getElementById('orderChart'), {
+            type: 'doughnut',
+            data: {
+                labels: orderLabels.length ? orderLabels : ['No Orders'],
+                datasets: [{
+                    data: orderCounts.length ? orderCounts : [1], // Show 1 if empty to make chart visible
+                    backgroundColor: ['#FCD34D', '#60A5FA', '#34D399', '#F87171', '#E5E7EB']
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // Chart 3: Categories (Pie)
+        var catLabels = $scope.data.catStats.map(function (x) { return x.Category; });
+        var catCounts = $scope.data.catStats.map(function (x) { return x.Count; });
+
+        new Chart(document.getElementById('categoryChart'), {
+            type: 'pie',
+            data: {
+                labels: catLabels.length ? catLabels : ['No Categories'],
+                datasets: [{
+                    data: catCounts.length ? catCounts : [1],
+                    backgroundColor: ['#8B5CF6', '#EC4899', '#6366F1', '#14B8A6', '#E5E7EB']
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
         });
     }
-    refresh();
-    $scope.increase = function(it){ PetalExpressApplicationService.updateQty(it.ProductId, it.Quantity+1).then(refresh); };
-    $scope.decrease = function(it){ PetalExpressApplicationService.updateQty(it.ProductId, Math.max(1, it.Quantity-1)).then(refresh); };
-    $scope.update = function(it){ var q = parseInt(it.Quantity)||1; PetalExpressApplicationService.updateQty(it.ProductId, q).then(refresh); };
-    $scope.remove = function(it){ PetalExpressApplicationService.removeFromCart(it.ProductId).then(refresh); };
-    $scope.gotoPayment = function(){ window.location.href = '/Home/Payment'; };
-});
 
-// Payment page controller
-app.controller('paymentController', function($scope, PetalExpressApplicationService){
-  $scope.items = [];
-  $scope.subtotal = 0;
-  $scope.error = null;
-  $scope.model = { method:'GCASH' };
+    // 3. Generate PDF Report
+    $scope.generateReport = function () {
+        var docDefinition = {
+            content: [
+                { text: 'Petal Express - Admin Report', style: 'header' },
+                { text: 'Generated: ' + new Date().toLocaleString(), style: 'subheader' },
 
-  function load(){
-    PetalExpressApplicationService.getCart().then(function(items){
-      $scope.items = items || [];
-      $scope.subtotal = ($scope.items||[]).reduce(function(s,i){ return s + ((i.Price||0)*(i.Quantity||1)); }, 0);
-      $scope.error = null;
-    }, function(err){
-      $scope.items = [];
-      $scope.subtotal = 0;
-      $scope.error = (err && err.error) ? err.error : 'Please login to proceed to payment.';
-    });
-  }
-  load();
+                { text: '1. Executive Summary', style: 'sectionHeader' },
+                {
+                    table: {
+                        widths: ['*', '*', '*'],
+                        body: [[
+                            { text: 'Products: ' + $scope.data.overview.Products, style: 'statBox' },
+                            { text: 'Orders: ' + $scope.data.overview.Orders, style: 'statBox' },
+                            { text: 'Users: ' + $scope.data.overview.Users, style: 'statBox' }
+                        ]]
+                    },
+                    layout: 'noBorders',
+                    margin: [0, 0, 0, 20]
+                },
 
-  $scope.confirm = function(){
-    PetalExpressApplicationService.createOrderFromCart().then(function(res){
-      Swal.fire({ title:'Order created', text:'ID: '+res.order_id+' Amount: ₱'+res.amount, icon:'success', confirmButtonColor:'#5977AF' }).then(function(){
-        window.location.href = '/Home/Shop';
-      });
-    }, function(err){
-      Swal.fire({ title:'Error', text:(err && err.error)||'Unable to create order', icon:'error', confirmButtonColor:'#5977AF' });
-    });
-  };
-});
+                { text: '2. System Charts', style: 'sectionHeader' },
+                // Convert Canvas to Image for PDF
+                { image: document.getElementById('overviewChart').toDataURL(), width: 500, margin: [0, 10, 0, 20] },
+                {
+                    columns: [
+                        { image: document.getElementById('orderChart').toDataURL(), width: 230 },
+                        { image: document.getElementById('categoryChart').toDataURL(), width: 230 }
+                    ]
+                }
+            ],
+            styles: {
+                header: { fontSize: 22, bold: true, color: '#27334B', margin: [0, 0, 0, 5] },
+                subheader: { fontSize: 10, italics: true, color: 'gray', margin: [0, 0, 0, 20] },
+                sectionHeader: { fontSize: 14, bold: true, color: '#5977AF', margin: [0, 10, 0, 10] },
+                statBox: { fontSize: 12, bold: true, fillColor: '#F3F4F6', margin: [5, 5, 5, 5], alignment: 'center' }
+            }
+        };
+
+        pdfMake.createPdf(docDefinition).open();
+    };
+}]);
+
+angular.module('petalAdminApp').controller('ProductsCtrl', ['$scope', '$http', 'AdminService', function ($scope, $http, AdminService) {
+    $scope.products = [];
+    $scope.showModal = false;
+    $scope.isEdit = false;
+    $scope.previewImage = null;
+    $scope.uploading = false;
+
+    var defaultForm = {
+        productID: 0,
+        name: '',
+        description: '',
+        price: 0,
+        stockQuantity: 1,
+        categoryID: 1,
+        imageID: 0,
+        isActive: true
+    };
+    $scope.form = angular.copy(defaultForm);
+
+    function loadProducts() {
+        $http.get('/Admin/GetProducts').then(function (res) { $scope.products = res.data; });
+    }
+    loadProducts();
+
+    $scope.openCreate = function () {
+        $scope.isEdit = false;
+        $scope.form = angular.copy(defaultForm);
+        $scope.previewImage = null;
+        $scope.showModal = true;
+        var fileInput = document.getElementById('productImageInput');
+        if (fileInput) fileInput.value = '';
+    };
+
+    $scope.openEdit = function (p) {
+        $scope.isEdit = true;
+        $scope.form = {
+            productID: p.productID,
+            name: p.name,
+            description: p.description,
+            price: p.price,
+            stockQuantity: p.stockQuantity,
+            categoryID: p.categoryID,
+            imageID: p.imageID,
+            isActive: true
+        };
+        $scope.previewImage = p.ImagePath;
+        $scope.showModal = true;
+    };
+
+    $scope.closeModal = function () { $scope.showModal = false; };
+
+    $scope.deleteProduct = function (id) {
+        if (confirm("Delete product?")) {
+            $http.post('/Admin/DeleteProduct', { id: id }).then(function (res) {
+                if (res.data.success) loadProducts();
+            });
+        }
+    };
+
+    $scope.uploadImage = function (element) {
+        var file = element.files[0];
+        if (!file) return;
+
+        $scope.$apply(function () { $scope.uploading = true; });
+        var formData = new FormData();
+        formData.append("file", file);
+
+        var reader = new FileReader();
+        reader.onload = function (e) { $scope.$apply(function () { $scope.previewImage = e.target.result; }); };
+        reader.readAsDataURL(file);
+
+        $http.post('/Admin/UploadProductImage', formData, {
+            transformRequest: angular.identity,
+            headers: { 'Content-Type': undefined }
+        }).then(function (res) {
+            $scope.uploading = false;
+            if (res.data.success) {
+                $scope.form.imageID = res.data.image_id;
+            } else {
+                alert("Upload failed");
+            }
+        });
+    };
+
+    $scope.submit = function () {
+        $http.post('/Admin/SaveProduct', $scope.form).then(function (res) {
+            if (res.data.success) {
+                $scope.showModal = false;
+                loadProducts();
+            } else {
+                alert("Error: " + res.data.message);
+            }
+        });
+    };
+}]);
+
+// Placeholders
+angular.module('petalAdminApp').controller('OrdersCtrl', ['$scope', 'AdminService', function ($scope, AdminService) {
+    $scope.orders = []; // Logic to load orders
+}]);
+angular.module('petalAdminApp').controller('UsersCtrl', ['$scope', 'AdminService', function ($scope, AdminService) {
+    $scope.users = []; // Logic to load users
+}]);
+angular.module('petalAdminApp').controller('SettingsCtrl', ['$scope', function ($scope) { }]);

@@ -5,21 +5,13 @@ using System.Web;
 
 namespace Petal_Express_PH.Models
 {
-    public class tblProducts
+    public class tblProductCategory
     {
-        public int productID { get; set; }
+        public int categoryID { get; set; }
 
-        public int? categoryID { get; set; }
-
-        public int? imageID { get; set; }
-
-        public string name { get; set; }
+        public string categoryName { get; set; }
 
         public string description { get; set; }
-
-        public decimal price { get; set; }
-
-        public int stockQuantity { get; set; }
 
         public bool isActive { get; set; }
 
