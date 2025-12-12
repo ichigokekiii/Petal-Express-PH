@@ -1,0 +1,355 @@
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div ng-controller="ImageGalleryCtrl">
+    <!-- ImageGallery.cshtml -->
+    <div class="image-gallery-container">
+    <!-- Header -->
+    <div class="page-header">
+        <div>
+            <h2 class="page-title">Image Gallery</h2>
+            <p class="page-subtitle">Manage all product images in one place</p>
+        </div>
+        <div class="upload-section">
+            <input type="file" 
+                   id="galleryImageInput" 
+                   accept="image/*" 
+                   onchange="angular.element(this).scope().uploadNewImage(this)" 
+                   class="file-input">
+            <label for="galleryImageInput" class="btn btn-primary">
+                <i class="fas fa-cloud-upload-alt"></i> 
+                {{uploading ? 'Uploading...' : 'Upload New Image'}}
+            </label>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div ng-if="loading" class="text-center" style="padding: 100px;">
+        <i class="fas fa-spinner fa-spin fa-3x" style="color: #5977AF;"></i>
+        <p style="margin-top: 20px; color: #6B7280;">Loading images...</p>
+    </div>
+
+    <!-- Upload Progress -->
+    <div ng-if="uploading" class="upload-progress">
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <p>Uploading image...</p>
+    </div>
+
+    <!-- Images Grid -->
+    <div ng-if="!loading" class="images-grid">
+        <!-- Empty State -->
+        <div ng-if="images.length === 0" class="empty-state">
+            <i class="fas fa-images fa-4x"></i>
+            <h3>No Images Yet</h3>
+            <p>Upload your first product image to get started!</p>
+        </div>
+
+        <!-- Image Cards -->
+        <div ng-repeat="img in images" class="image-card">
+            <div class="image-preview">
+                <img ng-src="{{img.imagePath}}" alt="{{img.altText}}" onerror="this.src='/assets/default.png'">
+                <div class="image-overlay">
+                    <button class="overlay-btn" ng-click="updateAltText(img)" title="Edit Alt Text">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="overlay-btn btn-delete" ng-click="deleteImage(img)" title="Delete Image">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="image-info">
+                <div class="image-name">{{img.altText || 'Untitled'}}</div>
+                <div class="image-meta">
+                    <span class="meta-item">
+                        <i class="fas fa-calendar"></i> {{img.createdAt | date:'MM/dd/yyyy'}}
+                    </span>
+                    <span class="meta-item" ng-if="img.isInUse">
+                        <i class="fas fa-link" style="color: #10B981;"></i> In Use
+                    </span>
+                    <span class="meta-item" ng-if="!img.isInUse">
+                        <i class="fas fa-unlink" style="color: #9CA3AF;"></i> Not Used
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Footer -->
+    <div ng-if="!loading && images.length > 0" class="gallery-stats">
+        <div class="stat-item">
+            <strong>{{images.length}}</strong> Total Images
+        </div>
+        <div class="stat-item">
+            <strong>{{(images | filter:{isInUse:true}).length}}</strong> In Use
+        </div>
+        <div class="stat-item">
+            <strong>{{(images | filter:{isInUse:false}).length}}</strong> Unused
+        </div>
+    </div>
+</div>
+
+<style>
+/* Image Gallery Styles */
+.image-gallery-container {
+    padding: 20px;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.page-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #27334B;
+    margin: 0;
+}
+
+.page-subtitle {
+    color: #6B7280;
+    margin: 5px 0 0 0;
+    font-size: 14px;
+}
+
+.upload-section {
+    position: relative;
+}
+
+.file-input {
+    display: none;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.btn-primary {
+    background: #5977AF;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #4a6399;
+}
+
+/* Upload Progress */
+.upload-progress {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #E5E7EB;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #5977AF, #7B92C9);
+    animation: progress 1.5s infinite;
+}
+
+@keyframes progress {
+    0% { width: 0%; }
+    50% { width: 70%; }
+    100% { width: 100%; }
+}
+
+/* Images Grid */
+.images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Empty State */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 20px;
+    color: #9CA3AF;
+}
+
+.empty-state i {
+    margin-bottom: 20px;
+    color: #D1D5DB;
+}
+
+.empty-state h3 {
+    font-size: 24px;
+    margin: 10px 0;
+    color: #6B7280;
+}
+
+.empty-state p {
+    color: #9CA3AF;
+}
+
+/* Image Card */
+.image-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.image-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+.image-preview {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: #F3F4F6;
+}
+
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.image-card:hover .image-overlay {
+    opacity: 1;
+}
+
+.overlay-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%;
+    background: white;
+    color: #27334B;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.overlay-btn:hover {
+    transform: scale(1.1);
+}
+
+.btn-delete {
+    background: #EF4444;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #DC2626;
+}
+
+.image-info {
+    padding: 15px;
+}
+
+.image-name {
+    font-weight: 600;
+    color: #27334B;
+    margin-bottom: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.image-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 12px;
+    color: #6B7280;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Gallery Stats */
+.gallery-stats {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 40px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.stat-item {
+    text-align: center;
+    color: #6B7280;
+}
+
+.stat-item strong {
+    display: block;
+    font-size: 24px;
+    color: #5977AF;
+    margin-bottom: 5px;
+}
+
+/* Responsive */
+@@media (max-width: 768px) {
+    .images-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .image-preview {
+        height: 150px;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .gallery-stats {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+</style>
+    </div>
+</div>

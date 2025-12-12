@@ -1,15 +1,15 @@
 // ============================================================================
-// MODULE.JS - DEFINITIONS
+// MODULE.JS - ENHANCED WITH IMAGE GALLERY
 // ============================================================================
 
 // 1. Define Customer App
 angular.module('PetalExpressApplication', []);
 
-// 2. Define Admin App with Routing
-var adminApp = app;
+// 2. Define Admin App
+var app = angular.module('petalAdminApp', ['ngRoute']);
 
 // 3. Configure Admin Routes
-adminApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     $locationProvider.hashPrefix('');
 
     $routeProvider
@@ -20,6 +20,10 @@ adminApp.config(['$routeProvider', '$locationProvider', function ($routeProvider
         .when('/products', {
             templateUrl: '/Admin/Products',
             controller: 'ProductsCtrl'
+        })
+        .when('/image-gallery', {
+            templateUrl: '/Admin/ImageGallery',
+            controller: 'ImageGalleryCtrl'
         })
         .when('/orders', {
             templateUrl: '/Admin/Orders',

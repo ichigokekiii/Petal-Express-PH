@@ -1,5 +1,5 @@
-﻿<!DOCTYPE html>
-<html lang="en" ng-app="PetalExpressApplication">
+<!DOCTYPE html>
+<html lang="en" ng-app="petalAdminApp">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,6 +32,10 @@
                 <a href="@Url.Action("Users", "Admin")" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded transition-colors">
                     <i class="fas fa-users w-6 text-center"></i><span class="ml-3">Customers</span>
                 </a>
+
+                <a href="@Url.Action("ImageGallery", "Admin")" class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded transition-colors">
+                    <i class="fas fa-images w-6 text-center"></i><span class="ml-3">Image Gallery</span>
+                </a>
             </nav>
 
             <div class="p-4 border-t border-gray-700">
@@ -56,17 +60,20 @@
         </div>
     </div>
 
+    <!-- AngularJS and Dependencies -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-route.min.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    
+    <!-- PDFMake -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
-    <script src="/Scripts/HolyScripts/Module.js"></script>
-    <script src="/Scripts/HolyScripts/Service.js"></script>
-    <script src="/Scripts/HolyScripts/Controller.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/Scripts/pdfmake/pdfmake.min.js"></script>
-    <script src="/Scripts/pdfmake/vfs_fonts.js"></script>
+    <!-- Your App Scripts (in correct order!) -->
+    <script src="~/Scripts/HolyScripts/Module.js"></script>
+    <script src="~/Scripts/HolyScripts/Service.js"></script>
+    <script src="~/Scripts/HolyScripts/Controller.js"></script>
 </body>
 </html>

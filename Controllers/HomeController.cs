@@ -36,7 +36,6 @@ namespace Petal_Express_PH.Controllers
         {
             try
             {
-                // 1. Find user (Case-insensitive email check)
                 var user = db.Users.FirstOrDefault(u => u.email.ToLower() == email.ToLower() && u.isActive);
 
                 if (user == null)
@@ -44,13 +43,11 @@ namespace Petal_Express_PH.Controllers
                     return Json(new { success = false, error = "Account not found or inactive." });
                 }
 
-                // 2. Check Password (Using the correct property 'passwordHash')
                 if (user.passwordHash != password)
                 {
                     return Json(new { success = false, error = "Invalid password." });
                 }
 
-                // 3. Set Session
                 Session["UserID"] = user.userID;
                 Session["Email"] = user.email;
                 Session["FirstName"] = user.firstName;
@@ -59,7 +56,6 @@ namespace Petal_Express_PH.Controllers
                 string role = (user.role ?? "customer").Trim();
                 Session["Role"] = role;
 
-                // 4. Log the Session
                 try
                 {
                     var loginLog = new tblSessions
@@ -72,9 +68,8 @@ namespace Petal_Express_PH.Controllers
                     db.Sessions.Add(loginLog);
                     db.SaveChanges();
                 }
-                catch { /* Ignore logging errors */ }
+                catch { }
 
-                // 5. Determine Redirect
                 string redirectUrl = role.Equals("admin", StringComparison.OrdinalIgnoreCase)
                                      ? "/Admin/Index"
                                      : "/Home/Index";
@@ -99,10 +94,6 @@ namespace Petal_Express_PH.Controllers
                 user.isActive = true;
                 user.createdAt = DateTime.Now;
                 user.updatedAt = DateTime.Now;
-
-                // Fix: Ensure passwordHash is set if your form sends 'password' or 'passwordHash'
-                // If your form sends user.passwordHash directly, this line is fine.
-                // If your Model binder fails, you might need to map it manually.
 
                 db.Users.Add(user);
                 db.SaveChanges();
@@ -144,30 +135,88 @@ namespace Petal_Express_PH.Controllers
         }
 
         // ============================================================================
-        // CART & SHOP APIs
+        // SHOP & PRODUCTS API - FIXED FOR CUSTOMER FRONTEND
         // ============================================================================
 
+        /// <summary>
+        /// GET: Get all active products for customer shop page
+        /// This returns data in the exact format your Shop.cshtml expects
+        /// </summary>
         [HttpGet]
         public JsonResult GetProducts()
         {
-            // Join Products with Images
-            var list = (from p in db.Products
-                        join c in db.ProductCategories on p.categoryID equals c.categoryID
-                        join i in db.Images on p.imageID equals i.imageID into images
-                        from img in images.DefaultIfEmpty()
-                        where p.isActive == true && c.categoryName != "Services"
-                        select new
-                        {
-                            p.productID,
-                            p.name,
-                            p.price,
-                            p.description,
-                            ImagePath = img != null ? img.imagePath : "/assets/default.png"
-                        }).ToList();
+            try
+            {
+                // Query products with images and categories
+                var products = (from p in db.Products
+                               join c in db.ProductCategories on p.categoryID equals c.categoryID into cats
+                               from cat in cats.DefaultIfEmpty()
+                               join i in db.Images on p.imageID equals i.imageID into imgs
+                               from img in imgs.DefaultIfEmpty()
+                               where p.isActive == true
+                               orderby p.createdAt descending
+                               select new
+                               {
+                                   ProductId = p.productID,      // Match your frontend property names
+                                   Name = p.name,
+                                   Description = p.description,
+                                   Price = p.price,
+                                   StockQuantity = p.stockQuantity,
+                                   ImagePath = img != null ? img.imagePath : "/assets/default.png",
+                                   CategoryName = cat != null ? cat.categoryName : "Uncategorized"
+                               }).ToList();
 
-            return Json(list, JsonRequestBehavior.AllowGet);
+                return Json(products, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
 
-        // ... You can add Cart/Order methods here as needed ...
+        /// <summary>
+        /// GET: Get single product by ID for product detail page
+        /// </summary>
+        [HttpGet]
+        public JsonResult GetProductById(int id)
+        {
+            try
+            {
+                var product = (from p in db.Products
+                              join c in db.ProductCategories on p.categoryID equals c.categoryID into cats
+                              from cat in cats.DefaultIfEmpty()
+                              join i in db.Images on p.imageID equals i.imageID into imgs
+                              from img in imgs.DefaultIfEmpty()
+                              where p.productID == id && p.isActive
+                              select new
+                              {
+                                  ProductId = p.productID,
+                                  Name = p.name,
+                                  Description = p.description,
+                                  Price = p.price,
+                                  StockQuantity = p.stockQuantity,
+                                  ImagePath = img != null ? img.imagePath : "/assets/default.png",
+                                  CategoryName = cat != null ? cat.categoryName : "Uncategorized"
+                              }).FirstOrDefault();
+
+                if (product == null)
+                    return Json(new { success = false, error = "Product not found" }, JsonRequestBehavior.AllowGet);
+
+                return Json(new { success = true, data = product }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, error = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }
