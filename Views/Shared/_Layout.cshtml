@@ -1,4 +1,4 @@
-﻿@*
+@*
     File: ~/Views/Shared/_Layout.cshtml
 *@
 <!DOCTYPE html>
@@ -44,6 +44,9 @@
     @Html.Partial("_Footer")
 
     
+        <!-- IMPORTANT: jQuery MUST be loaded BEFORE AngularJS -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
         <script src="@Url.Content("~/Scripts/HolyScripts/Module.js")"></script>
         <script src="@Url.Content("~/Scripts/HolyScripts/Controller.js")"></script>

@@ -1,24 +1,85 @@
 app.service('PetalExpressApplicationService', function ($http) {
     var authData = {};
-    authData.users = [];
     authData.isLoggedIn = false;
-    authData.registerUser = function (user) {
-        for (var i = 0; i < authData.users.length; i++) {
-            if (authData.users[i].email === user.email) {
-                return { success: false, message: 'This email is already registered.' };
+    authData.currentUser = null;
+
+    // Register User - Simple version, saves to database
+    authData.registerUser = function (user, successCallback, errorCallback) {
+        $http({
+            method: 'POST',
+            url: '/Home/RegisterUser',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            data: $.param({
+                email: user.email,
+                password: user.password,
+                name: user.name || '',
+                phone: user.phone || ''
+            })
+        }).then(function (response) {
+            if (response.data.success) {
+                successCallback(response.data);
+            } else {
+                errorCallback(response.data);
             }
-        }
-        authData.users.push(angular.copy(user));
-        return { success: true, message: 'Registration successful!' };
+        }, function (error) {
+            errorCallback({ success: false, message: 'Server error. Please try again.' });
+        });
     };
-    authData.login = function (credentials) {
-        for (var i = 0; i < authData.users.length; i++) {
-            if (authData.users[i].email === credentials.email && authData.users[i].password === credentials.password) {
+
+    // Login User - Simple version, checks database
+    authData.login = function (credentials, successCallback, errorCallback) {
+        $http({
+            method: 'POST',
+            url: '/Home/LoginUser',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            data: $.param({
+                email: credentials.email,
+                password: credentials.password
+            })
+        }).then(function (response) {
+            if (response.data.success) {
                 authData.isLoggedIn = true;
-                return true;
+                authData.currentUser = response.data.user;
+                successCallback(response.data);
+            } else {
+                errorCallback(response.data);
             }
-        }
-        return false;
+        }, function (error) {
+            errorCallback({ success: false, message: 'Server error. Please try again.' });
+        });
     };
+
+    // Logout User
+    authData.logout = function (callback) {
+        $http({
+            method: 'POST',
+            url: '/Home/Logout'
+        }).then(function (response) {
+            authData.isLoggedIn = false;
+            authData.currentUser = null;
+            if (callback) callback(response.data);
+        });
+    };
+
+    // Check if user is logged in
+    authData.checkSession = function (callback) {
+        $http({
+            method: 'GET',
+            url: '/Home/CheckSession'
+        }).then(function (response) {
+            if (response.data.isLoggedIn) {
+                authData.isLoggedIn = true;
+                authData.currentUser = response.data.user;
+            } else {
+                authData.isLoggedIn = false;
+                authData.currentUser = null;
+            }
+            if (callback) callback(response.data);
+        });
+    };
+
+    // Initialize - check session on service load
+    authData.checkSession();
+
     return authData;
 });

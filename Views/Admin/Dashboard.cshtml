@@ -1,0 +1,178 @@
+@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.PageTitle = "Dashboard Overview";
+    ViewBag.PageDescription = "Welcome back! Here's what's happening with your store.";
+    ViewBag.ActivePage = "Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (ViewBag.Error != null)
+{
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
+        <strong>Error:</strong> @ViewBag.Error
+    </div>
+}
+
+<!-- Statistics Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    
+    <!-- Total Users Card -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 transform hover:scale-105 transition">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-semibold uppercase">Total Users</p>
+                <h3 class="text-4xl font-black text-[#5977AF] mt-2">@ViewBag.TotalUsers</h3>
+            </div>
+            <div class="bg-blue-100 p-4 rounded-full">
+                <svg class="w-8 h-8 text-[#5977AF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+            </div>
+        </div>
+        <p class="text-gray-600 text-sm mt-4">Registered customers</p>
+    </div>
+
+    <!-- Total Products Card -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 transform hover:scale-105 transition">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-semibold uppercase">Total Products</p>
+                <h3 class="text-4xl font-black text-green-600 mt-2">@ViewBag.TotalProducts</h3>
+            </div>
+            <div class="bg-green-100 p-4 rounded-full">
+                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+            </div>
+        </div>
+        <p class="text-gray-600 text-sm mt-4">Products in catalog</p>
+    </div>
+
+    <!-- Total Orders Card -->
+    <div class="bg-white rounded-2xl shadow-lg p-6 transform hover:scale-105 transition">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-gray-500 text-sm font-semibold uppercase">Total Orders</p>
+                <h3 class="text-4xl font-black text-orange-600 mt-2">@ViewBag.TotalOrders</h3>
+            </div>
+            <div class="bg-orange-100 p-4 rounded-full">
+                <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                </svg>
+            </div>
+        </div>
+        <p class="text-gray-600 text-sm mt-4">Orders placed</p>
+    </div>
+
+</div>
+
+<!-- Quick Actions & Recent Users -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    
+    <!-- Quick Actions -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+        <h2 class="text-2xl font-black text-gray-800 mb-4">Quick Actions</h2>
+        <div class="space-y-3">
+            <button class="w-full text-left px-4 py-3 bg-[#5977AF] text-white rounded-lg hover:bg-[#4a6199] transition font-semibold">
+                Add New Product
+            </button>
+            <button class="w-full text-left px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition font-semibold">
+                Manage Orders
+            </button>
+            <button class="w-full text-left px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition font-semibold">
+                View Reports
+            </button>
+            <button class="w-full text-left px-4 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition font-semibold">
+                Settings
+            </button>
+        </div>
+    </div>
+
+    <!-- Recent Users -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+        <h2 class="text-2xl font-black text-gray-800 mb-4">Recent Users</h2>
+        @if (ViewBag.RecentUsers != null && ((List<Petal_Express_PH.Models.tblUsersModel>)ViewBag.RecentUsers).Count > 0)
+        {
+            <div class="space-y-3">
+                @foreach (var user in (List<Petal_Express_PH.Models.tblUsersModel>)ViewBag.RecentUsers)
+                {
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-[#5977AF] rounded-full flex items-center justify-center text-white font-bold">
+                                @user.first_name.Substring(0, 1)@user.last_name.Substring(0, 1)
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-800">@user.first_name @user.last_name</p>
+                                <p class="text-sm text-gray-500">@user.email</p>
+                            </div>
+                        </div>
+                        <span class="px-3 py-1 @(user.role == "admin" ? "bg-purple-100 text-purple-800" : "bg-blue-100 text-blue-800") text-xs font-semibold rounded-full">
+                            @user.role
+                        </span>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-gray-500 text-center py-8">No users registered yet</p>
+        }
+    </div>
+
+</div>
+
+<!-- System Info -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    
+    <!-- Database Stats -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+        <h2 class="text-2xl font-black text-gray-800 mb-4">Database Stats</h2>
+        <div class="space-y-3">
+            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <span class="text-gray-700 font-semibold">Total Categories</span>
+                <span class="text-[#5977AF] font-black text-xl">@ViewBag.TotalCategories</span>
+            </div>
+            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <span class="text-gray-700 font-semibold">Active Products</span>
+                <span class="text-green-600 font-black text-xl">@ViewBag.TotalProducts</span>
+            </div>
+            <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                <span class="text-gray-700 font-semibold">Pending Orders</span>
+                <span class="text-orange-600 font-black text-xl">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Coming Soon -->
+    <div class="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl shadow-lg p-6 text-white">
+        <h2 class="text-2xl font-black mb-4">Coming Soon</h2>
+        <p class="mb-4">Exciting features on the way:</p>
+        <ul class="space-y-2">
+            <li class="flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Product CRUD Operations</span>
+            </li>
+            <li class="flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Dynamic Charts & Analytics</span>
+            </li>
+            <li class="flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>PDF Report Generation</span>
+            </li>
+            <li class="flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <span>Order Management System</span>
+            </li>
+        </ul>
+    </div>
+
+</div>

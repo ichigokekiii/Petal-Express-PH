@@ -187,13 +187,33 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\DatabaseTestController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Context\PetalExpressContext.cs" />
+    <Compile Include="Models\Maps\tblCartItemsMap.cs" />
+    <Compile Include="Models\Maps\tblCartMap.cs" />
+    <Compile Include="Models\Maps\tblImagesMap.cs" />
+    <Compile Include="Models\Maps\tblOrderItemsMap.cs" />
+    <Compile Include="Models\Maps\tblOrdersMap.cs" />
+    <Compile Include="Models\Maps\tblProductCategoryMap.cs" />
+    <Compile Include="Models\Maps\tblProductsMap.cs" />
     <Compile Include="Models\Maps\tblRegistrationsMap.cs" />
+    <Compile Include="Models\Maps\tblSessionsMap.cs" />
+    <Compile Include="Models\Maps\tblUsersMap.cs" />
+    <Compile Include="Models\tblCartItemsModel.cs" />
+    <Compile Include="Models\tblCartModel.cs" />
+    <Compile Include="Models\tblImagesModel.cs" />
+    <Compile Include="Models\tblOrderItemsModel.cs" />
+    <Compile Include="Models\tblOrdersModel.cs" />
+    <Compile Include="Models\tblProductCategoryModel.cs" />
+    <Compile Include="Models\tblProductsModel.cs" />
     <Compile Include="Models\tblRegistrationsModel.cs" />
+    <Compile Include="Models\tblSessionsModel.cs" />
+    <Compile Include="Models\tblUsersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -232,11 +252,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_FlowerDivider.cshtml" />
     <Content Include="Views\Home\Shop.cshtml" />
@@ -245,9 +263,16 @@
     <Content Include="Views\Home\ProductDetail.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
+    <Content Include="Views\Home\TestDatabase.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Header.cshtml" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Admin\Dashboard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\tblProductsModel\" />
+    <Folder Include="Views\tblUsersModel\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
