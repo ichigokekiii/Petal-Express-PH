@@ -42,6 +42,133 @@ namespace Petal_Express_PH.Controllers
             }
         }
 
+        // API: Get Chart Data
+        [HttpGet]
+        public JsonResult GetChartData()
+        {
+            try
+            {
+                // PIE CHART DATA: Products by Category
+                var categoryData = db.Products
+                    .Where(p => p.is_active == true && p.category_id != null)
+                    .GroupBy(p => p.category_id)
+                    .Select(g => new
+                    {
+                        category_id = g.Key,
+                        count = g.Count()
+                    })
+                    .ToList();
+
+                var categoryLabels = new List<string>();
+                var categoryValues = new List<int>();
+
+                foreach (var item in categoryData)
+                {
+                    var category = db.ProductCategories.Find(item.category_id);
+                    if (category != null)
+                    {
+                        categoryLabels.Add(category.category_name);
+                        categoryValues.Add(item.count);
+                    }
+                }
+
+                // BAR CHART DATA: Top 5 Products by Stock
+                var stockData = db.Products
+                    .Where(p => p.is_active == true)
+                    .OrderByDescending(p => p.stock_quantity)
+                    .Take(5)
+                    .ToList();
+
+                var stockLabels = stockData.Select(p => p.name.Length > 15 ? p.name.Substring(0, 15) + "..." : p.name).ToList();
+                var stockValues = stockData.Select(p => p.stock_quantity).ToList();
+
+                // LINE CHART DATA: User Registrations Last 7 Days
+                var today = DateTime.Today;
+                var userLabels = new List<string>();
+                var userValues = new List<int>();
+
+                for (int i = 6; i >= 0; i--)
+                {
+                    var date = today.AddDays(-i);
+                    var nextDate = date.AddDays(1);
+
+                    var count = db.Users.Where(u =>
+                        u.created_at >= date &&
+                        u.created_at < nextDate
+                    ).Count();
+
+                    userLabels.Add(date.ToString("MMM dd"));
+                    userValues.Add(count);
+                }
+
+                return Json(new
+                {
+                    success = true,
+                    categoryData = new
+                    {
+                        labels = categoryLabels,
+                        values = categoryValues
+                    },
+                    stockData = new
+                    {
+                        labels = stockLabels,
+                        values = stockValues
+                    },
+                    userData = new
+                    {
+                        labels = userLabels,
+                        values = userValues
+                    }
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = ex.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        // API: Get All Products for PDF Report
+        [HttpGet]
+        public JsonResult GetAllProductsForReport()
+        {
+            try
+            {
+                var products = db.Products
+                    .Where(p => p.is_active == true)
+                    .OrderBy(p => p.name)
+                    .ToList();
+
+                var productList = products.Select(p => new
+                {
+                    name = p.name,
+                    price = p.price,
+                    stock_quantity = p.stock_quantity,
+                    category_name = p.category_id != null
+                        ? db.ProductCategories.Find(p.category_id)?.category_name
+                        : "N/A"
+                }).ToList();
+
+                return Json(new
+                {
+                    success = true,
+                    products = productList
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = ex.Message,
+                    products = new List<object>()
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         // GET: Admin/Products
         public ActionResult Products()
         {
@@ -66,6 +193,9 @@ namespace Petal_Express_PH.Controllers
                     }
                 }
                 ViewBag.ProductImages = productImages;
+
+                // Load categories for modal dropdowns
+                ViewBag.Categories = db.ProductCategories.Where(c => c.is_active == true).ToList();
 
                 return View(products);
             }
@@ -239,6 +369,48 @@ namespace Petal_Express_PH.Controllers
                 ViewBag.Error = "Error updating product: " + ex.Message;
                 ViewBag.Categories = db.ProductCategories.Where(c => c.is_active == true).ToList();
                 return View(product);
+            }
+        }
+
+        // GET: Admin/GetProduct - For Edit Modal
+        [HttpGet]
+        public JsonResult GetProduct(int id)
+        {
+            try
+            {
+                var product = db.Products.Find(id);
+                if (product == null)
+                {
+                    return Json(new { success = false, message = "Product not found." }, JsonRequestBehavior.AllowGet);
+                }
+
+                // Get image path
+                string imagePath = null;
+                if (product.image_id != null)
+                {
+                    var image = db.Images.Find(product.image_id);
+                    imagePath = image?.image_path;
+                }
+
+                return Json(new
+                {
+                    success = true,
+                    product = new
+                    {
+                        product_id = product.product_id,
+                        name = product.name,
+                        description = product.description,
+                        price = product.price,
+                        stock_quantity = product.stock_quantity,
+                        category_id = product.category_id,
+                        image_id = product.image_id,
+                        image_path = imagePath
+                    }
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
             }
         }
 

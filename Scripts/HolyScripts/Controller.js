@@ -102,7 +102,7 @@ app.controller("authController", function ($scope, PetalExpressApplicationServic
                     confirmButtonText: 'Continue'
                 }).then(function () {
                     // Check user role and redirect
-                    if (response.user.role === 'admin') {
+                    if (response.role === 'admin') {
                         window.location.href = '/Admin/Dashboard';
                     } else {
                         window.location.href = '/Home/Index';

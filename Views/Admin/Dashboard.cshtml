@@ -13,6 +13,13 @@
     </div>
 }
 
+<!-- Download Report Button -->
+<div class="flex justify-end mb-6">
+    <button onclick="generatePDFReport()" class="px-6 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition shadow-lg">
+        Download PDF Report
+    </button>
+</div>
+
 <!-- Statistics Cards -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
     
@@ -21,7 +28,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-gray-500 text-sm font-semibold uppercase">Total Users</p>
-                <h3 class="text-4xl font-black text-[#5977AF] mt-2">@ViewBag.TotalUsers</h3>
+                <h3 class="text-4xl font-black text-[#5977AF] mt-2" id="totalUsers">@ViewBag.TotalUsers</h3>
             </div>
             <div class="bg-blue-100 p-4 rounded-full">
                 <svg class="w-8 h-8 text-[#5977AF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -37,7 +44,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-gray-500 text-sm font-semibold uppercase">Total Products</p>
-                <h3 class="text-4xl font-black text-green-600 mt-2">@ViewBag.TotalProducts</h3>
+                <h3 class="text-4xl font-black text-green-600 mt-2" id="totalProducts">@ViewBag.TotalProducts</h3>
             </div>
             <div class="bg-green-100 p-4 rounded-full">
                 <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,7 +60,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-gray-500 text-sm font-semibold uppercase">Total Orders</p>
-                <h3 class="text-4xl font-black text-orange-600 mt-2">@ViewBag.TotalOrders</h3>
+                <h3 class="text-4xl font-black text-orange-600 mt-2" id="totalOrders">@ViewBag.TotalOrders</h3>
             </div>
             <div class="bg-orange-100 p-4 rounded-full">
                 <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,6 +73,35 @@
 
 </div>
 
+<!-- Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    
+    <!-- Pie Chart: Products by Category -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+        <h2 class="text-2xl font-black text-gray-800 mb-4">Products by Category</h2>
+        <div class="relative h-64">
+            <canvas id="categoryPieChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Bar Chart: Top Products by Stock -->
+    <div class="bg-white rounded-2xl shadow-lg p-6">
+        <h2 class="text-2xl font-black text-gray-800 mb-4">Top Products by Stock</h2>
+        <div class="relative h-64">
+            <canvas id="stockBarChart"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<!-- Line Chart: User Registrations Over Time -->
+<div class="bg-white rounded-2xl shadow-lg p-6 mb-8">
+    <h2 class="text-2xl font-black text-gray-800 mb-4">User Registrations (Last 7 Days)</h2>
+    <div class="relative h-64">
+        <canvas id="userLineChart"></canvas>
+    </div>
+</div>
+
 <!-- Quick Actions & Recent Users -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
     
@@ -73,9 +109,9 @@
     <div class="bg-white rounded-2xl shadow-lg p-6">
         <h2 class="text-2xl font-black text-gray-800 mb-4">Quick Actions</h2>
         <div class="space-y-3">
-            <button class="w-full text-left px-4 py-3 bg-[#5977AF] text-white rounded-lg hover:bg-[#4a6199] transition font-semibold">
+            <a href="@Url.Action("Products", "Admin")" class="block w-full text-left px-4 py-3 bg-[#5977AF] text-white rounded-lg hover:bg-[#4a6199] transition font-semibold">
                 Add New Product
-            </button>
+            </a>
             <button class="w-full text-left px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition font-semibold">
                 Manage Orders
             </button>
@@ -130,7 +166,7 @@
         <div class="space-y-3">
             <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                 <span class="text-gray-700 font-semibold">Total Categories</span>
-                <span class="text-[#5977AF] font-black text-xl">@ViewBag.TotalCategories</span>
+                <span class="text-[#5977AF] font-black text-xl" id="totalCategories">@ViewBag.TotalCategories</span>
             </div>
             <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                 <span class="text-gray-700 font-semibold">Active Products</span>
@@ -138,41 +174,487 @@
             </div>
             <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                 <span class="text-gray-700 font-semibold">Pending Orders</span>
-                <span class="text-orange-600 font-black text-xl">0</span>
+                <span class="text-orange-600 font-black text-xl">@ViewBag.TotalOrders</span>
             </div>
         </div>
     </div>
 
-    <!-- Coming Soon -->
+    <!-- System Health -->
     <div class="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl shadow-lg p-6 text-white">
-        <h2 class="text-2xl font-black mb-4">Coming Soon</h2>
-        <p class="mb-4">Exciting features on the way:</p>
-        <ul class="space-y-2">
-            <li class="flex items-center space-x-2">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                <span>Product CRUD Operations</span>
-            </li>
-            <li class="flex items-center space-x-2">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                <span>Dynamic Charts & Analytics</span>
-            </li>
-            <li class="flex items-center space-x-2">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                <span>PDF Report Generation</span>
-            </li>
-            <li class="flex items-center space-x-2">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                </svg>
-                <span>Order Management System</span>
-            </li>
-        </ul>
+        <h2 class="text-2xl font-black mb-4">System Status</h2>
+        <div class="space-y-4">
+            <div class="flex items-center justify-between">
+                <span class="font-semibold">Database</span>
+                <span class="px-3 py-1 bg-green-500 rounded-full text-sm font-bold">Online</span>
+            </div>
+            <div class="flex items-center justify-between">
+                <span class="font-semibold">Image Storage</span>
+                <span class="px-3 py-1 bg-green-500 rounded-full text-sm font-bold">Active</span>
+            </div>
+            <div class="flex items-center justify-between">
+                <span class="font-semibold">User Sessions</span>
+                <span class="px-3 py-1 bg-green-500 rounded-full text-sm font-bold">Running</span>
+            </div>
+            <div class="flex items-center justify-between">
+                <span class="font-semibold">Charts & Analytics</span>
+                <span class="px-3 py-1 bg-green-500 rounded-full text-sm font-bold">Enabled</span>
+            </div>
+        </div>
     </div>
 
 </div>
+
+<!-- Chart.js & pdfMake Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // Global variables to store charts and data
+    let pieChartInstance, barChartInstance, lineChartInstance;
+    let dashboardData = {
+        totalUsers: @ViewBag.TotalUsers,
+        totalProducts: @ViewBag.TotalProducts,
+        totalOrders: @ViewBag.TotalOrders,
+        totalCategories: @ViewBag.TotalCategories
+    };
+    let chartData = {};
+
+    // Get chart data from backend
+    fetch('@Url.Action("GetChartData", "Admin")')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                chartData = data; // Store for PDF generation
+                pieChartInstance = createPieChart(data.categoryData);
+                barChartInstance = createBarChart(data.stockData);
+                lineChartInstance = createLineChart(data.userData);
+            }
+        });
+
+    // PIE CHART: Products by Category
+    function createPieChart(categoryData) {
+        const ctx = document.getElementById('categoryPieChart');
+        return new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: categoryData.labels,
+                datasets: [{
+                    data: categoryData.values,
+                    backgroundColor: [
+                        '#5977AF',
+                        '#48BB78',
+                        '#F6AD55',
+                        '#FC8181',
+                        '#9F7AEA',
+                        '#4FD1C5'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // BAR CHART: Top Products by Stock
+    function createBarChart(stockData) {
+        const ctx = document.getElementById('stockBarChart');
+        return new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: stockData.labels,
+                datasets: [{
+                    label: 'Stock Quantity',
+                    data: stockData.values,
+                    backgroundColor: '#5977AF',
+                    borderRadius: 8,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // LINE CHART: User Registrations
+    function createLineChart(userData) {
+        const ctx = document.getElementById('userLineChart');
+        return new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: userData.labels,
+                datasets: [{
+                    label: 'New Users',
+                    data: userData.values,
+                    borderColor: '#5977AF',
+                    backgroundColor: 'rgba(89, 119, 175, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#5977AF',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        ticks: {
+                            stepSize: 1
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // PDF GENERATION FUNCTION
+    async function generatePDFReport() {
+        // Show loading message
+        const loadingToast = Swal.fire({
+            title: 'Generating Report...',
+            text: 'Please wait while we create your PDF',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        // Get chart images
+        const pieChartImage = pieChartInstance.toBase64Image();
+        const barChartImage = barChartInstance.toBase64Image();
+        const lineChartImage = lineChartInstance.toBase64Image();
+
+        // Get products data
+        const productsResponse = await fetch('@Url.Action("GetAllProductsForReport", "Admin")');
+        const productsData = await productsResponse.json();
+
+        // Current date
+        const currentDate = new Date().toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        // Define PDF document
+        const docDefinition = {
+            pageSize: 'A4',
+            pageMargins: [40, 60, 40, 60],
+            header: function(currentPage, pageCount) {
+                return {
+                    text: currentPage === 1 ? '' : 'Petal Express PH - Dashboard Report',
+                    alignment: 'center',
+                    margin: [0, 20, 0, 0],
+                    fontSize: 10,
+                    color: '#5977AF'
+                };
+            },
+            footer: function(currentPage, pageCount) {
+                return {
+                    text: 'Page ' + currentPage.toString() + ' of ' + pageCount,
+                    alignment: 'center',
+                    margin: [0, 20, 0, 0],
+                    fontSize: 8,
+                    color: '#666'
+                };
+            },
+            content: [
+                // TITLE
+                {
+                    text: 'PETAL EXPRESS PH',
+                    style: 'header',
+                    alignment: 'center',
+                    margin: [0, 0, 0, 5]
+                },
+                {
+                    text: 'Dashboard Report',
+                    style: 'subheader',
+                    alignment: 'center',
+                    color: '#5977AF',
+                    margin: [0, 0, 0, 5]
+                },
+                {
+                    text: `Generated: ${currentDate}`,
+                    style: 'normal',
+                    alignment: 'center',
+                    margin: [0, 0, 0, 20],
+                    color: '#666'
+                },
+
+                // HORIZONTAL LINE
+                {
+                    canvas: [
+                        {
+                            type: 'line',
+                            x1: 0, y1: 0,
+                            x2: 515, y2: 0,
+                            lineWidth: 2,
+                            lineColor: '#5977AF'
+                        }
+                    ],
+                    margin: [0, 0, 0, 20]
+                },
+
+                // STATISTICS SUMMARY
+                {
+                    text: 'SUMMARY STATISTICS',
+                    style: 'sectionHeader',
+                    margin: [0, 10, 0, 10]
+                },
+                {
+                    columns: [
+                        {
+                            width: '*',
+                            stack: [
+                                { text: 'Total Users', style: 'statLabel' },
+                                { text: dashboardData.totalUsers.toString(), style: 'statValue', color: '#5977AF' }
+                            ],
+                            alignment: 'center'
+                        },
+                        {
+                            width: '*',
+                            stack: [
+                                { text: 'Total Products', style: 'statLabel' },
+                                { text: dashboardData.totalProducts.toString(), style: 'statValue', color: '#48BB78' }
+                            ],
+                            alignment: 'center'
+                        },
+                        {
+                            width: '*',
+                            stack: [
+                                { text: 'Total Orders', style: 'statLabel' },
+                                { text: dashboardData.totalOrders.toString(), style: 'statValue', color: '#F6AD55' }
+                            ],
+                            alignment: 'center'
+                        },
+                        {
+                            width: '*',
+                            stack: [
+                                { text: 'Categories', style: 'statLabel' },
+                                { text: dashboardData.totalCategories.toString(), style: 'statValue', color: '#9F7AEA' }
+                            ],
+                            alignment: 'center'
+                        }
+                    ],
+                    margin: [0, 0, 0, 30]
+                },
+
+                // CHARTS SECTION
+                {
+                    text: 'VISUAL ANALYTICS',
+                    style: 'sectionHeader',
+                    margin: [0, 10, 0, 10],
+                    pageBreak: 'before'
+                },
+
+                // Pie Chart
+                {
+                    text: 'Products by Category',
+                    style: 'chartTitle',
+                    margin: [0, 0, 0, 10]
+                },
+                {
+                    image: pieChartImage,
+                    width: 400,
+                    alignment: 'center',
+                    margin: [0, 0, 0, 20]
+                },
+
+                // Bar Chart
+                {
+                    text: 'Top Products by Stock',
+                    style: 'chartTitle',
+                    margin: [0, 10, 0, 10]
+                },
+                {
+                    image: barChartImage,
+                    width: 450,
+                    alignment: 'center',
+                    margin: [0, 0, 0, 20]
+                },
+
+                // Line Chart - New Page
+                {
+                    text: 'User Registrations (Last 7 Days)',
+                    style: 'chartTitle',
+                    margin: [0, 10, 0, 10],
+                    pageBreak: 'before'
+                },
+                {
+                    image: lineChartImage,
+                    width: 500,
+                    alignment: 'center',
+                    margin: [0, 0, 0, 30]
+                },
+
+                // PRODUCTS TABLE
+                {
+                    text: 'PRODUCT INVENTORY',
+                    style: 'sectionHeader',
+                    margin: [0, 20, 0, 15],
+                    pageBreak: 'before'
+                },
+                {
+                    table: {
+                        headerRows: 1,
+                        widths: ['*', 60, 60, 60],
+                        body: [
+                            [
+                                { text: 'Product Name', style: 'tableHeader' },
+                                { text: 'Price (₱)', style: 'tableHeader', alignment: 'right' },
+                                { text: 'Stock', style: 'tableHeader', alignment: 'center' },
+                                { text: 'Category', style: 'tableHeader' }
+                            ],
+                            ...productsData.products.map(p => [
+                                { text: p.name, style: 'tableCell' },
+                                { text: '₱' + parseFloat(p.price).toFixed(2), style: 'tableCell', alignment: 'right' },
+                                { text: p.stock_quantity.toString(), style: 'tableCell', alignment: 'center' },
+                                { text: p.category_name || 'N/A', style: 'tableCell', fontSize: 8 }
+                            ])
+                        ]
+                    },
+                    layout: {
+                        fillColor: function (rowIndex) {
+                            return (rowIndex === 0) ? '#5977AF' : (rowIndex % 2 === 0 ? '#f3f4f6' : null);
+                        },
+                        hLineWidth: function (i, node) {
+                            return (i === 0 || i === node.table.body.length) ? 2 : 1;
+                        },
+                        vLineWidth: function () {
+                            return 0;
+                        },
+                        hLineColor: function (i) {
+                            return i === 0 ? '#5977AF' : '#e5e7eb';
+                        }
+                    }
+                },
+
+                // FOOTER NOTES
+                {
+                    text: '\n\n© 2025 Petal Express PH. All rights reserved.',
+                    style: 'footer',
+                    alignment: 'center',
+                    margin: [0, 30, 0, 0]
+                }
+            ],
+            styles: {
+                header: {
+                    fontSize: 28,
+                    bold: true,
+                    color: '#1f2937'
+                },
+                subheader: {
+                    fontSize: 18,
+                    bold: true
+                },
+                sectionHeader: {
+                    fontSize: 16,
+                    bold: true,
+                    color: '#5977AF'
+                },
+                chartTitle: {
+                    fontSize: 12,
+                    bold: true,
+                    color: '#374151'
+                },
+                statLabel: {
+                    fontSize: 10,
+                    color: '#6b7280',
+                    margin: [0, 0, 0, 5]
+                },
+                statValue: {
+                    fontSize: 24,
+                    bold: true
+                },
+                tableHeader: {
+                    bold: true,
+                    fontSize: 10,
+                    color: 'white',
+                    fillColor: '#5977AF'
+                },
+                tableCell: {
+                    fontSize: 9,
+                    margin: [5, 5, 5, 5]
+                },
+                normal: {
+                    fontSize: 10
+                },
+                footer: {
+                    fontSize: 8,
+                    color: '#9ca3af',
+                    italics: true
+                }
+            }
+        };
+
+        // Generate PDF
+        pdfMake.createPdf(docDefinition).download(`Petal_Express_Report_${Date.now()}.pdf`);
+
+        // Close loading and show success
+        loadingToast.close();
+        Swal.fire({
+            title: 'Success!',
+            text: 'Your PDF report has been downloaded!',
+            icon: 'success',
+            confirmButtonColor: '#5977AF',
+            timer: 2000
+        });
+    }
+</script>
