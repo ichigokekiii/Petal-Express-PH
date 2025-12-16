@@ -268,9 +268,13 @@
     <Content Include="Views\Shared\_Header.cshtml" />
     <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\Admin\Dashboard.cshtml" />
+    <Content Include="Views\Admin\CreateProduct.cshtml" />
+    <Content Include="Views\Admin\EditProduct.cshtml" />
+    <Content Include="Views\Admin\Products.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Assets\Images\Products\" />
     <Folder Include="Views\tblProductsModel\" />
     <Folder Include="Views\tblUsersModel\" />
   </ItemGroup>

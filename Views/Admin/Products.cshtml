@@ -1,0 +1,159 @@
+@model List<Petal_Express_PH.Models.tblProductsModel>
+@{
+    ViewBag.Title = "Products";
+    ViewBag.PageTitle = "Product Management";
+    ViewBag.PageDescription = "Manage your flower catalog and inventory";
+    ViewBag.ActivePage = "Products";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Success/Error Messages -->
+@if (TempData["Success"] != null)
+{
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6">
+        <strong>Success!</strong> @TempData["Success"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6">
+        <strong>Error:</strong> @TempData["Error"]
+    </div>
+}
+
+<!-- Header with Add Button -->
+<div class="flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-2xl font-black text-gray-800">All Products</h2>
+        <p class="text-gray-600">@Model.Count product(s) in catalog</p>
+    </div>
+    <a href="@Url.Action("CreateProduct", "Admin")" class="px-6 py-3 bg-[#5977AF] text-white font-semibold rounded-lg hover:bg-[#4a6199] transition">
+        Add New Product
+    </a>
+</div>
+
+<!-- Products Grid -->
+@if (Model.Count > 0)
+{
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        @foreach (var product in Model)
+        {
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition">
+                <!-- Product Image -->
+                <div class="h-48 bg-gray-200 overflow-hidden">
+                    @if (product.image_id != null && ViewBag.ProductImages != null)
+                    {
+                        var imagePath = ViewBag.ProductImages.ContainsKey(product.product_id) 
+                            ? ViewBag.ProductImages[product.product_id] 
+                            : null;
+                        
+                        if (imagePath != null)
+                        {
+                            <img src="@imagePath" alt="@product.name" class="w-full h-full object-cover" />
+                        }
+                        else
+                        {
+                            <div class="w-full h-full flex items-center justify-center text-gray-400 bg-gradient-to-br from-blue-50 to-indigo-100">
+                                <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="w-full h-full flex items-center justify-center text-gray-400 bg-gradient-to-br from-blue-50 to-indigo-100">
+                            <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                    }
+                </div>
+
+                <!-- Product Info -->
+                <div class="p-4">
+                    <h3 class="font-bold text-lg text-gray-800 mb-2 truncate">@product.name</h3>
+                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">@product.description</p>
+                    
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-2xl font-black text-[#5977AF]">@product.price.ToString("N2")</span>
+                        <span class="text-sm text-gray-500">Stock: @product.stock_quantity</span>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-2">
+                        <a href="@Url.Action("EditProduct", "Admin", new { id = product.product_id })" 
+                           class="flex-1 px-4 py-2 bg-blue-500 text-white text-center font-semibold rounded-lg hover:bg-blue-600 transition text-sm">
+                            Edit
+                        </a>
+                        <button onclick="deleteProduct(@product.product_id, '@product.name')" 
+                                class="flex-1 px-4 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 transition text-sm">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="bg-white rounded-2xl shadow-lg p-12 text-center">
+        <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+        </svg>
+        <h3 class="text-2xl font-bold text-gray-800 mb-2">No Products Yet</h3>
+        <p class="text-gray-600 mb-6">Start building your catalog by adding your first product!</p>
+        <a href="@Url.Action("CreateProduct", "Admin")" class="inline-block px-8 py-3 bg-[#5977AF] text-white font-semibold rounded-lg hover:bg-[#4a6199] transition">
+            Add Your First Product
+        </a>
+    </div>
+}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function deleteProduct(productId, productName) {
+        Swal.fire({
+            title: 'Delete Product?',
+            text: 'Are you sure you want to delete "' + productName + '"? This action cannot be undone.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Make AJAX call to delete
+                fetch('@Url.Action("DeleteProduct", "Admin")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id: productId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Deleted!',
+                            text: data.message,
+                            icon: 'success',
+                            confirmButtonColor: '#5977AF'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: data.message,
+                            icon: 'error',
+                            confirmButtonColor: '#5977AF'
+                        });
+                    }
+                });
+            }
+        });
+    }
+</script>
