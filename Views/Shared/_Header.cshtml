@@ -44,14 +44,12 @@
                data-nav-item>SCHEDULE</a>
         </div>
 
-        <!-- RIGHT SIDE - Your EXACT original design with dynamic show/hide -->
         <div>
             <!-- SHOW LOGIN BUTTON when NOT logged in -->
             <div ng-if="!auth.isLoggedIn">
                 <a href="@Url.Action("Login", "Home")" class="px-8 py-3 bg-[#5977AF] text-white font-semibold rounded-full">LOGIN</a>
             </div>
 
-            <!-- SHOW 3 ICONS when logged in (Your original design!) -->
             <div ng-if="auth.isLoggedIn" class="flex items-center space-x-5">
                 <!-- Search Icon -->
                 <button class="text-[#536FA3]">
@@ -61,38 +59,38 @@
                 </button>
 
                 <!-- Cart Icon -->
-                <button class="text-[#536FA3]">
+                <a href="@Url.Action("Cart", "Home")" class="text-[#536FA3] hover:text-[#4a6199] transition">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                </button>
+                </a>
 
-                <!-- User Icon with Dropdown -->
-                <div class="relative" ng-init="showUserDropdown = false">
-                    <button ng-click="showUserDropdown = !showUserDropdown" class="text-[#536FA3]">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                    </button>
+                    <!-- User Icon with Dropdown -->
+                    <div class="relative" ng-init="showUserDropdown = false">
+                        <button ng-click="showUserDropdown = !showUserDropdown" class="text-[#536FA3]">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </button>
 
-                    <!-- Dropdown Menu -->
-                    <div ng-show="showUserDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
-                        <div class="px-4 py-2 border-b">
-                            <p class="text-sm font-semibold text-gray-700">{{auth.currentUser.name || auth.currentUser.email}}</p>
-                            <p class="text-xs text-gray-500">{{auth.currentUser.role}}</p>
+                        <!-- Dropdown Menu -->
+                        <div ng-show="showUserDropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
+                            <div class="px-4 py-2 border-b">
+                                <p class="text-sm font-semibold text-gray-700">{{auth.currentUser.name || auth.currentUser.email}}</p>
+                                <p class="text-xs text-gray-500">{{auth.currentUser.role}}</p>
+                            </div>
+
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Orders</a>
+
+                            <!-- Admin Dashboard Link (only for admins) -->
+                            <a ng-if="auth.currentUser.role === 'admin'" href="/Admin/Dashboard" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Admin Dashboard</a>
+
+                            <div class="border-t my-1"></div>
+                            <button ng-click="logout()" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</button>
                         </div>
-                        
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Orders</a>
-                        
-                        <!-- Admin Dashboard Link (only for admins) -->
-                        <a ng-if="auth.currentUser.role === 'admin'" href="/Admin/Dashboard" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Admin Dashboard</a>
-                        
-                        <div class="border-t my-1"></div>
-                        <button ng-click="logout()" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</button>
                     </div>
-                </div>
-            </div>
+</div>
         </div>
     </nav>
 </div>

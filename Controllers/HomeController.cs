@@ -76,6 +76,109 @@ namespace Petal_Express_PH.Controllers
             return View();
         }
 
+        // GET: Home/Cart
+        public ActionResult Cart()
+        {
+            return View();
+        }
+
+        // GET: Home/Checkout
+        public ActionResult Checkout()
+        {
+            // Check if user is logged in
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            return View();
+        }
+
+        // POST: Home/PlaceOrder
+        [HttpPost]
+        public JsonResult PlaceOrder()
+        {
+            try
+            {
+                // Check if user is logged in
+                if (Session["UserId"] == null)
+                {
+                    return Json(new { success = false, message = "Please login to place an order." });
+                }
+
+                // Read JSON from request body
+                var requestBody = new System.IO.StreamReader(Request.InputStream).ReadToEnd();
+                var orderData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(requestBody);
+
+                int userId = (int)Session["UserId"];
+
+                // Calculate total
+                decimal subtotal = 0;
+                foreach (var item in orderData.cartItems)
+                {
+                    subtotal += (decimal)item.price * (int)item.quantity;
+                }
+                decimal deliveryFee = 50;
+                decimal totalAmount = subtotal + deliveryFee;
+
+                // Create order with ALL required fields
+                var order = new tblOrdersModel
+                {
+                    user_id = userId,
+                    total_amount = totalAmount,
+                    order_status = "pending",
+                    shipping_status = "pending", // Add this
+                    payment_method = (string)orderData.paymentMethod,
+                    payment_status = "pending",
+                    shipping_address = $"{orderData.address}, {orderData.city}, {orderData.postalCode}",
+                    recipient_name = $"{orderData.firstName} {orderData.lastName}", // Add this
+                    recipient_phone = (string)orderData.phone, // Add this
+                    estimated_delivery = DateTime.Now.AddDays(3), // Add estimated delivery (3 days from now)
+                    created_at = DateTime.Now,
+                    updated_at = DateTime.Now
+                };
+
+                db.Orders.Add(order);
+                db.SaveChanges();
+
+                // Create order items with product name
+                foreach (var item in orderData.cartItems)
+                {
+                    // Get product to fetch the name
+                    var product = db.Products.Find((int)item.productId);
+                    if (product != null)
+                    {
+                        var orderItem = new tblOrderItemsModel
+                        {
+                            order_id = order.order_id,
+                            product_id = (int)item.productId,
+                            product_name = product.name, // Store product name
+                            quantity = (int)item.quantity,
+                            price_at_purchase = (decimal)item.price,
+                            created_at = DateTime.Now
+                        };
+                        db.OrderItems.Add(orderItem);
+
+                        // Update product stock
+                        product.stock_quantity -= (int)item.quantity;
+                        product.updated_at = DateTime.Now;
+                    }
+                }
+
+                db.SaveChanges();
+
+                return Json(new
+                {
+                    success = true,
+                    message = "Your order has been placed successfully!",
+                    orderId = order.order_id
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error: " + ex.Message });
+            }
+        }
+
         // GET: Home/Login
         public ActionResult Login()
         {

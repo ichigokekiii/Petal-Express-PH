@@ -34,23 +34,68 @@
     };
 });
 
-app.controller("mainController", function ($scope, PetalExpressApplicationService) {
-    $scope.auth = PetalExpressApplicationService;
+app.controller("mainController", function ($scope, $http, PetalExpressApplicationService) {
+    // Initialize auth object with proper structure
+    $scope.auth = {
+        isLoggedIn: false,
+        currentUser: {
+            name: '',
+            email: '',
+            role: '',
+            userId: null
+        }
+    };
+
+    // Check session on page load
+    $scope.checkSession = function () {
+        $http.get('/Home/CheckSession')
+            .then(function (response) {
+                if (response.data.isLoggedIn) {
+                    $scope.auth.isLoggedIn = true;
+                    $scope.auth.currentUser = {
+                        name: response.data.name || response.data.email,
+                        email: response.data.email,
+                        role: response.data.role,
+                        userId: response.data.userId
+                    };
+                    console.log('User logged in:', $scope.auth.currentUser);
+                } else {
+                    $scope.auth.isLoggedIn = false;
+                    console.log('User not logged in');
+                }
+            })
+            .catch(function (error) {
+                console.error('Error checking session:', error);
+                $scope.auth.isLoggedIn = false;
+            });
+    };
 
     // Logout function for header
     $scope.logout = function () {
-        $scope.auth.logout(function (response) {
-            Swal.fire({
-                title: 'Logged Out',
-                text: 'You have been logged out successfully.',
-                icon: 'success',
-                confirmButtonColor: '#5977AF',
-                confirmButtonText: 'OK'
-            }).then(function () {
-                window.location.href = '/Home/Index';
+        if (confirm('Are you sure you want to logout?')) {
+            PetalExpressApplicationService.logout(function (response) {
+                Swal.fire({
+                    title: 'Logged Out',
+                    text: 'You have been logged out successfully.',
+                    icon: 'success',
+                    confirmButtonColor: '#5977AF',
+                    confirmButtonText: 'OK'
+                }).then(function () {
+                    $scope.auth.isLoggedIn = false;
+                    $scope.auth.currentUser = {
+                        name: '',
+                        email: '',
+                        role: '',
+                        userId: null
+                    };
+                    window.location.href = '/Home/Index';
+                });
             });
-        });
+        }
     };
+
+    // Initialize: Check session on controller load
+    $scope.checkSession();
 });
 
 app.controller("authController", function ($scope, PetalExpressApplicationService) {

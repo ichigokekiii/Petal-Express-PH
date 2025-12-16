@@ -22,7 +22,7 @@
 
 <!-- Statistics Cards -->
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-    
+
     <!-- Total Users Card -->
     <div class="bg-white rounded-2xl shadow-lg p-6 transform hover:scale-105 transition">
         <div class="flex items-center justify-between">
@@ -75,7 +75,7 @@
 
 <!-- Charts Section -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-    
+
     <!-- Pie Chart: Products by Category -->
     <div class="bg-white rounded-2xl shadow-lg p-6">
         <h2 class="text-2xl font-black text-gray-800 mb-4">Products by Category</h2>
@@ -84,11 +84,11 @@
         </div>
     </div>
 
-    <!-- Bar Chart: Top Products by Stock -->
+    <!-- Bar Chart: Top Products by Orders -->
     <div class="bg-white rounded-2xl shadow-lg p-6">
-        <h2 class="text-2xl font-black text-gray-800 mb-4">Top Products by Stock</h2>
+        <h2 class="text-2xl font-black text-gray-800 mb-4">Top Products by Orders</h2>
         <div class="relative h-64">
-            <canvas id="stockBarChart"></canvas>
+            <canvas id="orderBarChart"></canvas>
         </div>
     </div>
 
@@ -104,7 +104,7 @@
 
 <!-- Quick Actions & Recent Users -->
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-    
+
     <!-- Quick Actions -->
     <div class="bg-white rounded-2xl shadow-lg p-6">
         <h2 class="text-2xl font-black text-gray-800 mb-4">Quick Actions</h2>
@@ -112,9 +112,9 @@
             <a href="@Url.Action("Products", "Admin")" class="block w-full text-left px-4 py-3 bg-[#5977AF] text-white rounded-lg hover:bg-[#4a6199] transition font-semibold">
                 Add New Product
             </a>
-            <button class="w-full text-left px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition font-semibold">
+            <a href="@Url.Action("Orders", "Admin")" class="block w-full text-left px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition font-semibold">
                 Manage Orders
-            </button>
+            </a>
             <button class="w-full text-left px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition font-semibold">
                 View Reports
             </button>
@@ -159,7 +159,7 @@
 
 <!-- System Info -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    
+
     <!-- Database Stats -->
     <div class="bg-white rounded-2xl shadow-lg p-6">
         <h2 class="text-2xl font-black text-gray-800 mb-4">Database Stats</h2>
@@ -228,9 +228,14 @@
             if (data.success) {
                 chartData = data; // Store for PDF generation
                 pieChartInstance = createPieChart(data.categoryData);
-                barChartInstance = createBarChart(data.stockData);
+                barChartInstance = createBarChart(data.orderData); // CHANGED: Now uses orderData
                 lineChartInstance = createLineChart(data.userData);
+            } else {
+                console.error('Error loading chart data:', data.message);
             }
+        })
+        .catch(error => {
+            console.error('Error fetching chart data:', error);
         });
 
     // PIE CHART: Products by Category
@@ -273,17 +278,17 @@
         });
     }
 
-    // BAR CHART: Top Products by Stock
-    function createBarChart(stockData) {
-        const ctx = document.getElementById('stockBarChart');
+    // BAR CHART: Top Products by Orders (UPDATED)
+    function createBarChart(orderData) {
+        const ctx = document.getElementById('orderBarChart');
         return new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: stockData.labels,
+                labels: orderData.labels,
                 datasets: [{
-                    label: 'Stock Quantity',
-                    data: stockData.values,
-                    backgroundColor: '#5977AF',
+                    label: 'Total Orders',
+                    data: orderData.values,
+                    backgroundColor: '#48BB78', // Green color for orders
                     borderRadius: 8,
                     borderSkipped: false
                 }]
@@ -294,6 +299,13 @@
                 plugins: {
                     legend: {
                         display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return 'Total Ordered: ' + context.parsed.y + ' units';
+                            }
+                        }
                     }
                 },
                 scales: {
@@ -301,6 +313,9 @@
                         beginAtZero: true,
                         grid: {
                             color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        ticks: {
+                            stepSize: 1
                         }
                     },
                     x: {
@@ -363,7 +378,7 @@
         });
     }
 
-    // PDF GENERATION FUNCTION
+    // PDF GENERATION FUNCTION (UPDATED for orders chart)
     async function generatePDFReport() {
         // Show loading message
         const loadingToast = Swal.fire({
@@ -375,286 +390,300 @@
             }
         });
 
-        // Get chart images
-        const pieChartImage = pieChartInstance.toBase64Image();
-        const barChartImage = barChartInstance.toBase64Image();
-        const lineChartImage = lineChartInstance.toBase64Image();
+        try {
+            // Get chart images
+            const pieChartImage = pieChartInstance.toBase64Image();
+            const barChartImage = barChartInstance.toBase64Image();
+            const lineChartImage = lineChartInstance.toBase64Image();
 
-        // Get products data
-        const productsResponse = await fetch('@Url.Action("GetAllProductsForReport", "Admin")');
-        const productsData = await productsResponse.json();
+            // Get products data
+            const productsResponse = await fetch('@Url.Action("GetAllProductsForReport", "Admin")');
+            const productsData = await productsResponse.json();
 
-        // Current date
-        const currentDate = new Date().toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-
-        // Define PDF document
-        const docDefinition = {
-            pageSize: 'A4',
-            pageMargins: [40, 60, 40, 60],
-            header: function(currentPage, pageCount) {
-                return {
-                    text: currentPage === 1 ? '' : 'Petal Express PH - Dashboard Report',
-                    alignment: 'center',
-                    margin: [0, 20, 0, 0],
-                    fontSize: 10,
-                    color: '#5977AF'
-                };
-            },
-            footer: function(currentPage, pageCount) {
-                return {
-                    text: 'Page ' + currentPage.toString() + ' of ' + pageCount,
-                    alignment: 'center',
-                    margin: [0, 20, 0, 0],
-                    fontSize: 8,
-                    color: '#666'
-                };
-            },
-            content: [
-                // TITLE
-                {
-                    text: 'PETAL EXPRESS PH',
-                    style: 'header',
-                    alignment: 'center',
-                    margin: [0, 0, 0, 5]
-                },
-                {
-                    text: 'Dashboard Report',
-                    style: 'subheader',
-                    alignment: 'center',
-                    color: '#5977AF',
-                    margin: [0, 0, 0, 5]
-                },
-                {
-                    text: `Generated: ${currentDate}`,
-                    style: 'normal',
-                    alignment: 'center',
-                    margin: [0, 0, 0, 20],
-                    color: '#666'
-                },
-
-                // HORIZONTAL LINE
-                {
-                    canvas: [
-                        {
-                            type: 'line',
-                            x1: 0, y1: 0,
-                            x2: 515, y2: 0,
-                            lineWidth: 2,
-                            lineColor: '#5977AF'
-                        }
-                    ],
-                    margin: [0, 0, 0, 20]
-                },
-
-                // STATISTICS SUMMARY
-                {
-                    text: 'SUMMARY STATISTICS',
-                    style: 'sectionHeader',
-                    margin: [0, 10, 0, 10]
-                },
-                {
-                    columns: [
-                        {
-                            width: '*',
-                            stack: [
-                                { text: 'Total Users', style: 'statLabel' },
-                                { text: dashboardData.totalUsers.toString(), style: 'statValue', color: '#5977AF' }
-                            ],
-                            alignment: 'center'
-                        },
-                        {
-                            width: '*',
-                            stack: [
-                                { text: 'Total Products', style: 'statLabel' },
-                                { text: dashboardData.totalProducts.toString(), style: 'statValue', color: '#48BB78' }
-                            ],
-                            alignment: 'center'
-                        },
-                        {
-                            width: '*',
-                            stack: [
-                                { text: 'Total Orders', style: 'statLabel' },
-                                { text: dashboardData.totalOrders.toString(), style: 'statValue', color: '#F6AD55' }
-                            ],
-                            alignment: 'center'
-                        },
-                        {
-                            width: '*',
-                            stack: [
-                                { text: 'Categories', style: 'statLabel' },
-                                { text: dashboardData.totalCategories.toString(), style: 'statValue', color: '#9F7AEA' }
-                            ],
-                            alignment: 'center'
-                        }
-                    ],
-                    margin: [0, 0, 0, 30]
-                },
-
-                // CHARTS SECTION
-                {
-                    text: 'VISUAL ANALYTICS',
-                    style: 'sectionHeader',
-                    margin: [0, 10, 0, 10],
-                    pageBreak: 'before'
-                },
-
-                // Pie Chart
-                {
-                    text: 'Products by Category',
-                    style: 'chartTitle',
-                    margin: [0, 0, 0, 10]
-                },
-                {
-                    image: pieChartImage,
-                    width: 400,
-                    alignment: 'center',
-                    margin: [0, 0, 0, 20]
-                },
-
-                // Bar Chart
-                {
-                    text: 'Top Products by Stock',
-                    style: 'chartTitle',
-                    margin: [0, 10, 0, 10]
-                },
-                {
-                    image: barChartImage,
-                    width: 450,
-                    alignment: 'center',
-                    margin: [0, 0, 0, 20]
-                },
-
-                // Line Chart - New Page
-                {
-                    text: 'User Registrations (Last 7 Days)',
-                    style: 'chartTitle',
-                    margin: [0, 10, 0, 10],
-                    pageBreak: 'before'
-                },
-                {
-                    image: lineChartImage,
-                    width: 500,
-                    alignment: 'center',
-                    margin: [0, 0, 0, 30]
-                },
-
-                // PRODUCTS TABLE
-                {
-                    text: 'PRODUCT INVENTORY',
-                    style: 'sectionHeader',
-                    margin: [0, 20, 0, 15],
-                    pageBreak: 'before'
-                },
-                {
-                    table: {
-                        headerRows: 1,
-                        widths: ['*', 60, 60, 60],
-                        body: [
-                            [
-                                { text: 'Product Name', style: 'tableHeader' },
-                                { text: 'Price (₱)', style: 'tableHeader', alignment: 'right' },
-                                { text: 'Stock', style: 'tableHeader', alignment: 'center' },
-                                { text: 'Category', style: 'tableHeader' }
-                            ],
-                            ...productsData.products.map(p => [
-                                { text: p.name, style: 'tableCell' },
-                                { text: '₱' + parseFloat(p.price).toFixed(2), style: 'tableCell', alignment: 'right' },
-                                { text: p.stock_quantity.toString(), style: 'tableCell', alignment: 'center' },
-                                { text: p.category_name || 'N/A', style: 'tableCell', fontSize: 8 }
-                            ])
-                        ]
-                    },
-                    layout: {
-                        fillColor: function (rowIndex) {
-                            return (rowIndex === 0) ? '#5977AF' : (rowIndex % 2 === 0 ? '#f3f4f6' : null);
-                        },
-                        hLineWidth: function (i, node) {
-                            return (i === 0 || i === node.table.body.length) ? 2 : 1;
-                        },
-                        vLineWidth: function () {
-                            return 0;
-                        },
-                        hLineColor: function (i) {
-                            return i === 0 ? '#5977AF' : '#e5e7eb';
-                        }
-                    }
-                },
-
-                // FOOTER NOTES
-                {
-                    text: '\n\n© 2025 Petal Express PH. All rights reserved.',
-                    style: 'footer',
-                    alignment: 'center',
-                    margin: [0, 30, 0, 0]
-                }
-            ],
-            styles: {
-                header: {
-                    fontSize: 28,
-                    bold: true,
-                    color: '#1f2937'
-                },
-                subheader: {
-                    fontSize: 18,
-                    bold: true
-                },
-                sectionHeader: {
-                    fontSize: 16,
-                    bold: true,
-                    color: '#5977AF'
-                },
-                chartTitle: {
-                    fontSize: 12,
-                    bold: true,
-                    color: '#374151'
-                },
-                statLabel: {
-                    fontSize: 10,
-                    color: '#6b7280',
-                    margin: [0, 0, 0, 5]
-                },
-                statValue: {
-                    fontSize: 24,
-                    bold: true
-                },
-                tableHeader: {
-                    bold: true,
-                    fontSize: 10,
-                    color: 'white',
-                    fillColor: '#5977AF'
-                },
-                tableCell: {
-                    fontSize: 9,
-                    margin: [5, 5, 5, 5]
-                },
-                normal: {
-                    fontSize: 10
-                },
-                footer: {
-                    fontSize: 8,
-                    color: '#9ca3af',
-                    italics: true
-                }
+            if (!productsData.success) {
+                throw new Error('Failed to fetch products data');
             }
-        };
 
-        // Generate PDF
-        pdfMake.createPdf(docDefinition).download(`Petal_Express_Report_${Date.now()}.pdf`);
+            // Current date
+            const currentDate = new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
 
-        // Close loading and show success
-        loadingToast.close();
-        Swal.fire({
-            title: 'Success!',
-            text: 'Your PDF report has been downloaded!',
-            icon: 'success',
-            confirmButtonColor: '#5977AF',
-            timer: 2000
-        });
+            // Define PDF document
+            const docDefinition = {
+                pageSize: 'A4',
+                pageMargins: [40, 60, 40, 60],
+                header: function(currentPage, pageCount) {
+                    return {
+                        text: currentPage === 1 ? '' : 'Petal Express PH - Dashboard Report',
+                        alignment: 'center',
+                        margin: [0, 20, 0, 0],
+                        fontSize: 10,
+                        color: '#5977AF'
+                    };
+                },
+                footer: function(currentPage, pageCount) {
+                    return {
+                        text: 'Page ' + currentPage.toString() + ' of ' + pageCount,
+                        alignment: 'center',
+                        margin: [0, 20, 0, 0],
+                        fontSize: 8,
+                        color: '#666'
+                    };
+                },
+                content: [
+                    // TITLE
+                    {
+                        text: 'PETAL EXPRESS PH',
+                        style: 'header',
+                        alignment: 'center',
+                        margin: [0, 0, 0, 5]
+                    },
+                    {
+                        text: 'Dashboard Report',
+                        style: 'subheader',
+                        alignment: 'center',
+                        color: '#5977AF',
+                        margin: [0, 0, 0, 5]
+                    },
+                    {
+                        text: `Generated: ${currentDate}`,
+                        style: 'normal',
+                        alignment: 'center',
+                        margin: [0, 0, 0, 20],
+                        color: '#666'
+                    },
+
+                    // HORIZONTAL LINE
+                    {
+                        canvas: [
+                            {
+                                type: 'line',
+                                x1: 0, y1: 0,
+                                x2: 515, y2: 0,
+                                lineWidth: 2,
+                                lineColor: '#5977AF'
+                            }
+                        ],
+                        margin: [0, 0, 0, 20]
+                    },
+
+                    // STATISTICS SUMMARY
+                    {
+                        text: 'SUMMARY STATISTICS',
+                        style: 'sectionHeader',
+                        margin: [0, 10, 0, 10]
+                    },
+                    {
+                        columns: [
+                            {
+                                width: '*',
+                                stack: [
+                                    { text: 'Total Users', style: 'statLabel' },
+                                    { text: dashboardData.totalUsers.toString(), style: 'statValue', color: '#5977AF' }
+                                ],
+                                alignment: 'center'
+                            },
+                            {
+                                width: '*',
+                                stack: [
+                                    { text: 'Total Products', style: 'statLabel' },
+                                    { text: dashboardData.totalProducts.toString(), style: 'statValue', color: '#48BB78' }
+                                ],
+                                alignment: 'center'
+                            },
+                            {
+                                width: '*',
+                                stack: [
+                                    { text: 'Total Orders', style: 'statLabel' },
+                                    { text: dashboardData.totalOrders.toString(), style: 'statValue', color: '#F6AD55' }
+                                ],
+                                alignment: 'center'
+                            },
+                            {
+                                width: '*',
+                                stack: [
+                                    { text: 'Categories', style: 'statLabel' },
+                                    { text: dashboardData.totalCategories.toString(), style: 'statValue', color: '#9F7AEA' }
+                                ],
+                                alignment: 'center'
+                            }
+                        ],
+                        margin: [0, 0, 0, 30]
+                    },
+
+                    // CHARTS SECTION
+                    {
+                        text: 'VISUAL ANALYTICS',
+                        style: 'sectionHeader',
+                        margin: [0, 10, 0, 10],
+                        pageBreak: 'before'
+                    },
+
+                    // Pie Chart
+                    {
+                        text: 'Products by Category',
+                        style: 'chartTitle',
+                        margin: [0, 0, 0, 10]
+                    },
+                    {
+                        image: pieChartImage,
+                        width: 400,
+                        alignment: 'center',
+                        margin: [0, 0, 0, 20]
+                    },
+
+                    // Bar Chart - UPDATED TITLE
+                    {
+                        text: 'Top Products by Orders',
+                        style: 'chartTitle',
+                        margin: [0, 10, 0, 10]
+                    },
+                    {
+                        image: barChartImage,
+                        width: 450,
+                        alignment: 'center',
+                        margin: [0, 0, 0, 20]
+                    },
+
+                    // Line Chart
+                    {
+                        text: 'User Registrations (Last 7 Days)',
+                        style: 'chartTitle',
+                        margin: [0, 10, 0, 10],
+                    },
+                    {
+                        image: lineChartImage,
+                        width: 500,
+                        alignment: 'center',
+                        margin: [0, 0, 0, 30]
+                    },
+
+                    // PRODUCTS TABLE
+                    {
+                        text: 'PRODUCT INVENTORY',
+                        style: 'sectionHeader',
+                        margin: [0, 20, 0, 15],
+                        pageBreak: 'before'
+                    },
+                    {
+                        table: {
+                            headerRows: 1,
+                            widths: ['*', 60, 60, 60],
+                            body: [
+                                [
+                                    { text: 'Product Name', style: 'tableHeader' },
+                                    { text: 'Price', style: 'tableHeader', alignment: 'right' },
+                                    { text: 'Stock', style: 'tableHeader', alignment: 'center' },
+                                    { text: 'Category', style: 'tableHeader' }
+                                ],
+                                ...productsData.products.map(p => [
+                                    { text: p.name, style: 'tableCell' },
+                                    { text: parseFloat(p.price).toFixed(2), style: 'tableCell', alignment: 'right' },
+                                    { text: p.stock_quantity.toString(), style: 'tableCell', alignment: 'center' },
+                                    { text: p.category_name || 'N/A', style: 'tableCell', fontSize: 8 }
+                                ])
+                            ]
+                        },
+                        layout: {
+                            fillColor: function (rowIndex) {
+                                return (rowIndex === 0) ? '#5977AF' : (rowIndex % 2 === 0 ? '#f3f4f6' : null);
+                            },
+                            hLineWidth: function (i, node) {
+                                return (i === 0 || i === node.table.body.length) ? 2 : 1;
+                            },
+                            vLineWidth: function () {
+                                return 0;
+                            },
+                            hLineColor: function (i) {
+                                return i === 0 ? '#5977AF' : '#e5e7eb';
+                            }
+                        }
+                    },
+
+                    // FOOTER NOTES
+                    {
+                        text: '\n\n© 2025 Petal Express PH. All rights reserved.',
+                        style: 'footer',
+                        alignment: 'center',
+                        margin: [0, 30, 0, 0]
+                    }
+                ],
+                styles: {
+                    header: {
+                        fontSize: 28,
+                        bold: true,
+                        color: '#1f2937'
+                    },
+                    subheader: {
+                        fontSize: 18,
+                        bold: true
+                    },
+                    sectionHeader: {
+                        fontSize: 16,
+                        bold: true,
+                        color: '#5977AF'
+                    },
+                    chartTitle: {
+                        fontSize: 12,
+                        bold: true,
+                        color: '#374151'
+                    },
+                    statLabel: {
+                        fontSize: 10,
+                        color: '#6b7280',
+                        margin: [0, 0, 0, 5]
+                    },
+                    statValue: {
+                        fontSize: 24,
+                        bold: true
+                    },
+                    tableHeader: {
+                        bold: true,
+                        fontSize: 10,
+                        color: 'white',
+                        fillColor: '#5977AF'
+                    },
+                    tableCell: {
+                        fontSize: 9,
+                        margin: [5, 5, 5, 5]
+                    },
+                    normal: {
+                        fontSize: 10
+                    },
+                    footer: {
+                        fontSize: 8,
+                        color: '#9ca3af',
+                        italics: true
+                    }
+                }
+            };
+
+            // Generate PDF
+            pdfMake.createPdf(docDefinition).download(`Petal_Express_Report_${Date.now()}.pdf`);
+
+            // Close loading and show success
+            loadingToast.close();
+            Swal.fire({
+                title: 'Success!',
+                text: 'Your PDF report has been downloaded!',
+                icon: 'success',
+                confirmButtonColor: '#5977AF',
+                timer: 2000
+            });
+        } catch (error) {
+            loadingToast.close();
+            Swal.fire({
+                title: 'Error!',
+                text: 'Failed to generate PDF report: ' + error.message,
+                icon: 'error',
+                confirmButtonColor: '#5977AF'
+            });
+            console.error('PDF Generation Error:', error);
+        }
     }
 </script>

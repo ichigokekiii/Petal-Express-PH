@@ -72,15 +72,35 @@ namespace Petal_Express_PH.Controllers
                     }
                 }
 
-                // BAR CHART DATA: Top 5 Products by Stock
-                var stockData = db.Products
-                    .Where(p => p.is_active == true)
-                    .OrderByDescending(p => p.stock_quantity)
+                // BAR CHART DATA: Top 5 Products by Total Orders
+                var orderData = db.OrderItems
+                    .GroupBy(oi => oi.product_id)
+                    .Select(g => new
+                    {
+                        product_id = g.Key,
+                        total_orders = g.Sum(oi => oi.quantity) // Total quantity ordered
+                    })
+                    .OrderByDescending(x => x.total_orders)
                     .Take(5)
                     .ToList();
 
-                var stockLabels = stockData.Select(p => p.name.Length > 15 ? p.name.Substring(0, 15) + "..." : p.name).ToList();
-                var stockValues = stockData.Select(p => p.stock_quantity).ToList();
+                var orderLabels = new List<string>();
+                var orderValues = new List<int>();
+
+                foreach (var item in orderData)
+                {
+                    var product = db.Products.Find(item.product_id);
+                    if (product != null)
+                    {
+                        // Truncate long product names
+                        string productName = product.name.Length > 15
+                            ? product.name.Substring(0, 15) + "..."
+                            : product.name;
+
+                        orderLabels.Add(productName);
+                        orderValues.Add(item.total_orders);
+                    }
+                }
 
                 // LINE CHART DATA: User Registrations Last 7 Days
                 var today = DateTime.Today;
@@ -109,10 +129,10 @@ namespace Petal_Express_PH.Controllers
                         labels = categoryLabels,
                         values = categoryValues
                     },
-                    stockData = new
+                    orderData = new
                     {
-                        labels = stockLabels,
-                        values = stockValues
+                        labels = orderLabels,
+                        values = orderValues
                     },
                     userData = new
                     {
@@ -203,6 +223,132 @@ namespace Petal_Express_PH.Controllers
             {
                 ViewBag.Error = "Error loading products: " + ex.Message;
                 return View(new List<tblProductsModel>());
+            }
+        }
+
+        // GET: Admin/Orders
+        public ActionResult Orders()
+        {
+            try
+            {
+                var orders = db.Orders
+                    .OrderByDescending(o => o.created_at)
+                    .ToList();
+
+                // Load users for all orders
+                var users = new Dictionary<int, tblUsersModel>();
+                foreach (var order in orders)
+                {
+                    if (!users.ContainsKey(order.user_id))
+                    {
+                        var user = db.Users.Find(order.user_id);
+                        if (user != null)
+                        {
+                            users[order.user_id] = user;
+                        }
+                    }
+                }
+                ViewBag.Users = users;
+
+                return View(orders);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = "Error loading orders: " + ex.Message;
+                return View(new List<tblOrdersModel>());
+            }
+        }
+
+        // API: Get Order Details
+        [HttpGet]
+        public JsonResult GetOrderDetails(int orderId)
+        {
+            try
+            {
+                var order = db.Orders.Find(orderId);
+                if (order == null)
+                {
+                    return Json(new { success = false, message = "Order not found." }, JsonRequestBehavior.AllowGet);
+                }
+
+                var user = db.Users.Find(order.user_id);
+                var orderItems = db.OrderItems.Where(oi => oi.order_id == orderId).ToList();
+
+                var items = orderItems.Select(oi => {
+                    // Product name is now stored in order_items table
+                    string productName = oi.product_name ?? "Unknown Product";
+
+                    // Calculate subtotal (price * quantity)
+                    decimal subtotal = oi.price_at_purchase * oi.quantity;
+
+                    return new
+                    {
+                        productName = productName,
+                        quantity = oi.quantity,
+                        priceAtPurchase = oi.price_at_purchase,
+                        subtotal = subtotal
+                    };
+                }).ToList();
+
+                return Json(new
+                {
+                    success = true,
+                    order = new
+                    {
+                        orderId = order.order_id,
+                        customerName = user != null ? $"{user.first_name} {user.last_name}" : "Unknown",
+                        customerEmail = user?.email ?? "",
+                        orderDate = order.created_at.ToString("MMMM dd, yyyy hh:mm tt"),
+                        shippingAddress = order.shipping_address,
+                        deliveryNotes = "", // Add this if you have a notes field in your model
+                        totalAmount = order.total_amount,
+                        orderStatus = order.order_status,
+                        paymentMethod = order.payment_method,
+                        paymentStatus = order.payment_status,
+                        items = items
+                    }
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        // POST: Admin/UpdateOrderStatus
+        [HttpPost]
+        public JsonResult UpdateOrderStatus()
+        {
+            try
+            {
+                var requestBody = new System.IO.StreamReader(Request.InputStream).ReadToEnd();
+                var data = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(requestBody);
+
+                int orderId = (int)data.orderId;
+                string status = (string)data.status;
+
+                var order = db.Orders.Find(orderId);
+                if (order == null)
+                {
+                    return Json(new { success = false, message = "Order not found." });
+                }
+
+                order.order_status = status;
+                order.updated_at = DateTime.Now;
+
+                // If completed, mark payment as paid
+                if (status == "completed")
+                {
+                    order.payment_status = "paid";
+                }
+
+                db.SaveChanges();
+
+                return Json(new { success = true, message = "Order status updated successfully!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "Error: " + ex.Message });
             }
         }
 

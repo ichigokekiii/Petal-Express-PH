@@ -3,36 +3,60 @@
   "WorkspaceRootPath": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|c:\\users\\hp user\\source\\repos\\petal-express-ph\\views\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:views\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|c:\\users\\hp user\\source\\repos\\petal-express-ph\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\scripts\\holyscripts\\controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:scripts\\holyscripts\\controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\views\\shared\\_header.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:views\\shared\\_header.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|c:\\users\\hp user\\source\\repos\\petal-express-ph\\views\\admin\\orders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:views\\admin\\orders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\views\\home\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:views\\home\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\views\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:views\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|c:\\users\\hp user\\source\\repos\\petal-express-ph\\views\\admin\\products.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:views\\admin\\products.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\views\\home\\cart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:views\\home\\cart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|c:\\users\\hp user\\source\\repos\\petal-express-ph\\scripts\\holyscripts\\controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:scripts\\holyscripts\\controller.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|c:\\users\\hp user\\source\\repos\\petal-express-ph\\views\\home\\shop.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:views\\home\\shop.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|c:\\users\\hp user\\source\\repos\\petal-express-ph\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\models\\tblorderitemsmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:models\\tblorderitemsmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\models\\maps\\tblorderitemsmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:models\\maps\\tblorderitemsmap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\views\\admin\\products.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:views\\admin\\products.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\views\\home\\shop.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|solutionrelative:views\\home\\shop.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E6C93EA7-6278-40AE-847E-5ECFEAEEBB44}|Petal-Express-PH.csproj|C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
@@ -50,107 +74,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Dashboard.cshtml",
-              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Admin\\Dashboard.cshtml",
-              "RelativeDocumentMoniker": "Views\\Admin\\Dashboard.cshtml",
-              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Admin\\Dashboard.cshtml*",
-              "RelativeToolTip": "Views\\Admin\\Dashboard.cshtml*",
-              "ViewState": "AgIAAFABAAAAAAAAAAAAAKQBAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-16T20:30:30.664Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Login.cshtml",
-              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Home\\Login.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Login.cshtml",
-              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Home\\Login.cshtml",
-              "RelativeToolTip": "Views\\Home\\Login.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-16T19:46:46.087Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Products.cshtml",
-              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Admin\\Products.cshtml",
-              "RelativeDocumentMoniker": "Views\\Admin\\Products.cshtml",
-              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Admin\\Products.cshtml",
-              "RelativeToolTip": "Views\\Admin\\Products.cshtml",
-              "ViewState": "AgIAALQAAAAAAAAAAAAAAOEAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-16T20:10:11.285Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
-              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "Controllers\\HomeController.cs",
-              "ViewState": "AgIAANYAAAAAAAAAAAAiwAgBAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T19:28:34.261Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "_AdminLayout.cshtml",
-              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Shared\\_AdminLayout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_AdminLayout.cshtml",
-              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Shared\\_AdminLayout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_AdminLayout.cshtml",
-              "ViewState": "AgIAAD4AAAAAAAAAAAAAAEYAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-16T16:31:31.202Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AdminController.cs",
-              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Controllers\\AdminController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
-              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Controllers\\AdminController.cs",
-              "RelativeToolTip": "Controllers\\AdminController.cs",
-              "ViewState": "AgIAAJABAAAAAAAAAAAiwMIBAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T18:42:16.886Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Shop.cshtml",
-              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Home\\Shop.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Shop.cshtml",
-              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Home\\Shop.cshtml",
-              "RelativeToolTip": "Views\\Home\\Shop.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAABRAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-16T19:33:33.067Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "Controller.js",
               "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Scripts\\HolyScripts\\Controller.js",
               "RelativeDocumentMoniker": "Scripts\\HolyScripts\\Controller.js",
               "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Scripts\\HolyScripts\\Controller.js",
               "RelativeToolTip": "Scripts\\HolyScripts\\Controller.js",
-              "ViewState": "AgIAAFAAAAAAAAAAAAAcwIIAAAADAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAK8AAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2025-12-16T20:01:59.129Z",
               "EditorCaption": ""
@@ -158,6 +92,165 @@
             {
               "$type": "Document",
               "DocumentIndex": 9,
+              "Title": "tblOrderItemsModel.cs",
+              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Models\\tblOrderItemsModel.cs",
+              "RelativeDocumentMoniker": "Models\\tblOrderItemsModel.cs",
+              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Models\\tblOrderItemsModel.cs",
+              "RelativeToolTip": "Models\\tblOrderItemsModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T20:50:05.382Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Home\\Login.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Login.cshtml",
+              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Home\\Login.cshtml",
+              "RelativeToolTip": "Views\\Home\\Login.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABwAAABqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T19:46:46.087Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Cart.cshtml",
+              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Home\\Cart.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Cart.cshtml",
+              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Home\\Cart.cshtml",
+              "RelativeToolTip": "Views\\Home\\Cart.cshtml",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAAAHoAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T21:12:15.433Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAAIYAAAAAAAAAAAAuwLMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T19:28:34.261Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Orders.cshtml",
+              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Admin\\Orders.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admin\\Orders.cshtml",
+              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Admin\\Orders.cshtml",
+              "RelativeToolTip": "Views\\Admin\\Orders.cshtml",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAAADQAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T21:01:16.267Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Checkout.cshtml",
+              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Home\\Checkout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Checkout.cshtml",
+              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Home\\Checkout.cshtml",
+              "RelativeToolTip": "Views\\Home\\Checkout.cshtml",
+              "ViewState": "AgIAAMAAAAAAAAAAAAAAAKgAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T21:11:15.076Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "Controllers\\AdminController.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAA4wJcAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T18:42:16.886Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Admin\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admin\\Dashboard.cshtml",
+              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Admin\\Dashboard.cshtml",
+              "RelativeToolTip": "Views\\Admin\\Dashboard.cshtml",
+              "ViewState": "AgIAAEECAAAAAAAAAAAAAFwCAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T20:30:30.664Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "_AdminLayout.cshtml",
+              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_AdminLayout.cshtml",
+              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_AdminLayout.cshtml",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAAAF0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T16:31:31.202Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Products.cshtml",
+              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Admin\\Products.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admin\\Products.cshtml",
+              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Admin\\Products.cshtml",
+              "RelativeToolTip": "Views\\Admin\\Products.cshtml",
+              "ViewState": "AgIAALQAAAAAAAAAAAAAAOEAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T20:10:11.285Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Shop.cshtml",
+              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Home\\Shop.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Shop.cshtml",
+              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Home\\Shop.cshtml",
+              "RelativeToolTip": "Views\\Home\\Shop.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T19:33:33.067Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "_Header.cshtml",
+              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Shared\\_Header.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Header.cshtml",
+              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Shared\\_Header.cshtml*",
+              "RelativeToolTip": "Views\\Shared\\_Header.cshtml*",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAkwIgAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T21:03:01.125Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "tblOrderItemsMap.cs",
+              "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Models\\Maps\\tblOrderItemsMap.cs",
+              "RelativeDocumentMoniker": "Models\\Maps\\tblOrderItemsMap.cs",
+              "ToolTip": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Models\\Maps\\tblOrderItemsMap.cs",
+              "RelativeToolTip": "Models\\Maps\\tblOrderItemsMap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T20:54:28.869Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "Web.config",
               "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Views\\Web.config",
               "RelativeDocumentMoniker": "Views\\Web.config",
@@ -169,7 +262,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 14,
               "Title": "Web.config",
               "DocumentMoniker": "C:\\Users\\HP User\\source\\repos\\Petal-Express-PH\\Web.config",
               "RelativeDocumentMoniker": "Web.config",

@@ -1,0 +1,298 @@
+@model List<Petal_Express_PH.Models.tblOrdersModel>
+@{
+    ViewBag.Title = "Orders";
+    ViewBag.PageTitle = "Order Management";
+    ViewBag.PageDescription = "View and manage customer orders";
+    ViewBag.ActivePage = "Orders";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Success/Error Messages -->
+@if (TempData["Success"] != null)
+{
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6">
+        <strong>Success!</strong> @TempData["Success"]
+    </div>
+}
+
+<!-- Header with Stats -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl shadow-lg p-6 text-white">
+        <p class="text-sm font-semibold opacity-90">Total Orders</p>
+        <h3 class="text-4xl font-black mt-2">@Model.Count</h3>
+    </div>
+    <div class="bg-gradient-to-br from-yellow-500 to-orange-600 rounded-2xl shadow-lg p-6 text-white">
+        <p class="text-sm font-semibold opacity-90">Pending</p>
+        <h3 class="text-4xl font-black mt-2">@Model.Count(o => o.order_status == "pending")</h3>
+    </div>
+    <div class="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl shadow-lg p-6 text-white">
+        <p class="text-sm font-semibold opacity-90">Processing</p>
+        <h3 class="text-4xl font-black mt-2">@Model.Count(o => o.order_status == "processing")</h3>
+    </div>
+    <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl shadow-lg p-6 text-white">
+        <p class="text-sm font-semibold opacity-90">Completed</p>
+        <h3 class="text-4xl font-black mt-2">@Model.Count(o => o.order_status == "completed")</h3>
+    </div>
+</div>
+
+<!-- Orders Table -->
+@if (Model.Count > 0)
+{
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead class="bg-[#5977AF] text-white">
+                    <tr>
+                        <th class="px-6 py-4 text-left font-bold">Order ID</th>
+                        <th class="px-6 py-4 text-left font-bold">Customer</th>
+                        <th class="px-6 py-4 text-left font-bold">Total</th>
+                        <th class="px-6 py-4 text-left font-bold">Status</th>
+                        <th class="px-6 py-4 text-left font-bold">Payment</th>
+                        <th class="px-6 py-4 text-left font-bold">Date</th>
+                        <th class="px-6 py-4 text-center font-bold">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        var usersDict = (Dictionary<int, Petal_Express_PH.Models.tblUsersModel>)ViewBag.Users;
+                        var user = usersDict != null && usersDict.ContainsKey(order.user_id) ? usersDict[order.user_id] : null;
+                        var userName = user != null ? $"{user.first_name} {user.last_name}" : "Unknown";
+                        
+                        <tr class="border-b hover:bg-gray-50 transition">
+                            <td class="px-6 py-4 font-bold text-[#5977AF]">#@order.order_id</td>
+                            <td class="px-6 py-4">
+                                <div>
+                                    <p class="font-semibold text-gray-800">@userName</p>
+                                    <p class="text-sm text-gray-500">@(user?.email ?? "")</p>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 font-bold text-gray-800">@order.total_amount.ToString("N2")</td>
+                            <td class="px-6 py-4">
+                                @if (order.order_status == "pending")
+                                {
+                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-semibold">Pending</span>
+                                }
+                                else if (order.order_status == "processing")
+                                {
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold">Processing</span>
+                                }
+                                else if (order.order_status == "completed")
+                                {
+                                    <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-semibold">Completed</span>
+                                }
+                                else if (order.order_status == "cancelled")
+                                {
+                                    <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm font-semibold">Cancelled</span>
+                                }
+                            </td>
+                            <td class="px-6 py-4">
+                                @if (order.payment_status == "pending")
+                                {
+                                    <span class="text-yellow-600 font-semibold">Pending</span>
+                                }
+                                else if (order.payment_status == "paid")
+                                {
+                                    <span class="text-green-600 font-semibold">Paid</span>
+                                }
+                            </td>
+                            <td class="px-6 py-4 text-gray-600">@order.created_at.ToString("MMM dd, yyyy")</td>
+                            <td class="px-6 py-4">
+                                <div class="flex justify-center gap-2">
+                                    <button onclick="viewOrderDetails(@order.order_id)" class="px-4 py-2 bg-blue-500 text-white text-sm font-semibold rounded-lg hover:bg-blue-600 transition">
+                                        View
+                                    </button>
+                                    @if (order.order_status != "completed" && order.order_status != "cancelled")
+                                    {
+                                        <button onclick="updateOrderStatus(@order.order_id)" class="px-4 py-2 bg-green-500 text-white text-sm font-semibold rounded-lg hover:bg-green-600 transition">
+                                            Update
+                                        </button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="bg-white rounded-2xl shadow-lg p-12 text-center">
+        <svg class="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+        </svg>
+        <h3 class="text-2xl font-bold text-gray-800 mb-2">No Orders Yet</h3>
+        <p class="text-gray-600">Orders will appear here when customers make purchases.</p>
+    </div>
+}
+
+<!-- View Order Details Modal -->
+<div id="orderDetailsModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="sticky top-0 bg-white border-b px-6 py-4 flex justify-between items-center">
+            <h2 class="text-2xl font-black text-gray-800" id="modalOrderTitle">Order Details</h2>
+            <button onclick="closeOrderModal()" class="text-gray-500 hover:text-gray-700">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div id="orderDetailsContent" class="p-6">
+            <!-- Content loaded via AJAX -->
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function viewOrderDetails(orderId) {
+        document.getElementById('orderDetailsModal').classList.remove('hidden');
+        document.getElementById('modalOrderTitle').textContent = 'Order #' + orderId;
+        document.getElementById('orderDetailsContent').innerHTML = '<div class="text-center py-8"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#5977AF] mx-auto"></div></div>';
+
+        fetch('@Url.Action("GetOrderDetails", "Admin")?orderId=' + orderId)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    displayOrderDetails(data.order);
+                } else {
+                    document.getElementById('orderDetailsContent').innerHTML = '<p class="text-red-600">Error loading order details.</p>';
+                }
+            });
+    }
+
+    function displayOrderDetails(order) {
+        let itemsHtml = '';
+        order.items.forEach(item => {
+            itemsHtml += `
+                <div class="flex justify-between items-center py-3 border-b">
+                    <div class="flex-1">
+                        <p class="font-semibold text-gray-800">${item.productName}</p>
+                        <p class="text-sm text-gray-500">Qty: ${item.quantity} × ₱${parseFloat(item.priceAtPurchase).toFixed(2)}</p>
+                    </div>
+                    <p class="font-bold text-gray-800">₱${parseFloat(item.subtotal).toFixed(2)}</p>
+                </div>
+            `;
+        });
+
+        const html = `
+            <div class="space-y-6">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-sm text-gray-500">Customer</p>
+                        <p class="font-bold text-gray-800">${order.customerName}</p>
+                        <p class="text-sm text-gray-600">${order.customerEmail}</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Order Date</p>
+                        <p class="font-bold text-gray-800">${order.orderDate}</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="text-sm text-gray-500">Shipping Address</p>
+                    <p class="font-semibold text-gray-800">${order.shippingAddress}</p>
+                </div>
+
+                ${order.deliveryNotes ? `
+                <div>
+                    <p class="text-sm text-gray-500">Delivery Notes</p>
+                    <p class="text-gray-700">${order.deliveryNotes}</p>
+                </div>
+                ` : ''}
+
+                <div>
+                    <h3 class="font-black text-lg text-gray-800 mb-3">Order Items</h3>
+                    ${itemsHtml}
+                </div>
+
+                <div class="border-t pt-4 space-y-2">
+                    <div class="flex justify-between text-gray-700">
+                        <span>Subtotal</span>
+                        <span class="font-semibold">₱${(parseFloat(order.totalAmount) - 50).toFixed(2)}</span>
+                    </div>
+                    <div class="flex justify-between text-gray-700">
+                        <span>Delivery Fee</span>
+                        <span class="font-semibold">₱50.00</span>
+                    </div>
+                    <div class="flex justify-between text-xl font-black text-[#5977AF] border-t pt-2">
+                        <span>Total</span>
+                        <span>₱${parseFloat(order.totalAmount).toFixed(2)}</span>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 bg-gray-50 p-4 rounded-lg">
+                    <div class="flex-1">
+                        <p class="text-sm text-gray-500">Payment Method</p>
+                        <p class="font-bold text-gray-800">${order.paymentMethod.toUpperCase()}</p>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm text-gray-500">Payment Status</p>
+                        <p class="font-bold ${order.paymentStatus === 'paid' ? 'text-green-600' : 'text-yellow-600'}">${order.paymentStatus.toUpperCase()}</p>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm text-gray-500">Order Status</p>
+                        <p class="font-bold text-blue-600">${order.orderStatus.toUpperCase()}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('orderDetailsContent').innerHTML = html;
+    }
+
+    function closeOrderModal() {
+        document.getElementById('orderDetailsModal').classList.add('hidden');
+    }
+
+    function updateOrderStatus(orderId) {
+        Swal.fire({
+            title: 'Update Order Status',
+            input: 'select',
+            inputOptions: {
+                'pending': 'Pending',
+                'processing': 'Processing',
+                'completed': 'Completed',
+                'cancelled': 'Cancelled'
+            },
+            inputPlaceholder: 'Select new status',
+            showCancelButton: true,
+            confirmButtonText: 'Update',
+            confirmButtonColor: '#5977AF',
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Please select a status!'
+                }
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch('@Url.Action("UpdateOrderStatus", "Admin")', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        orderId: orderId, 
+                        status: result.value 
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire('Updated!', data.message, 'success').then(() => location.reload());
+                    } else {
+                        Swal.fire('Error!', data.message, 'error');
+                    }
+                });
+            }
+        });
+    }
+
+    // Close modal on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeOrderModal();
+        }
+    });
+</script>
